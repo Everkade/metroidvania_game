@@ -1,0 +1,103 @@
+[gd_scene load_steps=15 format=3 uid="uid://dfqpye3rpl5l7"]
+
+[ext_resource type="Script" path="res://Entities/Player/player.gd" id="1_3ic8f"]
+[ext_resource type="Texture2D" uid="uid://baxct6iltd4u4" path="res://Entities/Player/Animation/s_test_player1.png" id="2_onbu4"]
+[ext_resource type="Texture2D" uid="uid://b2wn2tunwk5at" path="res://Entities/Player/Animation/s_test_player2.png" id="3_jm55c"]
+[ext_resource type="Texture2D" uid="uid://buqlpl08asf8n" path="res://Entities/Player/Animation/s_test_player3.png" id="4_ci84f"]
+[ext_resource type="Texture2D" uid="uid://drtug2yx5rs6" path="res://Entities/Player/Animation/s_test_player4.png" id="5_w3ufd"]
+[ext_resource type="PackedScene" uid="uid://df43yk4eaq5kl" path="res://Entities/Components/health.tscn" id="6_84wdd"]
+[ext_resource type="Texture2D" uid="uid://7yykrkuautgc" path="res://Entities/Player/Animation/s_test_player5.png" id="6_wlpmu"]
+[ext_resource type="Script" path="res://Entities/Components/hitbox.gd" id="7_1qas8"]
+[ext_resource type="Script" path="res://Entities/Components/state_machine.gd" id="9_quheh"]
+[ext_resource type="Script" path="res://Entities/Player/States/player_main.gd" id="10_jw60k"]
+[ext_resource type="Script" path="res://Entities/Player/States/player_jump.gd" id="10_r8lnk"]
+
+[sub_resource type="GDScript" id="GDScript_a3mgy"]
+script/source = "extends Camera2D
+
+func _ready():
+	if $Room and $Room/Bounds:
+		print(\"!!!\")
+		var width = $Room/Bounds.shape.size.x
+		var height = $Room/Bounds.shape.size.y
+		
+		var left = $Room/Bounds.position.x - width / 2
+		var right = $Room/Bounds.position.x + width / 2
+		var top = $Room/Bounds.position.y - height / 2
+		var bottom = $Room/Bounds.position.y + height / 2
+		
+		limit_left = left
+		limit_right = right
+		limit_top = top
+		limit_bottom = bottom
+"
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_r8473"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_onbu4")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_onbu4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_jm55c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_ci84f")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_w3ufd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_wlpmu")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 10.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bnwyb"]
+radius = 6.0
+height = 16.0
+
+[node name="Player" type="CharacterBody2D"]
+floor_block_on_wall = false
+safe_margin = 0.001
+script = ExtResource("1_3ic8f")
+
+[node name="Camera" type="Camera2D" parent="."]
+offset = Vector2(0, -8)
+zoom = Vector2(2, 2)
+position_smoothing_enabled = true
+script = SubResource("GDScript_a3mgy")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -16)
+sprite_frames = SubResource("SpriteFrames_r8473")
+animation = &"idle"
+metadata/_edit_lock_ = true
+
+[node name="Health" parent="." instance=ExtResource("6_84wdd")]
+
+[node name="Hitbox" type="CollisionShape2D" parent="." node_paths=PackedStringArray("health")]
+position = Vector2(0, -8)
+shape = SubResource("CapsuleShape2D_bnwyb")
+script = ExtResource("7_1qas8")
+health = NodePath("../Health")
+
+[node name="State Machine" type="Node2D" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("9_quheh")
+initial_state = NodePath("Main")
+
+[node name="Main" type="Node2D" parent="State Machine"]
+script = ExtResource("10_jw60k")
+
+[node name="Jump" type="Node2D" parent="State Machine"]
+script = ExtResource("10_r8lnk")
