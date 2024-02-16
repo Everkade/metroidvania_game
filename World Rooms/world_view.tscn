@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://d0w8gpjx41amh"]
+
+[ext_resource type="PackedScene" uid="uid://cj71jjtadjv61" path="res://World Rooms/room1.tscn" id="1_r81xp"]
+[ext_resource type="PackedScene" uid="uid://cujqrxpkvrao5" path="res://World Rooms/room2.tscn" id="2_peteg"]
+[ext_resource type="PackedScene" uid="uid://bc1y3jhhf40c5" path="res://World Rooms/room3.tscn" id="3_ount6"]
+
+[node name="World" type="Node2D"]
+
+[node name="Room1" parent="." instance=ExtResource("1_r81xp")]
+
+[node name="Room2" parent="." instance=ExtResource("2_peteg")]
+position = Vector2(736, 0)
+
+[node name="Room3" parent="." instance=ExtResource("3_ount6")]
