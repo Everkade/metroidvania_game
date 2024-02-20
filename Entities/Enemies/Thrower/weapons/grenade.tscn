@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://b4s30xm8reagu"]
+
+[ext_resource type="Texture2D" uid="uid://btaryuohnuthj" path="res://Art/ball-4.png" id="1_0rdd0"]
+[ext_resource type="Script" path="res://Entities/Enemies/Thrower/weapons/grenade.gd" id="1_hfr31"]
+[ext_resource type="Script" path="res://Entities/Components/attack.gd" id="3_bkgrx"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yuplo"]
+radius = 15.0
+
+[node name="Grenade" type="CharacterBody2D"]
+collision_layer = 0
+script = ExtResource("1_hfr31")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_0rdd0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_yuplo")
+
+[node name="GrenadeDuration" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+autostart = true
+
+[node name="Attack" type="Node2D" parent="."]
+script = ExtResource("3_bkgrx")
+
+[connection signal="timeout" from="GrenadeDuration" to="." method="_on_grenade_duration_timeout"]
