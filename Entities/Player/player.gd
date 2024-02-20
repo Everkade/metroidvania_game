@@ -37,9 +37,17 @@ var position_float_y : float = 0.0
 
 var direction: int = 0
 
+signal player_take_damage(damage_amount: float)
+signal player_set_max_health(damage_amount: float)
+
+@onready var _health: Health = $Health
 
 func _ready():
 	Global.set_slip_margin(self, $Hitbox)
+	SignalMgr.register_publisher(self, "player_take_damage")
+	SignalMgr.register_publisher(self, "player_set_max_health")
+	
+	player_set_max_health.emit(_health.max_health)
 
 
 func _physics_process(delta):
@@ -61,3 +69,7 @@ func _physics_process(delta):
 		coyote_count = coyote_time
 	elif coyote_count > 0:
 		coyote_count -= delta
+
+func _on_player_take_damage(attack: Attack):
+	player_take_damage.emit(attack.damage)
+	_health.damage(attack)
