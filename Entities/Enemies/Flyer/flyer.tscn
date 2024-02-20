@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://c3y8n7rldy8an"]
+
+[ext_resource type="Script" path="res://Entities/Enemies/Flyer/flyer.gd" id="1_y3q86"]
+[ext_resource type="Texture2D" uid="uid://bu8sqc6fjrock" path="res://Art/drone-1.png" id="2_4kiym"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_b6oce"]
+radius = 452.442
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sta80"]
+
+[node name="Flyer" type="CharacterBody2D"]
+script = ExtResource("1_y3q86")
+
+[node name="AggroRange" type="Area2D" parent="."]
+position = Vector2(1, 7)
+collision_layer = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AggroRange"]
+shape = SubResource("CircleShape2D_b6oce")
+debug_color = Color(0.666667, 0.509804, 0, 0.419608)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_4kiym")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, 7)
+shape = SubResource("CircleShape2D_sta80")
+
+[connection signal="body_entered" from="AggroRange" to="." method="_on_aggro_range_body_entered"]
