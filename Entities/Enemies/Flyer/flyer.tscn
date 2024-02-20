@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://c3y8n7rldy8an"]
+[gd_scene load_steps=6 format=3 uid="uid://c3y8n7rldy8an"]
 
 [ext_resource type="Script" path="res://Entities/Enemies/Flyer/flyer.gd" id="1_y3q86"]
 [ext_resource type="Texture2D" uid="uid://bu8sqc6fjrock" path="res://Art/drone-1.png" id="2_4kiym"]
+[ext_resource type="Script" path="res://Entities/Components/attack.gd" id="3_jcu2r"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_b6oce"]
 radius = 452.442
@@ -25,5 +26,8 @@ texture = ExtResource("2_4kiym")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1, 7)
 shape = SubResource("CircleShape2D_sta80")
+
+[node name="Attack" type="Node2D" parent="."]
+script = ExtResource("3_jcu2r")
 
 [connection signal="body_entered" from="AggroRange" to="." method="_on_aggro_range_body_entered"]
