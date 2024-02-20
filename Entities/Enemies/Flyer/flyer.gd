@@ -1,4 +1,4 @@
-extends CharacterBody2D
+extends Entity
 
 @export var base_max_speed := 200
 @onready var aggro_range: Area2D = $AggroRange
