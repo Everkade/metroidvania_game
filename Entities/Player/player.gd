@@ -40,7 +40,10 @@ var direction: int = 0
 signal player_take_damage(damage_amount: float)
 signal player_set_max_health(damage_amount: float)
 
+var _can_take_damage := true
+
 @onready var _health: Health = $Health
+@onready var _damage_animation_player: AnimationPlayer = $DamageAnimationPlayer
 
 func _ready():
 	Global.set_slip_margin(self, $Hitbox)
@@ -71,5 +74,17 @@ func _physics_process(delta):
 		coyote_count -= delta
 
 func _on_player_take_damage(attack: Attack):
+	if !_can_take_damage: return
+	
+	# Temporary invulnerability
+	_damage_animation_player.play("take_damage")
+	_can_take_damage = false
+	
 	player_take_damage.emit(attack.damage)
 	_health.damage(attack)
+
+func _on_damage_animation_player_animation_finished(anim_name: StringName) -> void:
+	if anim_name != "take_damage":
+		return
+	
+	_can_take_damage = true
