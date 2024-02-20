@@ -1,5 +1,5 @@
 class_name Attack
 
-var damage : float = 1
-var knockback : float = 1
+var damage := 1.0
+var knockback := 1.0
 var position : Vector2

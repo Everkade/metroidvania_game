@@ -1,7 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://cj71jjtadjv61"]
+[gd_scene load_steps=9 format=3 uid="uid://cj71jjtadjv61"]
 
 [ext_resource type="Script" path="res://World Rooms/room.gd" id="1_8q3dw"]
-[ext_resource type="PackedScene" uid="uid://dfqpye3rpl5l7" path="res://Entities/Player/player.tscn" id="2_5sowf"]
 [ext_resource type="Texture2D" uid="uid://dnswn132ulyk4" path="res://Tilesets/s_tile_indigo.png" id="3_mxuxs"]
 [ext_resource type="Script" path="res://World Rooms/room_change.gd" id="4_3d2l0"]
 
@@ -504,9 +503,6 @@ size = Vector2(24, 64)
 
 [node name="Room1" type="Area2D"]
 script = ExtResource("1_8q3dw")
-
-[node name="Player" parent="." instance=ExtResource("2_5sowf")]
-position = Vector2(361, 320)
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_pg00u")

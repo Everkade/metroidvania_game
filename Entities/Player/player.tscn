@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dfqpye3rpl5l7"]
+[gd_scene load_steps=15 format=3 uid="uid://dfqpye3rpl5l7"]
 
 [ext_resource type="Script" path="res://Entities/Player/player.gd" id="1_3ic8f"]
 [ext_resource type="Texture2D" uid="uid://baxct6iltd4u4" path="res://Entities/Player/Animation/s_test_player1.png" id="2_onbu4"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" path="res://Entities/Components/state_machine.gd" id="9_quheh"]
 [ext_resource type="Script" path="res://Entities/Player/States/player_main.gd" id="10_jw60k"]
 [ext_resource type="Script" path="res://Entities/Player/States/player_jump.gd" id="10_r8lnk"]
+[ext_resource type="Script" path="res://Entities/Components/state.gd" id="12_r5w8r"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_r8473"]
 animations = [{
@@ -65,6 +66,7 @@ position = Vector2(0, -8)
 shape = SubResource("CapsuleShape2D_bnwyb")
 script = ExtResource("7_1qas8")
 health = NodePath("../Health")
+metadata/_edit_lock_ = true
 
 [node name="State Machine" type="Node2D" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("9_quheh")
@@ -75,6 +77,9 @@ script = ExtResource("10_jw60k")
 
 [node name="Jump" type="Node2D" parent="State Machine"]
 script = ExtResource("10_r8lnk")
+
+[node name="Duck" type="Node2D" parent="State Machine"]
+script = ExtResource("12_r5w8r")
 
 [node name="Camera" type="Camera2D" parent="."]
 zoom = Vector2(3, 3)

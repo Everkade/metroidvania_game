@@ -11,8 +11,6 @@ var fade_count : float = 0.0
 var in_transition := false
 var transition_type := ""
 
-var transition_delay_count = -1.0
-
 func transition(fade_string : String, delay : float = 0.0):
 	
 	in_transition = true
