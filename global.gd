@@ -1,29 +1,10 @@
 extends Node
 
-var current_scene = null
-var current_room : Room = null
-var room_change_node_name : String = ""
-
 func _ready() -> void:
 	var root = get_tree().root
 	current_scene = root.get_child(root.get_child_count() - 1)
 	if current_scene is Room:
 		current_room = current_scene
-
-func switch_scene(scene_resource: String):
-	call_deferred("_deferred_switch_scene", scene_resource)
-
-func _deferred_switch_scene(scene_resource):
-	current_scene.free()
-	current_scene = load(scene_resource).instantiate()
-	get_tree().root.add_child(current_scene)
-	get_tree().current_scene = current_scene
-	if current_scene is Room:
-		current_room = current_scene
-
-func switch_room(room_resource: String, room_change_name = ""):
-	switch_scene(room_resource)
-	room_change_node_name = room_change_name
 
 # Global helper data and variables
 func approach(start_val, end_val, spd, delta = 1) -> float:
@@ -106,4 +87,83 @@ func run_move(entity: Entity, direction, run_speed, delta):
 	else:
 		# Entity run code here
 		pass
+#endregion
+
+#region ROOM CHANGING
+
+var current_scene = null
+var current_room : Room = null
+var room_change_node_name : String = ""
+
+# Scene switch deferred to "down-time": after all other processes
+func switch_scene(scene_resource: String):
+	call_deferred("_deferred_switch_scene", scene_resource)
+
+# Scene switch happens here!
+func _deferred_switch_scene(scene_resource):
+	current_scene.free()
+	current_scene = load(scene_resource).instantiate()
+	get_tree().root.add_child(current_scene)
+	get_tree().current_scene = current_scene
+	# Set current room to new scene if Room scene
+	if current_scene is Room:
+		current_room = current_scene
+
+# Set from room_change.gd opun room change
+var room_exit_direction : RoomChange.DIR = -1
+
+# Switch scene for room
+func switch_room(room_resource: String, room_change_name = ""):
+	Con.reset_inputs()
+	Con.similate_mode = true
+	# Start simulating walk
+	if room_exit_direction != -1:
+		var is_horzontal = [RoomChange.DIR.LEFT, RoomChange.DIR.RIGHT].has(room_exit_direction)
+		
+		if is_horzontal:
+			if room_exit_direction == RoomChange.DIR.LEFT:
+				Con.player.left.hold = true
+			else:
+				Con.player.right.hold = true
+		else:
+			# vertical transitions
+			pass
+	
+	var fade = load("res://FX/transition_fade.tscn").instantiate()
+	get_tree().root.add_child(fade)
+	# Start the fade in animation
+	fade.transition("in")
+	# Connect the Ended signal of transition to _on_room_transition_out_ended
+	fade.Ended.connect(
+		_on_room_transition_out_ended.bind(
+			room_resource, room_change_name, 
+			fade
+		)
+	)
+	
+func _on_room_transition_out_ended(
+	room_resource: String, room_change_name = "",
+	fade = null,
+):
+	Con.reset_inputs()
+	Con.similate_mode = false
+	
+	# Fade out
+	if fade:
+		fade.queue_free()
+	fade = load("res://FX/transition_fade.tscn").instantiate()
+	get_tree().root.add_child(fade)
+	# Start the fade out animation
+	fade.transition("out")
+	# Connect the Ended signal of transition to _on_room_transition_in_ended
+	fade.Ended.connect(
+		_on_room_transition_in_ended.bind(fade)
+	)
+		
+	switch_scene(room_resource)
+	room_change_node_name = room_change_name
+
+func _on_room_transition_in_ended(fade):
+	fade.queue_free()
+
 #endregion

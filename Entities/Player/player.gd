@@ -30,34 +30,21 @@ var jump_linear_count : float = 0.0
 var coyote_count : float = 0.0
 
 # When ready, get control enum
-@onready var control_mode = Con.CON_MODE
+@onready var control_mode = Con.MODE
 
 var position_float_x : float = 0.0
 var position_float_y : float = 0.0
-	
+
+var direction: int = 0
+
+
 func _ready():
 	Global.set_slip_margin(self, $Hitbox)
-	# Camera:
-	set_camera_borders()
-	
-func set_camera_borders():
-	if $"../Border":
-		var width = $"../Border".shape.size.x
-		var height = $"../Border".shape.size.y
-		
-		var left = $"../Border".position.x - width / 2
-		var right = $"../Border".position.x + width / 2
-		var top = $"../Border".position.y - height / 2
-		var bottom = $"../Border".position.y + height / 2
-		
-		$Camera.limit_left = left
-		$Camera.limit_right = right
-		$Camera.limit_top = top
-		$Camera.limit_bottom = bottom
+
 
 func _physics_process(delta):
 	# Direction sign
-	var direction = int(Con.player.right.hold) - int(Con.player.left.hold)
+	direction = int(Con.player.right.hold) - int(Con.player.left.hold)
 	
 	Global.run_move(self, direction, run_speed, delta)
 	
@@ -68,7 +55,7 @@ func _physics_process(delta):
 			Con.set_control_mode(control_mode.PLAYER)	
 	
 	move_and_slide()
-
+	
 	# Coyote time
 	if(is_on_floor()):
 		coyote_count = coyote_time

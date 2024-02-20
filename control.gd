@@ -28,26 +28,37 @@ var player := {
 }
 
 # Control enum defines mode that informs our control dictionaries to update or not 
-enum CON_MODE {
+enum MODE {
 	NONE,
 	MENU,
 	PLAYER
 }
-@export var mode : CON_MODE = CON_MODE.MENU
+@export var mode : MODE = MODE.MENU
 # to reference our control dictionaries by mode enum
 var control_types : Array = [ none, menu, player ]
 
-func set_control_mode(new_mode: CON_MODE):
+# In this mode, no inputs are read, use this to simulate controls
+var similate_mode := false
+
+func reset_inputs() -> Dictionary:
 	# set current control dictionary to false
 	var control_dict = control_types[mode]
 	for control in control_dict:
 		control_dict[control].press = false
 		control_dict[control].hold = false
 		control_dict[control].released = false
+	return control_dict
+
+func set_control_mode(new_mode: MODE):
+	# set current control dictionary to false
+	reset_inputs()
 	# set new control mode
 	mode = new_mode
-
-func update_control_mode():
+	
+	
+func update_control_mode() -> void:
+	if similate_mode:
+		return
 	# set current control dictionary to false
 	var control_dict = control_types[mode]
 	for control in control_dict:
