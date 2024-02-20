@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://c47ggdg8m3khh"]
+[gd_scene load_steps=6 format=3 uid="uid://c47ggdg8m3khh"]
 
 [ext_resource type="PackedScene" uid="uid://bbum6nedt3wb3" path="res://UI/hud/hud.tscn" id="1_j7l5p"]
 [ext_resource type="PackedScene" uid="uid://cj71jjtadjv61" path="res://World Rooms/room1.tscn" id="1_lj21a"]
 [ext_resource type="PackedScene" uid="uid://c3y8n7rldy8an" path="res://Entities/Enemies/Flyer/flyer.tscn" id="2_ct1mh"]
 [ext_resource type="PackedScene" uid="uid://dfqpye3rpl5l7" path="res://Entities/Player/player.tscn" id="3_mwmsy"]
+[ext_resource type="PackedScene" uid="uid://cv5ocjmvk0ijc" path="res://Entities/Enemies/Thrower/thrower.tscn" id="5_pavvl"]
 
 [node name="Test1" type="Node2D"]
 
@@ -16,3 +17,6 @@ position = Vector2(179, 68)
 
 [node name="Player" parent="." instance=ExtResource("3_mwmsy")]
 position = Vector2(599, 299)
+
+[node name="Thrower" parent="." instance=ExtResource("5_pavvl")]
+position = Vector2(194, 247)

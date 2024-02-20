@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://c7f3sgbphcb6s"]
+
+[ext_resource type="Script" path="res://Entities/Enemies/Thrower/weapons/trajectory_line.gd" id="1_ahj5x"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fdywa"]
+radius = 19.0
+
+[node name="TrajectoryLine" type="Line2D"]
+script = ExtResource("1_ahj5x")
+
+[node name="CollisionTest" type="CharacterBody2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionTest"]
+shape = SubResource("CircleShape2D_fdywa")
+debug_color = Color(0.941176, 0.121569, 0.517647, 0.419608)
