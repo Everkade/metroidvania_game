@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://c47ggdg8m3khh"]
+
+[ext_resource type="PackedScene" uid="uid://cj71jjtadjv61" path="res://World Rooms/room1.tscn" id="1_lj21a"]
+[ext_resource type="PackedScene" uid="uid://c3y8n7rldy8an" path="res://Entities/Enemies/Flyer/flyer.tscn" id="2_ct1mh"]
+
+[node name="Test1" type="Node2D"]
+
+[node name="Room1" parent="." instance=ExtResource("1_lj21a")]
+
+[node name="Flyer" parent="." instance=ExtResource("2_ct1mh")]
+position = Vector2(179, 68)
