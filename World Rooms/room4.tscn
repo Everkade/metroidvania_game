@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://c73ixv8n8ws6k"]
+[gd_scene load_steps=9 format=3 uid="uid://c73ixv8n8ws6k"]
 
 [ext_resource type="Script" path="res://World Rooms/room.gd" id="1_3tfyo"]
+[ext_resource type="PackedScene" uid="uid://dfqpye3rpl5l7" path="res://Entities/Player/player.tscn" id="2_xj4qp"]
 [ext_resource type="Texture2D" uid="uid://dnswn132ulyk4" path="res://Tilesets/s_tile_indigo.png" id="2_xjdag"]
 [ext_resource type="Script" path="res://World Rooms/room_change.gd" id="3_6kow0"]
 
@@ -498,6 +499,9 @@ size = Vector2(24, 64)
 [node name="Room4" type="Area2D"]
 script = ExtResource("1_3tfyo")
 
+[node name="Player" parent="." instance=ExtResource("2_xj4qp")]
+position = Vector2(446, 320)
+
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_pg00u")
 format = 2
@@ -507,16 +511,19 @@ layer_0/tile_data = PackedInt32Array(1048575, 589824, 3, 983039, 589824, 2, 9175
 position = Vector2(447.5, 314)
 shape = SubResource("RectangleShape2D_d76qp")
 debug_color = Color(0.568627, 0.470588, 0, 0.215686)
+metadata/_edit_lock_ = true
 
 [node name="RC_3_4" type="Area2D" parent="."]
 unique_name_in_owner = true
 script = ExtResource("3_6kow0")
 room_change_scene = "res://World Rooms/room3.tscn"
+metadata/_edit_lock_ = true
 
 [node name="Box" type="CollisionShape2D" parent="RC_3_4"]
 position = Vector2(12, 288)
 shape = SubResource("RectangleShape2D_d48vs")
 debug_color = Color(0.992157, 0, 0.243137, 0.419608)
+metadata/_edit_lock_ = true
 
 [connection signal="body_entered" from="RC_3_4" to="RC_3_4" method="_on_body_entered"]
 [connection signal="body_exited" from="RC_3_4" to="RC_3_4" method="_on_body_exited"]

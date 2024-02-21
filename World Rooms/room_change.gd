@@ -11,19 +11,25 @@ enum DIR {
 @export var room_exit_direction : DIR
 @export_file("*.tscn") var room_change_scene : String
 
+# Flagged when a room change condition is met to prevent multiple room changes
+var room_is_changing := false
+
 func _ready():
 	pass
 
 # Player switch
 func _process(delta):
 	for body in get_overlapping_bodies():
-		if body is Player:
+		if not room_is_changing and body is Player:
 			try_to_switch_rooms(body)
 			break
 
 		
 func try_to_switch_rooms(player: Player):
 	if is_room_exit_direction(player.velocity):
+		# Prevent further room changes from triggering
+		room_is_changing = true
+		# Switch room scene
 		Global.switch_room(room_change_scene, self.get_name())
 		
 

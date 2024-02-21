@@ -39,12 +39,21 @@ var direction: int = 0
 
 
 func _ready():
+	# Set slip margin
 	Global.set_slip_margin(self, $Hitbox)
-
+	
+	# Set correct direction
+	if Global.room_exit_direction == RoomChange.DIR.LEFT or Global.room_exit_direction == RoomChange.DIR.RIGHT:
+		$AnimatedSprite2D.flip_h = true if Global.room_exit_direction == RoomChange.DIR.LEFT else false
+	print($AnimatedSprite2D.flip_h)
 
 func _physics_process(delta):
 	# Direction sign
 	direction = int(Con.player.right.hold) - int(Con.player.left.hold)
+	
+	# Sprite flip
+	if direction != 0:
+		$AnimatedSprite2D.flip_h = true if direction == -1 else false
 	
 	Global.run_move(self, direction, run_speed, delta)
 	
