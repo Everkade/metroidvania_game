@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="metroidvania_game"
-run/main_scene="res://World Rooms/room3.tscn"
+run/main_scene="res://initiate.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 run/max_fps=60
 config/icon="res://icon.svg"
@@ -25,6 +25,7 @@ buses/default_bus_layout=""
 Con="*res://control.tscn"
 Global="*res://global.gd"
 SignalMgr="*res://Addons/godot_helper_pack/core/signal_mgr.gd"
+Map="*res://World Rooms/Navigation/map.tscn"
 
 [display]
 

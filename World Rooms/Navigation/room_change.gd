@@ -30,7 +30,7 @@ func try_to_switch_rooms(player: Player):
 		# Prevent further room changes from triggering
 		room_is_changing = true
 		# Switch room scene
-		Global.switch_room(room_change_scene, self.get_name())
+		Map.switch_room(room_change_scene, self.get_name())
 		
 
 func is_room_exit_direction(velocity: Vector2) -> bool:
@@ -52,7 +52,7 @@ func is_room_exit_direction(velocity: Vector2) -> bool:
 		( room_exit_y != 0 and room_exit_y == sign(velocity.y) )
 	)
 	
-	Global.room_exit_direction = (
+	Map.room_exit_direction = (
 		-1 if not will_exit_room 
 		else room_exit_direction
 	)
