@@ -1,25 +1,26 @@
-[gd_scene load_steps=23 format=3 uid="uid://dfqpye3rpl5l7"]
+[gd_scene load_steps=24 format=3 uid="uid://dfqpye3rpl5l7"]
 
 [ext_resource type="Script" path="res://Entities/Player/player.gd" id="1_3ic8f"]
-[ext_resource type="Texture2D" uid="uid://baxct6iltd4u4" path="res://Entities/Player/Animation/s_test_player1.png" id="2_onbu4"]
 [ext_resource type="Texture2D" uid="uid://b4gxgxx4ydin2" path="res://Art/Player/Idle/spr_player_idle1.png" id="2_y6led"]
 [ext_resource type="Texture2D" uid="uid://dwatpjotcsage" path="res://Art/Player/Idle/spr_player_idle2.png" id="3_78d44"]
-[ext_resource type="Texture2D" uid="uid://b2wn2tunwk5at" path="res://Entities/Player/Animation/s_test_player2.png" id="3_jm55c"]
-[ext_resource type="Texture2D" uid="uid://buqlpl08asf8n" path="res://Entities/Player/Animation/s_test_player3.png" id="4_ci84f"]
 [ext_resource type="Texture2D" uid="uid://bgv3p8l4hj7n1" path="res://Art/Player/Idle/spr_player_idle3.png" id="4_sos61"]
 [ext_resource type="Texture2D" uid="uid://6nnqwn8oxuqx" path="res://Art/Player/Idle/spr_player_idle4.png" id="5_cuktm"]
-[ext_resource type="Texture2D" uid="uid://drtug2yx5rs6" path="res://Entities/Player/Animation/s_test_player4.png" id="5_w3ufd"]
 [ext_resource type="Texture2D" uid="uid://bcyijcbgtdld8" path="res://Art/Player/Idle/spr_player_idle5.png" id="6_7d7kq"]
 [ext_resource type="PackedScene" uid="uid://df43yk4eaq5kl" path="res://Entities/Components/health.tscn" id="6_84wdd"]
-[ext_resource type="Texture2D" uid="uid://7yykrkuautgc" path="res://Entities/Player/Animation/s_test_player5.png" id="6_wlpmu"]
 [ext_resource type="Script" path="res://Entities/Components/hitbox.gd" id="7_1qas8"]
 [ext_resource type="Texture2D" uid="uid://d38q5xnraqmfy" path="res://Art/Player/Idle/spr_player_idle6.png" id="7_hthgv"]
 [ext_resource type="Texture2D" uid="uid://b6alj205gjarr" path="res://Art/Player/Idle/spr_player_idle7.png" id="8_fjvtj"]
 [ext_resource type="Texture2D" uid="uid://ds73xc2mdgtp0" path="res://Art/Player/Idle/spr_player_idle8.png" id="9_k3jet"]
 [ext_resource type="Script" path="res://Entities/Components/state_machine.gd" id="9_quheh"]
 [ext_resource type="Script" path="res://Entities/Player/States/player_main.gd" id="10_jw60k"]
+[ext_resource type="Texture2D" uid="uid://dft0wr20pva2a" path="res://Art/Player/Run/spr_player_run1.png" id="10_njbpe"]
 [ext_resource type="Script" path="res://Entities/Player/States/player_jump.gd" id="10_r8lnk"]
+[ext_resource type="Texture2D" uid="uid://c08ufkl45k70j" path="res://Art/Player/Run/spr_player_run2.png" id="11_4dfbn"]
+[ext_resource type="Texture2D" uid="uid://cxwqih5iusyao" path="res://Art/Player/Run/spr_player_run3.png" id="12_eg24g"]
 [ext_resource type="Script" path="res://Entities/Components/state.gd" id="12_r5w8r"]
+[ext_resource type="Texture2D" uid="uid://dllnuhllswpxp" path="res://Art/Player/Run/spr_player_run4.png" id="13_6sdgt"]
+[ext_resource type="Texture2D" uid="uid://bi3u4hqcdt4ca" path="res://Art/Player/Run/spr_player_run5.png" id="14_l34jo"]
+[ext_resource type="Texture2D" uid="uid://bav6mrwvidtum" path="res://Art/Player/Run/spr_player_run6.png" id="15_tdh5l"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_r8473"]
 animations = [{
@@ -54,22 +55,25 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_onbu4")
+"texture": ExtResource("10_njbpe")
 }, {
 "duration": 1.0,
-"texture": ExtResource("3_jm55c")
+"texture": ExtResource("11_4dfbn")
 }, {
 "duration": 1.0,
-"texture": ExtResource("4_ci84f")
+"texture": ExtResource("12_eg24g")
 }, {
 "duration": 1.0,
-"texture": ExtResource("5_w3ufd")
+"texture": ExtResource("13_6sdgt")
 }, {
 "duration": 1.0,
-"texture": ExtResource("6_wlpmu")
+"texture": ExtResource("14_l34jo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_tdh5l")
 }],
 "loop": true,
-"name": &"walk",
+"name": &"run",
 "speed": 10.0
 }]
 
@@ -83,11 +87,9 @@ safe_margin = 0.001
 script = ExtResource("1_3ic8f")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -24)
+position = Vector2(0, -32)
 sprite_frames = SubResource("SpriteFrames_r8473")
 animation = &"idle"
-frame_progress = 0.773019
-metadata/_edit_lock_ = true
 
 [node name="Health" parent="." instance=ExtResource("6_84wdd")]
 
@@ -96,6 +98,7 @@ position = Vector2(0, -16)
 shape = SubResource("CapsuleShape2D_bnwyb")
 script = ExtResource("7_1qas8")
 health = NodePath("../Health")
+metadata/_edit_lock_ = true
 
 [node name="State Machine" type="Node2D" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("9_quheh")

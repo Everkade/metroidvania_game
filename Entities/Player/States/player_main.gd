@@ -10,8 +10,12 @@ func physics_update(delta):
 # update state
 func update(delta):
 	
-	# Start idle animation
-	player.get_node("AnimatedSprite2D").play("idle")
+	if player.direction != 0:
+		# Start idle animation
+		player.get_node("AnimatedSprite2D").play("run")
+	else:
+		# Start idle animation
+		player.get_node("AnimatedSprite2D").play("idle")
 	
 	# Count Jump buffer
 	if player.jump_buffer_count > 0:
