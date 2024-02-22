@@ -43,10 +43,21 @@ var attack_count : float = 0.0
 
 @onready var animation_tree : AnimationTree = $AnimationTree
 
+# Global signals, used by health_bar
+signal player_take_damage(damage_amount: float)
+signal player_set_max_health(max_health: float)
+
+@onready var _health: Health = $Health
+
 func _ready():
 	# Set slip margin
 	#Global.set_slip_margin(self, $CollisionShape2D)
 	animation_tree.active = true
+	
+	# Update HUD Health bar with max health
+	SignalMgr.register_publisher(self, "player_take_damage")
+	SignalMgr.register_publisher(self, "player_set_max_health")
+	player_set_max_health.emit(_health.max_health)
 
 func _physics_process(delta):
 	# Direction sign
@@ -82,3 +93,7 @@ func _physics_process(delta):
 		coyote_count = coyote_time
 	elif coyote_count > 0:
 		coyote_count -= delta
+
+
+func _on_health_damage_health(damage: float) -> void:
+	if damage: player_take_damage.emit(damage)

@@ -16,8 +16,20 @@ func update_trajectory(dir: Vector2, speed: float, gravity: float, delta: float)
 		#if collision: vel = vel.bounce(collision.get_normal()) * 0.6
 		
 		# TODO since ground is on layer 1, ground is currently triggering collisions
-		if collision and collision.get_collider().has_method("_on_player_take_damage"): 
-			shooter.shoot()
+		if collision: 
+			handle_collision(collision)
 			
 		pos += vel * delta
 		collision_test.position = pos
+
+func handle_collision(collision: KinematicCollision2D):
+	if !collision.get_collider(): return
+	
+	var collider = collision.get_collider()
+	
+	if collider is Player:
+		var recursive = true
+		for child in collider.get_children():
+			if child is Hitbox:
+				shooter.shoot()
+				break

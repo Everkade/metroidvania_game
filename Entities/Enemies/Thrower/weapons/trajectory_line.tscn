@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://c7f3sgbphcb6s"]
+[gd_scene load_steps=4 format=3 uid="uid://c7f3sgbphcb6s"]
 
 [ext_resource type="Script" path="res://Entities/Enemies/Thrower/weapons/trajectory_line.gd" id="1_ahj5x"]
+[ext_resource type="Script" path="res://Entities/Components/hurtbox.gd" id="2_y45lv"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fdywa"]
 radius = 19.0
@@ -12,5 +13,13 @@ script = ExtResource("1_ahj5x")
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionTest"]
+shape = SubResource("CircleShape2D_fdywa")
+debug_color = Color(0.941176, 0.121569, 0.517647, 0.419608)
+
+[node name="Hurtbox" type="Area2D" parent="CollisionTest"]
+collision_layer = 0
+script = ExtResource("2_y45lv")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="CollisionTest/Hurtbox"]
 shape = SubResource("CircleShape2D_fdywa")
 debug_color = Color(0.941176, 0.121569, 0.517647, 0.419608)

@@ -14,6 +14,7 @@ func damage(attack: Attack):
 	if take_damage_cooldown and !take_damage_cooldown.is_stopped(): return
 	
 	# Temporary invulnerability
+	# _time_between_damage should match the duration of the animation player's animation
 	if _time_between_damage: take_damage_cooldown.start(_time_between_damage)
 		
 	# if hitbox has a health component
