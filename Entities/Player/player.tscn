@@ -22,7 +22,7 @@
 [ext_resource type="Texture2D" uid="uid://dllnuhllswpxp" path="res://Art/Player/Run/spr_player_run4.png" id="13_6sdgt"]
 [ext_resource type="Texture2D" uid="uid://bi3u4hqcdt4ca" path="res://Art/Player/Run/spr_player_run5.png" id="14_l34jo"]
 [ext_resource type="Texture2D" uid="uid://bav6mrwvidtum" path="res://Art/Player/Run/spr_player_run6.png" id="15_tdh5l"]
-[ext_resource type="PackedScene" uid="uid://cn2u0e8cg542u" path="res://Entities/Components/hitbox.tscn" id="17_dn1qg"]
+[ext_resource type="PackedScene" path="res://Entities/Components/hitbox.tscn" id="17_dn1qg"]
 [ext_resource type="Texture2D" uid="uid://cm8p013pkw03x" path="res://Art/Player/attack/placeholder_1.png" id="24_4ymqi"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bnwyb"]
@@ -30,42 +30,8 @@ radius = 7.0
 height = 32.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_q8sdh"]
-radius = 8.0
-height = 33.0
-
-[sub_resource type="Animation" id="Animation_0wfwx"]
-resource_name = "idle"
-length = 2.5
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../Sprite2D:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.6, 0.9, 1.2, 1.5, 1.8, 2.1),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [ExtResource("2_y6led"), ExtResource("3_78d44"), ExtResource("4_sos61"), ExtResource("5_cuktm"), ExtResource("6_7d7kq"), ExtResource("7_hthgv"), ExtResource("8_fjvtj"), ExtResource("9_k3jet")]
-}
-
-[sub_resource type="Animation" id="Animation_cru0w"]
-resource_name = "run"
-length = 1.8
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../Sprite2D:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.6, 0.9, 1.2, 1.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [ExtResource("10_njbpe"), ExtResource("11_4dfbn"), ExtResource("12_eg24g"), ExtResource("13_6sdgt"), ExtResource("14_l34jo"), ExtResource("15_tdh5l")]
-}
+radius = 7.0
+height = 26.0
 
 [sub_resource type="Animation" id="Animation_omqk7"]
 resource_name = "attack_1"
@@ -82,6 +48,40 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [ExtResource("24_4ymqi"), ExtResource("2_ffgnp")]
+}
+
+[sub_resource type="Animation" id="Animation_0wfwx"]
+resource_name = "idle"
+length = 1.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("2_y6led"), ExtResource("3_78d44"), ExtResource("4_sos61"), ExtResource("5_cuktm"), ExtResource("6_7d7kq"), ExtResource("7_hthgv"), ExtResource("8_fjvtj"), ExtResource("9_k3jet")]
+}
+
+[sub_resource type="Animation" id="Animation_cru0w"]
+resource_name = "run"
+length = 1.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("10_njbpe"), ExtResource("11_4dfbn"), ExtResource("12_eg24g"), ExtResource("13_6sdgt"), ExtResource("14_l34jo"), ExtResource("15_tdh5l")]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qfdia"]
@@ -144,9 +144,13 @@ position = Vector2(0, -16)
 shape = SubResource("CapsuleShape2D_bnwyb")
 metadata/_edit_lock_ = true
 
+[node name="Camera" type="Camera2D" parent="."]
+zoom = Vector2(3, 3)
+metadata/_edit_lock_ = true
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-1, -33)
-texture = ExtResource("2_ffgnp")
+texture = ExtResource("13_6sdgt")
 
 [node name="Health" parent="." instance=ExtResource("6_84wdd")]
 
@@ -154,8 +158,9 @@ texture = ExtResource("2_ffgnp")
 health = NodePath("../Health")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(0, -16)
+position = Vector2(0, -20)
 shape = SubResource("CapsuleShape2D_q8sdh")
+debug_color = Color(0.819608, 0, 0.137255, 0.419608)
 
 [node name="State Machine" type="Node2D" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("9_quheh")
@@ -172,9 +177,6 @@ script = ExtResource("12_r5w8r")
 
 [node name="attack" type="Node2D" parent="State Machine"]
 script = ExtResource("9_bj1jr")
-
-[node name="Camera" type="Camera2D" parent="."]
-zoom = Vector2(3, 3)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../AnimationTree")
