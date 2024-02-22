@@ -5,7 +5,7 @@ extends Node2D
 @onready var trajectory_line: Line2D = $TrajectoryLine
 @onready var throw_cooldown: Timer = $ThrowCooldown
 
-var projectile_speed: float = 600.0
+var projectile_speed: float = 700.0
 var projectile_gravity: float = 800.0
 var can_throw := true
 var enemy_in_range := false
@@ -15,7 +15,7 @@ var max_rotation_degrees := 300.0
 func _process(delta: float) -> void:
 	if !enemy_in_range: return
 	
-	var rotation_speed = 2 * delta
+	var rotation_speed = delta
 	
 	# Rotating in a way that will create a high arc
 	rotation += rotation_speed

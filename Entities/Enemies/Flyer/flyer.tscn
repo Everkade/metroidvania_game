@@ -1,17 +1,31 @@
-[gd_scene load_steps=6 format=3 uid="uid://c3y8n7rldy8an"]
+[gd_scene load_steps=11 format=3 uid="uid://c3y8n7rldy8an"]
 
 [ext_resource type="Script" path="res://Entities/Enemies/Flyer/flyer.gd" id="1_y3q86"]
 [ext_resource type="Texture2D" uid="uid://bu8sqc6fjrock" path="res://Art/drone-1.png" id="2_4kiym"]
 [ext_resource type="Script" path="res://Entities/Components/attack.gd" id="3_jcu2r"]
+[ext_resource type="PackedScene" uid="uid://df43yk4eaq5kl" path="res://Entities/Components/health.tscn" id="4_ixh52"]
+[ext_resource type="PackedScene" uid="uid://cn2u0e8cg542u" path="res://Entities/Components/hitbox.tscn" id="4_y3els"]
+[ext_resource type="PackedScene" uid="uid://byrlpibrj0qj1" path="res://Entities/Components/hurtbox.tscn" id="5_t06q7"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sta80"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_b6oce"]
 radius = 452.442
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_sta80"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_gi6bq"]
+radius = 11.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_b2sro"]
+radius = 11.0
 
 [node name="Flyer" type="CharacterBody2D"]
 collision_layer = 8
 script = ExtResource("1_y3q86")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+top_level = true
+position = Vector2(1, 7)
+shape = SubResource("CircleShape2D_sta80")
 
 [node name="AggroRange" type="Area2D" parent="."]
 position = Vector2(1, 7)
@@ -24,11 +38,27 @@ debug_color = Color(0.666667, 0.509804, 0, 0.419608)
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_4kiym")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1, 7)
-shape = SubResource("CircleShape2D_sta80")
-
 [node name="Attack" type="Node2D" parent="."]
 script = ExtResource("3_jcu2r")
+
+[node name="Health" parent="." instance=ExtResource("4_ixh52")]
+
+[node name="Hitbox" parent="." node_paths=PackedStringArray("health") instance=ExtResource("4_y3els")]
+collision_layer = 8
+health = NodePath("../Health")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(1, 7)
+shape = SubResource("CircleShape2D_gi6bq")
+debug_color = Color(0.976471, 0, 0.415686, 0.419608)
+
+[node name="Hurtbox" parent="." node_paths=PackedStringArray("attack") instance=ExtResource("5_t06q7")]
+collision_layer = 8
+attack = NodePath("../Attack")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(1, 7)
+shape = SubResource("CircleShape2D_b2sro")
+disabled = true
 
 [connection signal="body_entered" from="AggroRange" to="." method="_on_aggro_range_body_entered"]

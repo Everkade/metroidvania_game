@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://c7rs6ick3004c"]
+
+[ext_resource type="Script" path="res://initiate.gd" id="1_refyw"]
+
+[node name="Initiate" type="Node2D"]
+script = ExtResource("1_refyw")

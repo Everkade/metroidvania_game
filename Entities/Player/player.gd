@@ -1,6 +1,13 @@
 extends Entity
 class_name Player
 
+# The direction the player is trying to move in (with left right controls)
+var direction : int = 0
+# The collision info that happens to the player every _physics_process
+var collision : KinematicCollision2D = get_slide_collision(0)
+# The last step position of the player (used to compare with the current position)
+var last_position := Vector2(0.0, 0.0)
+
 # max speed player accelerates to while running
 @export var run_speed: 		float = 200
 
@@ -19,7 +26,7 @@ var air_friction : float = friction * air_control_percent
 
 @export var jump_linear_frames : 	int = 14
 @export var jump_buffer_frames : 	int = 10
-@export var coyote_frames : 		int = 6
+@export var coyote_frames : 		int = 7
 
 var jump_linear_time := float(jump_linear_frames) / 60
 var jump_buffer_time := float(jump_buffer_frames) / 60
@@ -29,43 +36,50 @@ var jump_buffer_count : float = 0.0
 var jump_linear_count : float = 0.0
 var coyote_count : float = 0.0
 
-# When ready, get control enum
-@onready var control_mode = Con.MODE
+#signal player_take_damage(damage_amount: float)
+#signal player_set_max_health(damage_amount: float)
 
-var position_float_x : float = 0.0
-var position_float_y : float = 0.0
+#var _can_take_damage := true
 
-var direction: int = 0
-
-signal player_take_damage(damage_amount: float)
-signal player_set_max_health(damage_amount: float)
-
-var _can_take_damage := true
-
-@onready var _health: Health = $Health
-@onready var _damage_animation_player: AnimationPlayer = $DamageAnimationPlayer
+#@onready var _health: Health = $Health
+#@onready var _damage_animation_player: AnimationPlayer = $DamageAnimationPlayer
 
 func _ready():
+	# Set slip margin
 	Global.set_slip_margin(self, $Hitbox)
 	SignalMgr.register_publisher(self, "player_take_damage")
 	SignalMgr.register_publisher(self, "player_set_max_health")
 	
 	player_set_max_health.emit(_health.max_health)
 
-
 func _physics_process(delta):
 	# Direction sign
 	direction = int(Con.player.right.hold) - int(Con.player.left.hold)
 	
+	# Sprite flip
+	if direction != 0:
+		$AnimatedSprite2D.flip_h = true if direction == -1 else false
+	
 	Global.run_move(self, direction, run_speed, delta)
 	
-	if Input.is_action_just_pressed("ui_text_backspace"):
-		if Con.mode == control_mode.PLAYER:
-			Con.set_control_mode(control_mode.MENU)
-		else:
-			Con.set_control_mode(control_mode.PLAYER)	
+	# Get last position to compare after we move
+	last_position = position
+	# Move player
+	var did_collide = move_and_slide()
+	# Get collision info
+	collision = get_slide_collision(0)
+	# Do something on collide?
+	if did_collide:
+		pass
 	
-	move_and_slide()
+	# Set velocity 0 if no change in x (this gives 0 when moving into wall)
+	if position.x == last_position.x:
+		velocity.x = 0
+	# Set velocity 0 if no change in y (this gives 0 when moving into floor/ceiling)
+	if position.y == last_position.y:
+		velocity.y = 0 
+	
+	print(velocity)
 	
 	# Coyote time
 	if(is_on_floor()):
