@@ -29,7 +29,7 @@ shape = SubResource("CircleShape2D_sta80")
 
 [node name="AggroRange" type="Area2D" parent="."]
 position = Vector2(1, 7)
-collision_layer = 8
+collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AggroRange"]
 shape = SubResource("CircleShape2D_b6oce")
@@ -45,6 +45,7 @@ script = ExtResource("3_jcu2r")
 
 [node name="Hitbox" parent="." node_paths=PackedStringArray("health") instance=ExtResource("4_y3els")]
 collision_layer = 8
+collision_mask = 0
 health = NodePath("../Health")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
@@ -53,7 +54,7 @@ shape = SubResource("CircleShape2D_gi6bq")
 debug_color = Color(0.976471, 0, 0.415686, 0.419608)
 
 [node name="Hurtbox" parent="." node_paths=PackedStringArray("attack") instance=ExtResource("5_t06q7")]
-collision_layer = 8
+collision_layer = 0
 attack = NodePath("../Attack")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
