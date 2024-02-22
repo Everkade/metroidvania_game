@@ -36,9 +36,12 @@ var jump_buffer_count : float = 0.0
 var jump_linear_count : float = 0.0
 var coyote_count : float = 0.0
 
+@onready var animation_tree : AnimationTree = $AnimationTree
+
 func _ready():
 	# Set slip margin
-	Global.set_slip_margin(self, $Hitbox)
+	#Global.set_slip_margin(self, $CollisionShape2D)
+	animation_tree.active = true
 
 func _physics_process(delta):
 	# Direction sign
@@ -46,7 +49,7 @@ func _physics_process(delta):
 	
 	# Sprite flip
 	if direction != 0:
-		$AnimatedSprite2D.flip_h = true if direction == -1 else false
+		$Sprite2D.flip_h = true if direction == -1 else false
 	
 	Global.run_move(self, direction, run_speed, delta)
 	

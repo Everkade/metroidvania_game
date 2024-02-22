@@ -3,16 +3,19 @@ class_name PlayerMain
 
 # get player
 @onready var player: Player = $"../.."
+@onready var animation_tree = player.get_node("AnimationTree")
 
 func physics_update(delta):
 	
 	# Animation
 	if player.direction != 0:
 		# Start idle animation
-		player.get_node("AnimatedSprite2D").play("run")
+		animation_tree["parameters/conditions/is_idle"] = false
+		animation_tree["parameters/conditions/is_moving"] = true
 	else:
 		# Start idle animation
-		player.get_node("AnimatedSprite2D").play("idle")
+		animation_tree["parameters/conditions/is_idle"] = true
+		animation_tree["parameters/conditions/is_moving"] = false
 	
 	# Count Jump buffer
 	if player.jump_buffer_count > 0:

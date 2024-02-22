@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://dfqpye3rpl5l7"]
+[gd_scene load_steps=33 format=3 uid="uid://dfqpye3rpl5l7"]
 
 [ext_resource type="Script" path="res://Entities/Player/player.gd" id="1_3ic8f"]
 [ext_resource type="Texture2D" uid="uid://b4gxgxx4ydin2" path="res://Art/Player/Idle/spr_player_idle1.png" id="2_y6led"]
@@ -26,64 +26,75 @@
 radius = 7.0
 height = 32.0
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_r8473"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("2_y6led")
-}, {
-"duration": 1.0,
-"texture": ExtResource("3_78d44")
-}, {
-"duration": 1.0,
-"texture": ExtResource("4_sos61")
-}, {
-"duration": 1.0,
-"texture": ExtResource("5_cuktm")
-}, {
-"duration": 1.0,
-"texture": ExtResource("6_7d7kq")
-}, {
-"duration": 1.0,
-"texture": ExtResource("7_hthgv")
-}, {
-"duration": 1.0,
-"texture": ExtResource("8_fjvtj")
-}, {
-"duration": 1.0,
-"texture": ExtResource("9_k3jet")
-}],
-"loop": true,
-"name": &"idle",
-"speed": 7.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("10_njbpe")
-}, {
-"duration": 1.0,
-"texture": ExtResource("11_4dfbn")
-}, {
-"duration": 1.0,
-"texture": ExtResource("12_eg24g")
-}, {
-"duration": 1.0,
-"texture": ExtResource("13_6sdgt")
-}, {
-"duration": 1.0,
-"texture": ExtResource("14_l34jo")
-}, {
-"duration": 1.0,
-"texture": ExtResource("15_tdh5l")
-}],
-"loop": true,
-"name": &"run",
-"speed": 10.0
-}]
-
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_q8sdh"]
 radius = 8.0
 height = 33.0
+
+[sub_resource type="Animation" id="Animation_0wfwx"]
+resource_name = "idle"
+length = 2.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6, 0.9, 1.2, 1.5, 1.8, 2.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("2_y6led"), ExtResource("3_78d44"), ExtResource("4_sos61"), ExtResource("5_cuktm"), ExtResource("6_7d7kq"), ExtResource("7_hthgv"), ExtResource("8_fjvtj"), ExtResource("9_k3jet")]
+}
+
+[sub_resource type="Animation" id="Animation_cru0w"]
+resource_name = "run"
+length = 1.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6, 0.9, 1.2, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("10_njbpe"), ExtResource("11_4dfbn"), ExtResource("12_eg24g"), ExtResource("13_6sdgt"), ExtResource("14_l34jo"), ExtResource("15_tdh5l")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qfdia"]
+_data = {
+"idle": SubResource("Animation_0wfwx"),
+"run": SubResource("Animation_cru0w")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_i2rti"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_t45xg"]
+animation = &"run"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_vvskl"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_6o414"]
+advance_mode = 2
+advance_condition = &"is_moving"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_4v6c0"]
+advance_mode = 2
+advance_condition = &"is_idle"
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_wome8"]
+states/End/position = Vector2(1008, 204)
+states/Start/position = Vector2(218, 211)
+states/idle/node = SubResource("AnimationNodeAnimation_i2rti")
+states/idle/position = Vector2(392, 211)
+states/run/node = SubResource("AnimationNodeAnimation_t45xg")
+states/run/position = Vector2(597, 211)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_vvskl"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_6o414"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_4v6c0")]
 
 [node name="Player" type="CharacterBody2D"]
 floor_block_on_wall = false
@@ -95,10 +106,9 @@ position = Vector2(0, -16)
 shape = SubResource("CapsuleShape2D_bnwyb")
 metadata/_edit_lock_ = true
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -32)
-sprite_frames = SubResource("SpriteFrames_r8473")
-animation = &"idle"
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-1, -33)
+texture = ExtResource("4_sos61")
 
 [node name="Health" parent="." instance=ExtResource("6_84wdd")]
 
@@ -124,3 +134,19 @@ script = ExtResource("12_r5w8r")
 
 [node name="Camera" type="Camera2D" parent="."]
 zoom = Vector2(3, 3)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../AnimationTree")
+libraries = {
+"": SubResource("AnimationLibrary_qfdia")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+root_node = NodePath(".")
+libraries = {
+"": SubResource("AnimationLibrary_qfdia")
+}
+tree_root = SubResource("AnimationNodeStateMachine_wome8")
+anim_player = NodePath("../AnimationPlayer")
+parameters/conditions/is_idle = false
+parameters/conditions/is_moving = false
