@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://dfqpye3rpl5l7"]
+[gd_scene load_steps=25 format=3 uid="uid://dfqpye3rpl5l7"]
 
 [ext_resource type="Script" path="res://Entities/Player/player.gd" id="1_3ic8f"]
 [ext_resource type="Texture2D" uid="uid://b4gxgxx4ydin2" path="res://Art/Player/Idle/spr_player_idle1.png" id="2_y6led"]
@@ -7,7 +7,6 @@
 [ext_resource type="Texture2D" uid="uid://6nnqwn8oxuqx" path="res://Art/Player/Idle/spr_player_idle4.png" id="5_cuktm"]
 [ext_resource type="Texture2D" uid="uid://bcyijcbgtdld8" path="res://Art/Player/Idle/spr_player_idle5.png" id="6_7d7kq"]
 [ext_resource type="PackedScene" uid="uid://df43yk4eaq5kl" path="res://Entities/Components/health.tscn" id="6_84wdd"]
-[ext_resource type="Script" path="res://Entities/Components/hitbox.gd" id="7_1qas8"]
 [ext_resource type="Texture2D" uid="uid://d38q5xnraqmfy" path="res://Art/Player/Idle/spr_player_idle6.png" id="7_hthgv"]
 [ext_resource type="Texture2D" uid="uid://b6alj205gjarr" path="res://Art/Player/Idle/spr_player_idle7.png" id="8_fjvtj"]
 [ext_resource type="Texture2D" uid="uid://ds73xc2mdgtp0" path="res://Art/Player/Idle/spr_player_idle8.png" id="9_k3jet"]
@@ -21,6 +20,11 @@
 [ext_resource type="Texture2D" uid="uid://dllnuhllswpxp" path="res://Art/Player/Run/spr_player_run4.png" id="13_6sdgt"]
 [ext_resource type="Texture2D" uid="uid://bi3u4hqcdt4ca" path="res://Art/Player/Run/spr_player_run5.png" id="14_l34jo"]
 [ext_resource type="Texture2D" uid="uid://bav6mrwvidtum" path="res://Art/Player/Run/spr_player_run6.png" id="15_tdh5l"]
+[ext_resource type="PackedScene" uid="uid://cn2u0e8cg542u" path="res://Entities/Components/hitbox.tscn" id="17_dn1qg"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bnwyb"]
+radius = 7.0
+height = 32.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_r8473"]
 animations = [{
@@ -77,14 +81,19 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bnwyb"]
-radius = 7.0
-height = 32.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_q8sdh"]
+radius = 8.0
+height = 33.0
 
 [node name="Player" type="CharacterBody2D"]
 floor_block_on_wall = false
 safe_margin = 0.001
 script = ExtResource("1_3ic8f")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -16)
+shape = SubResource("CapsuleShape2D_bnwyb")
+metadata/_edit_lock_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -32)
@@ -93,12 +102,12 @@ animation = &"idle"
 
 [node name="Health" parent="." instance=ExtResource("6_84wdd")]
 
-[node name="Hitbox" type="CollisionShape2D" parent="." node_paths=PackedStringArray("health")]
-position = Vector2(0, -16)
-shape = SubResource("CapsuleShape2D_bnwyb")
-script = ExtResource("7_1qas8")
+[node name="Hitbox" parent="." node_paths=PackedStringArray("health") instance=ExtResource("17_dn1qg")]
 health = NodePath("../Health")
-metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(0, -16)
+shape = SubResource("CapsuleShape2D_q8sdh")
 
 [node name="State Machine" type="Node2D" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("9_quheh")
