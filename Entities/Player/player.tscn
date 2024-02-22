@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://dfqpye3rpl5l7"]
+[gd_scene load_steps=34 format=3 uid="uid://dfqpye3rpl5l7"]
 
 [ext_resource type="Script" path="res://Entities/Player/player.gd" id="1_3ic8f"]
 [ext_resource type="Texture2D" uid="uid://b4gxgxx4ydin2" path="res://Art/Player/Idle/spr_player_idle1.png" id="2_y6led"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://df43yk4eaq5kl" path="res://Entities/Components/health.tscn" id="6_84wdd"]
 [ext_resource type="Texture2D" uid="uid://d38q5xnraqmfy" path="res://Art/Player/Idle/spr_player_idle6.png" id="7_hthgv"]
 [ext_resource type="Texture2D" uid="uid://b6alj205gjarr" path="res://Art/Player/Idle/spr_player_idle7.png" id="8_fjvtj"]
+[ext_resource type="Script" path="res://Entities/Player/States/player_attack.gd" id="9_bj1jr"]
 [ext_resource type="Texture2D" uid="uid://ds73xc2mdgtp0" path="res://Art/Player/Idle/spr_player_idle8.png" id="9_k3jet"]
 [ext_resource type="Script" path="res://Entities/Components/state_machine.gd" id="9_quheh"]
 [ext_resource type="Script" path="res://Entities/Player/States/player_main.gd" id="10_jw60k"]
@@ -108,7 +109,7 @@ metadata/_edit_lock_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-1, -33)
-texture = ExtResource("4_sos61")
+texture = ExtResource("3_78d44")
 
 [node name="Health" parent="." instance=ExtResource("6_84wdd")]
 
@@ -131,6 +132,9 @@ script = ExtResource("10_r8lnk")
 
 [node name="Duck" type="Node2D" parent="State Machine"]
 script = ExtResource("12_r5w8r")
+
+[node name="attack" type="Node2D" parent="State Machine"]
+script = ExtResource("9_bj1jr")
 
 [node name="Camera" type="Camera2D" parent="."]
 zoom = Vector2(3, 3)
