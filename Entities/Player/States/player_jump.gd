@@ -12,7 +12,6 @@ func physics_update(delta):
 	
 	# Animation
 	#...
-	
 	# Jump count
 	if player.jump_linear_count > 0:
 		player.jump_linear_count -= delta

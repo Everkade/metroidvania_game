@@ -28,6 +28,8 @@ var air_friction : float = friction * air_control_percent
 @export var jump_buffer_frames : 	int = 10
 @export var coyote_frames : 		int = 7
 
+@export var attack_frames : 	int = 14
+
 var jump_linear_time := float(jump_linear_frames) / 60
 var jump_buffer_time := float(jump_buffer_frames) / 60
 var coyote_time := float(coyote_frames) / 60
@@ -35,6 +37,9 @@ var coyote_time := float(coyote_frames) / 60
 var jump_buffer_count : float = 0.0
 var jump_linear_count : float = 0.0
 var coyote_count : float = 0.0
+
+var attack_time := float(attack_frames) / 60
+var attack_count : float = 0.0
 
 @onready var animation_tree : AnimationTree = $AnimationTree
 
@@ -70,7 +75,7 @@ func _physics_process(delta):
 	if position.y == last_position.y:
 		velocity.y = 0 
 	
-	print(velocity)
+	#print(velocity)
 	
 	# Coyote time
 	if(is_on_floor()):

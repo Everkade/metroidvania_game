@@ -27,7 +27,14 @@ func physics_update(delta):
 	# go to jump state
 	if player.jump_buffer_count > 0 and player.coyote_count > 0:
 		Transitioned.emit(self, "jump")
-	
+		
+	if Con.player.action.press:
+		player.attack_count = player.attack_time
+		
+	if player.attack_count > 0:
+		Transitioned.emit(self, "attack")
+		
+		
 	Global.apply_gravity(player, delta)
 
 # update state

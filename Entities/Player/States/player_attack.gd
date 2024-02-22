@@ -5,15 +5,20 @@ class_name PlayerAttack
 @onready var player: Player = $"../.."
 
 func enter():
-	pass
+	print("hi")
 
 func physics_update(delta):
 	
 	# Animation
 	#...
+	print("attack")
 	
-	pass
+	if player.attack_count > 0:
+		player.attack_count -= delta
+	else:		
+		Transitioned.emit(self, "main")
 	
 
 func exit():
-	pass
+	print("exit")
+	player.attack_count = 0
