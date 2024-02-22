@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://dfqpye3rpl5l7"]
+[gd_scene load_steps=41 format=3 uid="uid://dfqpye3rpl5l7"]
 
 [ext_resource type="Script" path="res://Entities/Player/player.gd" id="1_3ic8f"]
 [ext_resource type="Texture2D" uid="uid://bq4acqdioxxgu" path="res://Art/Player/attack/placeholder_2.png" id="2_ffgnp"]
@@ -69,6 +69,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_omqk7"]
 resource_name = "attack_1"
+length = 0.5
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -90,6 +91,9 @@ _data = {
 "run": SubResource("Animation_cru0w")
 }
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_6vek7"]
+animation = &"attack_1"
+
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_i2rti"]
 animation = &"idle"
 
@@ -107,14 +111,28 @@ advance_condition = &"is_moving"
 advance_mode = 2
 advance_condition = &"is_idle"
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ebclf"]
+advance_mode = 2
+advance_condition = &"attack_start"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_u72vl"]
+advance_mode = 2
+advance_condition = &"attack_end"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_6yhp0"]
+advance_mode = 2
+advance_condition = &"attack_start"
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_wome8"]
 states/End/position = Vector2(1008, 204)
 states/Start/position = Vector2(218, 211)
+states/attack_1/node = SubResource("AnimationNodeAnimation_6vek7")
+states/attack_1/position = Vector2(486, 80)
 states/idle/node = SubResource("AnimationNodeAnimation_i2rti")
 states/idle/position = Vector2(392, 211)
 states/run/node = SubResource("AnimationNodeAnimation_t45xg")
 states/run/position = Vector2(597, 211)
-transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_vvskl"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_6o414"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_4v6c0")]
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_vvskl"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_6o414"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_4v6c0"), "idle", "attack_1", SubResource("AnimationNodeStateMachineTransition_ebclf"), "attack_1", "idle", SubResource("AnimationNodeStateMachineTransition_u72vl"), "run", "attack_1", SubResource("AnimationNodeStateMachineTransition_6yhp0")]
 
 [node name="Player" type="CharacterBody2D"]
 floor_block_on_wall = false
@@ -171,5 +189,7 @@ libraries = {
 }
 tree_root = SubResource("AnimationNodeStateMachine_wome8")
 anim_player = NodePath("../AnimationPlayer")
+parameters/conditions/attack_end = false
+parameters/conditions/attack_start = false
 parameters/conditions/is_idle = false
 parameters/conditions/is_moving = false

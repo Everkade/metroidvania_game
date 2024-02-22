@@ -28,7 +28,7 @@ var air_friction : float = friction * air_control_percent
 @export var jump_buffer_frames : 	int = 10
 @export var coyote_frames : 		int = 7
 
-@export var attack_frames : 	int = 14
+@export var attack_frames : 	int = 40
 
 var jump_linear_time := float(jump_linear_frames) / 60
 var jump_buffer_time := float(jump_buffer_frames) / 60
