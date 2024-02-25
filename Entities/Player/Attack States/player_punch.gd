@@ -7,8 +7,7 @@ var is_action_loc := "parameters/conditions/is_action"
 var dir_loc = "parameters/set_action/punch_dir/transition_request"
 
 func enter():
-	# Lock direction when entering
-	player.animation_tree[dir_loc] = Global.dir_name(player.direction)
+	pass
 
 func physics_update(delta):
 	# Animation

@@ -19,10 +19,6 @@ func physics_update(delta):
 	# Set current move type
 	player.animation_tree[loc + "move/transition_request"] = current_move
 	
-	# Update direction:
-	var dir_loc = loc + current_move + "_dir/transition_request"
-	var dir_name = Global.dir_name(player.direction)
-	player.animation_tree[dir_loc] = dir_name
 	#endregion
 	
 	# Count Jump buffer

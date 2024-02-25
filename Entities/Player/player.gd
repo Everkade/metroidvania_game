@@ -56,6 +56,9 @@ func _ready():
 	#Global.set_slip_margin(self, $CollisionShape2D)
 	animation_tree.active = true
 	
+	# Sprite flip
+	$Sprite2D.flip_h = true if direction == -1 else false
+	
 	# Update HUD Health bar with max health
 	SignalMgr.register_publisher(self, "PlayerTakeDamage")
 	SignalMgr.register_publisher(self, "PlayerSetMaxHealth")
@@ -68,6 +71,9 @@ func _physics_process(delta):
 	# Shown direction
 	if move != 0:
 		direction = move
+	
+	# Sprite flip
+	$Sprite2D.flip_h = true if direction == -1 else false
 	
 	Global.run_move(self, move, run_speed, delta)
 	
