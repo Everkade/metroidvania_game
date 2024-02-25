@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=3 uid="uid://dfqpye3rpl5l7"]
+[gd_scene load_steps=52 format=3 uid="uid://dfqpye3rpl5l7"]
 
 [ext_resource type="Script" path="res://Entities/Player/player.gd" id="1_3ic8f"]
 [ext_resource type="Texture2D" uid="uid://c24tau8ewe3jl" path="res://Art/Player/Attacks/Punch/spr_player_punch_side3.png" id="2_5a7oy"]
@@ -10,7 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://df43yk4eaq5kl" path="res://Entities/Components/health.tscn" id="6_84wdd"]
 [ext_resource type="Texture2D" uid="uid://d38q5xnraqmfy" path="res://Art/Player/Idle/spr_player_idle6.png" id="7_hthgv"]
 [ext_resource type="Texture2D" uid="uid://b6alj205gjarr" path="res://Art/Player/Idle/spr_player_idle7.png" id="8_fjvtj"]
-[ext_resource type="Script" path="res://Entities/Player/States/player_attack.gd" id="9_bj1jr"]
+[ext_resource type="Script" path="res://Entities/Player/States/attack_punch.gd" id="9_bj1jr"]
 [ext_resource type="Texture2D" uid="uid://ds73xc2mdgtp0" path="res://Art/Player/Idle/spr_player_idle8.png" id="9_k3jet"]
 [ext_resource type="Script" path="res://Entities/Components/state_machine.gd" id="9_quheh"]
 [ext_resource type="Script" path="res://Entities/Player/States/player_main.gd" id="10_jw60k"]
@@ -22,6 +22,7 @@
 [ext_resource type="Texture2D" uid="uid://crlagotxq5uor" path="res://Art/Player/Attacks/Punch/spr_player_punch_side4.png" id="12_aryjn"]
 [ext_resource type="Texture2D" uid="uid://cxwqih5iusyao" path="res://Art/Player/Run/spr_player_run3.png" id="12_eg24g"]
 [ext_resource type="Script" path="res://Entities/Components/state.gd" id="12_r5w8r"]
+[ext_resource type="Script" path="res://Entities/Components/attack_state.gd" id="12_ybk81"]
 [ext_resource type="Texture2D" uid="uid://dllnuhllswpxp" path="res://Art/Player/Run/spr_player_run4.png" id="13_6sdgt"]
 [ext_resource type="Texture2D" uid="uid://60d6wnu656vl" path="res://Art/Player/Attacks/Punch/spr_player_punch_side5.png" id="13_pxusq"]
 [ext_resource type="Texture2D" uid="uid://rj1bxfokgljm" path="res://Art/Player/Attacks/Punch/spr_player_punch_side6.png" id="14_ijsn6"]
@@ -30,6 +31,8 @@
 [ext_resource type="Texture2D" uid="uid://bav6mrwvidtum" path="res://Art/Player/Run/spr_player_run6.png" id="15_tdh5l"]
 [ext_resource type="PackedScene" uid="uid://cn2u0e8cg542u" path="res://Entities/Components/hitbox.tscn" id="17_dn1qg"]
 [ext_resource type="Script" path="res://Entities/Player/TakeDamageAnimationPlayer.gd" id="26_q6h8y"]
+[ext_resource type="Script" path="res://Entities/Components/attack_machine.gd" id="31_04taf"]
+[ext_resource type="Script" path="res://Entities/Player/States/attack_main.gd" id="32_k53lv"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bnwyb"]
 radius = 7.0
@@ -213,7 +216,7 @@ metadata/_edit_lock_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -33)
-texture = ExtResource("3_78d44")
+texture = ExtResource("4_sos61")
 hframes = 2
 region_enabled = true
 region_rect = Rect2(-52, 0, 340, 65.311)
@@ -244,8 +247,18 @@ script = ExtResource("10_r8lnk")
 [node name="Duck" type="Node2D" parent="State Machine"]
 script = ExtResource("12_r5w8r")
 
-[node name="attack" type="Node2D" parent="State Machine"]
+[node name="Attack Machine" type="Node2D" parent="." node_paths=PackedStringArray("attack_initial_state")]
+script = ExtResource("31_04taf")
+attack_initial_state = NodePath("Attack Main")
+
+[node name="Attack Main" type="Node2D" parent="Attack Machine"]
+script = ExtResource("32_k53lv")
+
+[node name="Punch" type="Node2D" parent="Attack Machine"]
 script = ExtResource("9_bj1jr")
+
+[node name="Attack Duck" type="Node2D" parent="Attack Machine"]
+script = ExtResource("12_ybk81")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../AnimationTree")

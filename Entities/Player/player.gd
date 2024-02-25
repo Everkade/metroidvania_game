@@ -74,7 +74,7 @@ func _physics_process(delta):
 	# Move player
 	var did_collide = move_and_slide()
 	# Get collision info
-	collision = get_slide_collision(0)
+	#collision = get_slide_collision(0)
 	# Do something on collide?
 	if did_collide:
 		pass

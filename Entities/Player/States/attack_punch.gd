@@ -1,5 +1,5 @@
-extends State
-class_name PlayerAttack
+extends AttackState
+class_name AttackPunch
 
 # get player
 @onready var player: Player = $"../.."
@@ -19,7 +19,7 @@ func physics_update(delta):
 	if player.attack_count > 0:
 		player.attack_count -= delta
 	else:
-		Transitioned.emit(self, "main")
+		attack_Transitioned.emit(self, "attack main")
 	
 
 func exit():
