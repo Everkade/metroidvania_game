@@ -1,4 +1,5 @@
 extends Node2D
+class_name StateMachine
 
 # export to set initial state
 @export var initial_state : State

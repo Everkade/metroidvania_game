@@ -4,7 +4,6 @@ extends Entity
 
 var dir := Vector2.ZERO
 var speed: float
-var gravity: float
 var can_damage := true
 
 @onready var attack: Attack = $Attack
@@ -16,7 +15,7 @@ func _physics_process(delta: float) -> void:
 	var rotation_speed = 8 * delta
 	
 	rotation += rotation_speed
-	velocity.y += gravity * delta
+	Global.apply_gravity(self, delta)
 	
 	var collision = move_and_collide(velocity * delta)
 	if not collision: return

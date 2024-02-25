@@ -5,8 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://jpjkg3xpjcu8" path="res://Art/throw5.png" id="3_vo7n8"]
 [ext_resource type="Script" path="res://Entities/Components/attack.gd" id="4_cyhq7"]
 [ext_resource type="PackedScene" uid="uid://df43yk4eaq5kl" path="res://Entities/Components/health.tscn" id="5_uyqwq"]
-[ext_resource type="PackedScene" uid="uid://cn2u0e8cg542u" path="res://Entities/Components/hitbox.tscn" id="6_tuour"]
-[ext_resource type="PackedScene" uid="uid://byrlpibrj0qj1" path="res://Entities/Components/hurtbox.tscn" id="7_b3mxa"]
+[ext_resource type="PackedScene" path="res://Entities/Components/hitbox.tscn" id="6_tuour"]
+[ext_resource type="PackedScene" path="res://Entities/Components/hurtbox.tscn" id="7_b3mxa"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_siodo"]
 radius = 17.0

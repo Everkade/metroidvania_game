@@ -15,25 +15,29 @@ func approach(start_val, end_val, spd, delta = 1) -> float:
 		new_val = clamp(new_val, end_val, start_val)
 	return new_val
 
-#func set_slip_margin(entity: Entity, hitbox: Hitbox):
-	#if entity and hitbox:
-		#var slip_margin = 0.001
-		#if entity is CharacterBody2D:
-			#slip_margin = entity.safe_margin
-		#
-		#if hitbox.shape is RectangleShape2D:
-			## This will set a slip margin for the box allowing for 16 px boxes to slip into 16 px spaces
-			#hitbox.shape.size.x -= slip_margin*2
-			#hitbox.shape.size.y -= slip_margin*2
-		#elif hitbox.shape is CapsuleShape2D:
-			#hitbox.shape.radius -= slip_margin*2
-			#hitbox.shape.height -= slip_margin*2
-		#elif hitbox.shape is CircleShape2D:
-			#hitbox.shape.radius -= slip_margin*2
+func dir_name(direction: int) -> String:
+	if direction == -1: return "left"
+	return "right"
+
+func set_slip_margin(entity: Entity, hitbox: Hitbox):
+	if entity and hitbox:
+		var slip_margin = 0.001
+		if entity is CharacterBody2D:
+			slip_margin = entity.safe_margin
+		
+		if hitbox.shape is RectangleShape2D:
+			# This will set a slip margin for the box allowing for 16 px boxes to slip into 16 px spaces
+			hitbox.shape.size.x -= slip_margin*2
+			hitbox.shape.size.y -= slip_margin*2
+		elif hitbox.shape is CapsuleShape2D:
+			hitbox.shape.radius -= slip_margin*2
+			hitbox.shape.height -= slip_margin*2
+		elif hitbox.shape is CircleShape2D:
+			hitbox.shape.radius -= slip_margin*2
 
 #region PLATFORMING PHYSICS
 """ GRAVITY """
-var gravity = 1000
+var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 func apply_gravity(player: Entity, delta):
 	if player is CharacterBody2D:
 		player.velocity.y += Global.gravity * delta
