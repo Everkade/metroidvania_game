@@ -15,6 +15,10 @@ func approach(start_val, end_val, spd, delta = 1) -> float:
 		new_val = clamp(new_val, end_val, start_val)
 	return new_val
 
+func dir_name(direction: int) -> String:
+	if direction == -1: return "left"
+	return "right"
+
 func set_slip_margin(entity: Entity, hitbox: Hitbox):
 	if entity and hitbox:
 		var slip_margin = 0.001
@@ -33,7 +37,7 @@ func set_slip_margin(entity: Entity, hitbox: Hitbox):
 
 #region PLATFORMING PHYSICS
 """ GRAVITY """
-var gravity = 1000
+var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 func apply_gravity(player: Entity, delta):
 	if player is CharacterBody2D:
 		player.velocity.y += Global.gravity * delta

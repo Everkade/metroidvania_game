@@ -1,4 +1,5 @@
 extends Node2D
+class_name StateMachine
 
 # export to set initial state
 @export var initial_state : State
@@ -16,6 +17,7 @@ func _ready():
 			# Connect new states to the transitioned signal, calling state transition
 			child.Transitioned.connect(on_state_transition)
 	# if initial state is set, enter into that state
+	print(states)
 	if initial_state:
 		initial_state.enter()
 		current_state = initial_state

@@ -20,11 +20,13 @@ var menu := {
 # Player control dictrionary (READ for PLAYER CONTROL)
 var player := {
 	"jump": key_press.duplicate(),
+	"action": key_press.duplicate(),
 	
 	"left": key_press.duplicate(),
 	"right": key_press.duplicate(),
 	"up": key_press.duplicate(),
 	"down": key_press.duplicate(),
+	
 }
 
 # Control enum defines mode that informs our control dictionaries to update or not 
