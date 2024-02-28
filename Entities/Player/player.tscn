@@ -374,7 +374,6 @@ metadata/_edit_lock_ = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -16)
 shape = SubResource("CapsuleShape2D_bnwyb")
-metadata/_edit_lock_ = true
 
 [node name="Hitbox" parent="." node_paths=PackedStringArray("health", "damage_cooldown_timer") instance=ExtResource("17_dn1qg")]
 collision_mask = 0
