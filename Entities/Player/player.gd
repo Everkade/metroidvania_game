@@ -53,7 +53,7 @@ signal PlayerSetMaxHealth(max_health: float)
 
 func _ready():
 	# Set slip margin
-	#Global.set_slip_margin(self, $CollisionShape2D)
+	Global.set_slip_margin(self, $CollisionShape2D)
 	animation_tree.active = true
 	
 	# Sprite flip

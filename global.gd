@@ -19,7 +19,7 @@ func dir_name(direction: int) -> String:
 	if direction == -1: return "left"
 	return "right"
 
-func set_slip_margin(entity: Entity, hitbox: Hitbox):
+func set_slip_margin(entity: Entity, hitbox: CollisionShape2D):
 	if entity and hitbox:
 		var slip_margin = 0.001
 		if entity is CharacterBody2D:

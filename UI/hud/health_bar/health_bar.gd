@@ -4,10 +4,10 @@ const HEART = preload("res://UI/hud/health_bar/heart.tscn")
 var _current_health : float
 var _max_health: float
 func _ready() -> void:
-	SignalMgr.register_subscriber(self, "player_take_damage")
-	SignalMgr.register_subscriber(self, "player_set_max_health")
+	SignalMgr.register_subscriber(self, "PlayerTakeDamage")
+	SignalMgr.register_subscriber(self, "PlayerSetMaxHealth")
 
-func _on_player_take_damage(damage_amount: float):
+func _on_PlayerTakeDamage(damage_amount: float):
 	for i in damage_amount:
 		var heart = _get_last_heart()
 		
@@ -17,7 +17,7 @@ func _on_player_take_damage(damage_amount: float):
 		heart.empty_heart()
 		_current_health -= 1
 
-func _on_player_set_max_health(max_health: float):
+func _on_PlayerSetMaxHealth(max_health: float):
 	# TODO We can only set the max health once for now. Maybe revisit if we want health upgrades
 	if _max_health > 0: return
 	_max_health = max_health
