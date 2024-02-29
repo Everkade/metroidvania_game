@@ -25,7 +25,7 @@ buses/default_bus_layout=""
 Con="*res://control.tscn"
 Global="*res://global.gd"
 SignalMgr="*res://Addons/godot_helper_pack/core/signal_mgr.gd"
-Map="*res://World Rooms/Navigation/map.tscn"
+Map="*res://Rooms/Navigation/map.tscn"
 
 [display]
 

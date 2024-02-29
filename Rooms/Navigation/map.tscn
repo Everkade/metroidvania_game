@@ -1,11 +1,11 @@
 [gd_scene load_steps=3 format=3 uid="uid://bw6na6pjiqf57"]
 
-[ext_resource type="Script" path="res://World Rooms/Navigation/map.gd" id="1_exyl6"]
+[ext_resource type="Script" path="res://Rooms/Navigation/map.gd" id="1_exyl6"]
 [ext_resource type="PackedScene" uid="uid://bbum6nedt3wb3" path="res://UI/hud/hud.tscn" id="2_3ryx4"]
 
 [node name="Map" type="Node2D"]
 script = ExtResource("1_exyl6")
-room_start_node = "res://World Rooms/room2.tscn"
+room_start_node = "res://Rooms/Areas/Ancient/room_ANC1_awake.tscn"
 room_player_node = "res://Entities/Player/player.tscn"
 
 [node name="Hud" parent="." instance=ExtResource("2_3ryx4")]

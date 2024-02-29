@@ -1,6 +1,7 @@
 extends Area2D
 class_name Hitbox
 
+@onready var entity : CharacterBody2D = $".."
 @export var health: Health
 @export var time_between_damage: float
 
@@ -11,28 +12,19 @@ var alpha_flash_follow := 0.0
 
 @export var damage_cooldown_timer: Timer
 @onready var _damage_cooldown_timer := time_between_damage
+var invulnerable := false
 
 signal TakeDamage
 
 func damage(attack: Attack):
-	var invulnerable = damage_cooldown_timer and !damage_cooldown_timer.is_stopped()
-	
 	# Exit now if the hitbox is not ready to take damage
-	if invulnerable: 
-		if alpha_flash_follow == 0.0:
-			alpha_flash_follow = alpha_flash_length
-		elif alpha_flash_follow == alpha_flash_length:
-			alpha_flash_follow = 0.0
-		alpha_flash = Global.approach(
-			alpha_flash, alpha_flash_follow, alpha_flash_length
-		)
-		alpha = 1.0 - 0.5*(alpha_flash / alpha_flash_length)
-		
-		return
+	if damage_cooldown_timer and !damage_cooldown_timer.is_stopped(): return
 	
-	# Reset alpha flash
+	# Reset values
 	alpha_flash = 0.0
 	alpha_flash_follow = 0.0
+	if entity is Player:
+		entity.invulnerable = false
 	
 	# Temporary invulnerability
 	# _time_between_damage should match the duration of the animation player's animation
@@ -45,3 +37,5 @@ func damage(attack: Attack):
 		# TODO this would mean that health is not passed to hitbox, but hitbox is passed to health instead
 		health.damage(attack)
 		TakeDamage.emit()
+		if entity is Player:
+			entity.invulnerable = true

@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://d0w8gpjx41amh"]
+
+[ext_resource type="PackedScene" uid="uid://cj71jjtadjv61" path="res://Rooms/Areas/Ancient/room_ANC1_awake.tscn" id="1_ufox7"]
+
+[node name="World" type="Node2D"]
+
+[node name="Room Awake" parent="." instance=ExtResource("1_ufox7")]

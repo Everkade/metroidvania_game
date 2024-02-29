@@ -39,6 +39,8 @@ var jump_buffer_count : float = 0.0
 var jump_linear_count : float = 0.0
 var coyote_count : float = 0.0
 
+var invulnerable := false
+
 @onready var animation_tree : AnimationTree = $Sprite2D/AnimationTree
 
 # Global signals, used by health_bar

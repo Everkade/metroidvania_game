@@ -11,6 +11,8 @@ var room_exit_direction : RoomChange.DIR = -1
 # Set from Global.switch_scene method
 var current_room : Room = null
 var room_change_node_name : String = ""
+# Used to check if we're actually moving to a new room
+var old_room_name := ""
 
 func _ready():
 	pass
@@ -76,9 +78,12 @@ func _on_room_transition_out_ended(
 	fade.Ended.connect(
 		_on_room_transition_in_ended.bind(fade)
 	)
-		
-	Global.switch_scene(room_resource)
+	
+	# Set the target name for the linked room change
 	room_change_node_name = room_change_name
+	
+	old_room_name = current_room.get_name()
+	Global.switch_scene(room_resource)
 
 func _on_room_transition_in_ended(fade):
 	fade.queue_free()
