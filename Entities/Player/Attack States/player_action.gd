@@ -15,8 +15,16 @@ var current_action := "punch"
 func enter():
 	pass
 	
-func physics_update(_delta):
-	if Con.player.action.press:
+func physics_update(delta):
+	
+	# Count action buffer
+	if player.action_buffer_count > 0:
+		player.action_buffer_count -= delta
+	
+	# Actions are buffered from player scripta
+	if player.action_buffer_count > 0:
+		# Cancel the buffer
+		player.action_buffer_count = 0.0
 		# If current action is a valid action
 		if action_list.has(current_action):
 			player.animation_tree[is_action_loc] = true

@@ -1,15 +1,19 @@
 extends Entity
 class_name Player
 
+
+# The collision info that happens to the player every _physics_process
+@onready var collision : KinematicCollision2D = null
+# The last step position of the player (used to properly set real velocity)
+var last_position := Vector2(0.0, 0.0)
+
+#region MOVEMENT
+
+@onready var direction : int = 1 if facing == DIR.RIGHT else -1
 # The direction the player is trying to move in (with left right controls)
 var move := 0
 # Either -1 or 1, only updated when move != 0
-var direction := 1
 var lock_direction := false
-# The collision info that happens to the player every _physics_process
-var collision : KinematicCollision2D = get_slide_collision(0)
-# The last step position of the player (used to compare with the current position)
-var last_position := Vector2(0.0, 0.0)
 
 # max speed player accelerates to while running
 @export var run_speed: 		float = 200
@@ -17,13 +21,10 @@ var last_position := Vector2(0.0, 0.0)
 @export var acceleration: 	float = 3000
 @export var traction : 		float = 2000
 @export var friction : 		float = 200
-
 @export var air_control_percent : float = 0.75
+#endregion
 
-var air_accel : float = acceleration * air_control_percent
-var air_traction : float = traction * air_control_percent
-var air_friction : float = friction * air_control_percent
-
+#region JUMPING
 @export var jump_power := -250.0
 @export var jump_cancel_percent := 0.5
 
@@ -38,16 +39,30 @@ var coyote_time := float(coyote_frames) / 60
 var jump_buffer_count : float = 0.0
 var jump_linear_count : float = 0.0
 var coyote_count : float = 0.0
+#endregion
 
-var invulnerable := false
-
-@onready var animation_tree : AnimationTree = $Sprite2D/AnimationTree
+#region DAMAGE and HEALTH
+@export var damage_invulnerable_time := 0.5
+var damage_invulnerable_count := 0.0
 
 # Global signals, used by health_bar
 signal PlayerTakeDamage(damage_amount: float)
-signal PlayerSetMaxHealth(max_health: float)
 
-@onready var _health: EnemyHealth = $Health
+#@onready var _health : = $Stats/Health
+signal PlayerSetMaxHealth(max_health: float)
+#endregion
+
+#region ACTIONS
+
+@export var action_buffer_frames : int = 10
+
+var  action_buffer_time := float(jump_buffer_frames) / 60
+var action_buffer_count : float = 0.0
+
+#endregion
+
+# Animation
+@onready var animation_tree : AnimationTree = $Sprite2D/AnimationTree
 
 func _ready():
 	# Set slip margin
@@ -73,14 +88,15 @@ func _physics_process(delta):
 	# Sprite flip
 	$Sprite2D.flip_h = true if direction == -1 else false
 	
-	Global.run_move(self, move, run_speed, delta)
+	Global.physics_move(self, move, run_speed, delta)
 	
 	# Get last position to compare after we move
 	last_position = position
 	# Move player
 	var did_collide = move_and_slide()
 	# Get collision info
-	#collision = get_slide_collision(0)
+	if get_slide_collision_count() > 0:
+		collision = get_slide_collision(0)
 	# Do something on collide?
 	if did_collide:
 		pass
@@ -97,7 +113,27 @@ func _physics_process(delta):
 		coyote_count = coyote_time
 	elif coyote_count > 0:
 		coyote_count -= delta
+		
+	# Action buffer
+	if Con.player.action.press:
+		action_buffer_count = action_buffer_time
+	
+	# Invulnerable time
+	if damage_invulnerable_count > 0:
+		damage_invulnerable_count -= delta
+	elif invulnerable:
+		invulnerable = false
+		$Sprite2D.modulate.a = 1.0
 
+func _on_health_take_damage(damage: float):
+	if damage: 
+		PlayerTakeDamage.emit(damage)
+		# Set invulnerable time
+		invulnerable = true
+		damage_invulnerable_count = damage_invulnerable_time
+		$Sprite2D.reset_invulnerable_visual()
 
-func _on_health_damage_health(damage: float) -> void:
-	if damage: PlayerTakeDamage.emit(damage)
+# Death sequence
+func _on_entity_has_died():
+	print("PLAYER DIED!")
+	# Replace with function body.

@@ -1,12 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://cv5ocjmvk0ijc"]
+[gd_scene load_steps=11 format=3 uid="uid://cv5ocjmvk0ijc"]
 
 [ext_resource type="Script" path="res://Entities/Enemies/Thrower/thrower.gd" id="1_7itwx"]
 [ext_resource type="PackedScene" uid="uid://bkltr64yko5wx" path="res://Entities/Enemies/Thrower/weapons/shooter.tscn" id="2_thjdb"]
 [ext_resource type="Texture2D" uid="uid://jpjkg3xpjcu8" path="res://Art/throw5.png" id="3_vo7n8"]
-[ext_resource type="Script" path="res://Entities/Components/enemy_attack.gd" id="4_cyhq7"]
-[ext_resource type="PackedScene" uid="uid://df43yk4eaq5kl" path="res://Entities/Components/enemy_health.tscn" id="5_uyqwq"]
+[ext_resource type="PackedScene" uid="uid://df43yk4eaq5kl" path="res://Entities/Components/health.tscn" id="5_uyqwq"]
 [ext_resource type="PackedScene" uid="uid://bqjejm0dkpqrs" path="res://Entities/Components/hitbox.tscn" id="6_tuour"]
-[ext_resource type="PackedScene" uid="uid://byrlpibrj0qj1" path="res://Entities/Components/hurtbox.tscn" id="7_b3mxa"]
+[ext_resource type="PackedScene" uid="uid://do18h2nlmwmq8" path="res://Entities/Components/hurtbox.tscn" id="7_b3mxa"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_siodo"]
 radius = 17.0
@@ -24,8 +23,11 @@ radius = 17.0
 height = 62.0
 
 [node name="Thrower" type="CharacterBody2D"]
-collision_layer = 8
+collision_layer = 2
+collision_mask = 8
 script = ExtResource("1_7itwx")
+
+[node name="Health" parent="." instance=ExtResource("5_uyqwq")]
 
 [node name="Shooter" parent="." instance=ExtResource("2_thjdb")]
 
@@ -44,27 +46,24 @@ collision_layer = 0
 shape = SubResource("CircleShape2D_mptky")
 debug_color = Color(0.54902, 0.564706, 0, 0.419608)
 
-[node name="Attack" type="Node2D" parent="."]
-script = ExtResource("4_cyhq7")
-
-[node name="Health" parent="." instance=ExtResource("5_uyqwq")]
-
 [node name="Hitbox" parent="." node_paths=PackedStringArray("health") instance=ExtResource("6_tuour")]
-collision_layer = 8
-collision_mask = 0
+collision_layer = 2
+collision_mask = 4
 health = NodePath("../Health")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 position = Vector2(0, 20)
 shape = SubResource("CapsuleShape2D_kejp1")
 
-[node name="Hurtbox" parent="." node_paths=PackedStringArray("attack") instance=ExtResource("7_b3mxa")]
-collision_layer = 0
-attack = NodePath("../Attack")
+[node name="Hurtbox" parent="." instance=ExtResource("7_b3mxa")]
+collision_layer = 2
+collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
 position = Vector2(0, 20)
 shape = SubResource("CapsuleShape2D_brcmj")
 
+[connection signal="HasDied" from="Health" to="." method="_on_health_has_died"]
 [connection signal="body_entered" from="AggroRange" to="." method="_on_aggro_range_body_entered"]
 [connection signal="body_exited" from="AggroRange" to="." method="_on_aggro_range_body_exited"]
+[connection signal="area_exited" from="Hurtbox" to="Hurtbox" method="_on_area_exited"]

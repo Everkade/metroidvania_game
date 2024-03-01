@@ -1,13 +1,11 @@
 extends Entity
 
-@onready var grenade_duration: Timer = $GrenadeDuration
-
 var dir := Vector2.ZERO
 var speed: float
 var gravity: float
 var can_damage := true
 
-@onready var attack: Attack = $Attack
+@onready var grenade_duration: Timer = $GrenadeDuration
 
 func _ready() -> void:
 	velocity = dir * speed
@@ -33,10 +31,9 @@ func _handle_collision(collision: KinematicCollision2D) -> void:
 	var collider = collision.get_collider()
 	
 	if collider is Player:
-		var recursive = true
 		for child in collider.get_children():
 			if child is Hitbox:
-				child.damage(attack)
+				child.damage(self)
 				can_damage = false
 				break
 	

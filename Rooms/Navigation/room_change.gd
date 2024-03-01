@@ -15,10 +15,11 @@ enum DIR {
 var room_is_changing := false
 
 func _ready():
-	pass
+	set_collision_layer_value(Global.LAYER.PLAYER, true)
+	set_collision_mask_value(Global.LAYER.PLAYER, true)
 
 # Player switch
-func _process(delta):
+func _process(_delta):
 	for body in get_overlapping_bodies():
 		if not room_is_changing and body is Player:
 			try_to_switch_rooms(body)

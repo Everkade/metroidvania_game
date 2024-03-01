@@ -2,15 +2,16 @@
 
 [ext_resource type="Texture2D" uid="uid://dmhc3cmlwyqj8" path="res://Art/Enemies/spr_walker_walk_6f.png" id="1_4por6"]
 [ext_resource type="Script" path="res://Entities/Enemies/Walker/walker.gd" id="1_dwcse"]
-[ext_resource type="PackedScene" uid="uid://df43yk4eaq5kl" path="res://Entities/Components/enemy_health.tscn" id="3_was6j"]
-[ext_resource type="Script" path="res://Entities/Components/hurtbox.gd" id="4_n00td"]
+[ext_resource type="PackedScene" uid="uid://df43yk4eaq5kl" path="res://Entities/Components/health.tscn" id="3_was6j"]
 [ext_resource type="Script" path="res://Entities/Components/hitbox.gd" id="5_gg0h7"]
+[ext_resource type="PackedScene" uid="uid://do18h2nlmwmq8" path="res://Entities/Components/hurtbox.tscn" id="5_ulwnk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_agcuf"]
 size = Vector2(16, 17)
 
 [sub_resource type="Animation" id="Animation_iov2k"]
 resource_name = "walk"
+length = 1.2
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -30,16 +31,18 @@ _data = {
 "walk": SubResource("Animation_iov2k")
 }
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_duyh0"]
-size = Vector2(16, 11)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_enboj"]
 size = Vector2(14, 13)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_duyh0"]
+size = Vector2(16, 11)
+
 [node name="Walker" type="CharacterBody2D"]
-collision_layer = 8
-collision_mask = 3
+collision_layer = 2
+collision_mask = 8
 script = ExtResource("1_dwcse")
+
+[node name="Health" parent="." instance=ExtResource("3_was6j")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 1.5)
@@ -54,21 +57,25 @@ libraries = {
 "": SubResource("AnimationLibrary_6bklj")
 }
 
-[node name="Health" parent="." instance=ExtResource("3_was6j")]
-max_health = 9.0
+[node name="Hitbox" type="Area2D" parent="." node_paths=PackedStringArray("health")]
+collision_layer = 2
+collision_mask = 4
+script = ExtResource("5_gg0h7")
+health = NodePath("../Health")
 
-[node name="Hurtbox" type="Area2D" parent="."]
-script = ExtResource("4_n00td")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(0, 1.5)
+shape = SubResource("RectangleShape2D_enboj")
+debug_color = Color(0, 1, 0, 0.419608)
+
+[node name="Hurtbox" parent="." instance=ExtResource("5_ulwnk")]
+collision_layer = 2
+collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
 position = Vector2(0, -1.5)
 shape = SubResource("RectangleShape2D_duyh0")
 debug_color = Color(0.992157, 0, 0, 0.419608)
 
-[node name="Hitbox" type="Area2D" parent="."]
-script = ExtResource("5_gg0h7")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(0, 1.5)
-shape = SubResource("RectangleShape2D_enboj")
-debug_color = Color(0, 1, 0, 0.419608)
+[connection signal="HasDied" from="Health" to="." method="_on_health_has_died"]
+[connection signal="area_exited" from="Hurtbox" to="Hurtbox" method="_on_area_exited"]

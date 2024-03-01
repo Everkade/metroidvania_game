@@ -7,7 +7,7 @@ extends Node2D
 var player : Player
 
 # Set from room_change.gd opun room change
-var room_exit_direction : RoomChange.DIR = -1
+var room_exit_direction : RoomChange.DIR = RoomChange.DIR.LEFT
 # Set from Global.switch_scene method
 var current_room : Room = null
 var room_change_node_name : String = ""
@@ -36,17 +36,16 @@ func switch_room(room_resource: String, room_change_name = ""):
 	Con.reset_inputs()
 	Con.similate_mode = true
 	# Start simulating run
-	if room_exit_direction != -1:
-		var is_horzontal = [RoomChange.DIR.LEFT, RoomChange.DIR.RIGHT].has(room_exit_direction)
-		
-		if is_horzontal:
-			if room_exit_direction == RoomChange.DIR.LEFT:
-				Con.player.left.hold = true
-			else:
-				Con.player.right.hold = true
+	var is_horzontal = [RoomChange.DIR.LEFT, RoomChange.DIR.RIGHT].has(room_exit_direction)
+	
+	if is_horzontal:
+		if room_exit_direction == RoomChange.DIR.LEFT:
+			Con.player.left.hold = true
 		else:
-			# vertical transitions
-			pass
+			Con.player.right.hold = true
+	else:
+		# vertical transitions
+		pass
 	
 	var fade = load("res://FX/transition_fade.tscn").instantiate()
 	get_tree().root.add_child(fade)

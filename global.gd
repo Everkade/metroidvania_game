@@ -5,6 +5,13 @@ func _ready() -> void:
 	current_scene = root.get_child(root.get_child_count() - 1)
 
 # Global helper data and variables
+enum LAYER {
+	INTERACT,
+	ENEMY,
+	PLAYER,
+	WALLS
+}
+
 func approach(start_val, end_val, spd, delta = 1) -> float:
 	var new_val = start_val
 	if start_val < end_val:
@@ -69,16 +76,16 @@ func apply_traction(entity: Entity, traction: float, air_control_percent: float 
 			current_traction = traction * air_control_percent
 		entity.velocity.x = approach(entity.velocity.x, 0, current_traction * delta)	
 
-func run_move(entity: Entity, direction, run_speed, delta):
+func physics_move(entity: Entity, direction, move_speed, delta):
 	if entity is Player:
-		# PLAYER RUN CODE
-		var run_velocity = direction * run_speed
-		if abs(entity.velocity.x) <= abs(run_velocity):
+		# PLAYER MOVE CODE
+		var move_velocity = direction * move_speed
+		if abs(entity.velocity.x) <= abs(move_velocity):
 			apply_acceleration(
-				entity, entity.acceleration, run_velocity, entity.air_control_percent,
+				entity, entity.acceleration, move_velocity, entity.air_control_percent,
 				delta)
 		else:
-			if abs(entity.velocity.x) < run_speed:
+			if abs(entity.velocity.x) < move_speed:
 				apply_traction(
 					entity, entity.traction, entity.air_control_percent,
 					delta)
@@ -87,8 +94,16 @@ func run_move(entity: Entity, direction, run_speed, delta):
 					entity, entity.friction, entity.air_control_percent,
 					delta)
 	else:
-		# Entity run code here
-		pass
+		# ENTITY MOVE CODE
+		var move_velocity = direction * move_speed
+		if abs(entity.velocity.x) <= abs(move_velocity):
+			apply_acceleration(
+				entity, entity.acceleration, move_velocity, entity.air_control_percent,
+				delta)
+		else:
+			apply_friction(
+				entity, entity.friction, entity.air_control_percent,
+				delta)
 #endregion
 
 #region SCENE SWITCH
@@ -104,6 +119,5 @@ func _deferred_switch_scene(scene_resource):
 	current_scene.free()
 	current_scene = load(scene_resource).instantiate()
 	Map.add_child(current_scene)
-	get_tree().current_scene = current_scene
 
 #endregion
