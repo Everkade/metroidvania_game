@@ -437,7 +437,7 @@ texture = ExtResource("2_jmejh")
 hframes = 8
 region_rect = Rect2(-9, -52, 113, 174)
 script = ExtResource("3_2pwip")
-alpha_flash_minimum = 0.2
+alpha_flash_minimum = 0.1
 
 [node name="AnimationTree" type="AnimationTree" parent="Sprite2D"]
 root_node = NodePath(".")
@@ -520,6 +520,7 @@ offset = Vector2(0, -16)
 zoom = Vector2(3, 3)
 metadata/_edit_lock_ = true
 
+[connection signal="HasDied" from="Health" to="." method="_on_health_has_died"]
 [connection signal="TakeDamage" from="Health" to="." method="_on_health_take_damage"]
 [connection signal="area_entered" from="Action Machine/Punch/Hurtbox" to="Action Machine/Punch/Hurtbox" method="_on_area_entered"]
 [connection signal="area_exited" from="Action Machine/Punch/Hurtbox" to="Action Machine/Punch/Hurtbox" method="_on_area_exited"]

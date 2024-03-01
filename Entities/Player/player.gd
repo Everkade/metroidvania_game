@@ -137,6 +137,6 @@ func _on_health_take_damage(damage: float):
 		$Sprite2D.reset_invulnerable_visual()
 
 # Death sequence
-func _on_entity_has_died():
+func _on_health_has_died():
 	print("PLAYER DIED!")
 	# Replace with function body.
