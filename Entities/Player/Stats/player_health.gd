@@ -1,5 +1,4 @@
 extends Node2D
-class_name Health
 
 @export var max_health : float = 6
 var health : float
@@ -11,7 +10,8 @@ signal damage_health(damage: float)
 func _ready():
 	health = max_health 
 
-func damage(attack: Attack):
+func damage(attack: EnemyAttack):
+	print(health)
 	health -= attack.damage
 	
 	damage_health.emit(attack.damage)

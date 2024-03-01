@@ -1,18 +1,17 @@
-[gd_scene load_steps=39 format=3 uid="uid://dfqpye3rpl5l7"]
+[gd_scene load_steps=38 format=3 uid="uid://dfqpye3rpl5l7"]
 
 [ext_resource type="Script" path="res://Entities/Player/player.gd" id="1_3ic8f"]
 [ext_resource type="Texture2D" uid="uid://dbe1nsask1fi7" path="res://Art/Player/spr_player_idle_8f.png" id="2_jmejh"]
 [ext_resource type="Texture2D" uid="uid://difna2k0qk2gs" path="res://Art/Player/Attacks/spr_player_punch_7f.png" id="2_rfg6m"]
 [ext_resource type="Script" path="res://Entities/Player/player_sprite.gd" id="3_2pwip"]
 [ext_resource type="Texture2D" uid="uid://d1kq4ubuc71ea" path="res://Art/Player/spr_player_run_6f.png" id="3_quwxk"]
+[ext_resource type="PackedScene" uid="uid://df43yk4eaq5kl" path="res://Entities/Components/enemy_health.tscn" id="6_84wdd"]
 [ext_resource type="Script" path="res://Entities/Components/state_machine.gd" id="9_quheh"]
 [ext_resource type="Script" path="res://Entities/Player/Move States/player_main.gd" id="10_jw60k"]
 [ext_resource type="Script" path="res://Entities/Player/Move States/player_jump.gd" id="10_r8lnk"]
 [ext_resource type="Script" path="res://Entities/Components/state.gd" id="12_r5w8r"]
 [ext_resource type="Script" path="res://Entities/Player/Attack States/player_punch.gd" id="13_glc1j"]
 [ext_resource type="Script" path="res://Entities/Player/Attack States/player_action.gd" id="13_qvfdi"]
-[ext_resource type="Script" path="res://Entities/Player/Stats/player_damage.gd" id="14_b8qmh"]
-[ext_resource type="Script" path="res://Entities/Player/Stats/player_health.gd" id="15_1ncaa"]
 [ext_resource type="PackedScene" uid="uid://bqjejm0dkpqrs" path="res://Entities/Components/hitbox.tscn" id="17_dn1qg"]
 
 [sub_resource type="Animation" id="Animation_hvy37"]
@@ -169,18 +168,6 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(0, -22)]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("../../Hurtbox:monitoring")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.7),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [false, true, false]
 }
 
 [sub_resource type="Animation" id="Animation_cru0w"]
@@ -342,8 +329,7 @@ radius = 7.0
 height = 24.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_slug5"]
-radius = 12.0
-height = 58.0
+height = 44.0
 
 [node name="Player" type="CharacterBody2D"]
 floor_block_on_wall = false
@@ -386,13 +372,15 @@ offset = Vector2(0, -16)
 zoom = Vector2(3, 3)
 metadata/_edit_lock_ = true
 
+[node name="Health" parent="." instance=ExtResource("6_84wdd")]
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -16)
 shape = SubResource("CapsuleShape2D_bnwyb")
 
 [node name="Hitbox" parent="." node_paths=PackedStringArray("health", "damage_cooldown_timer") instance=ExtResource("17_dn1qg")]
 collision_mask = 0
-health = NodePath("")
+health = NodePath("../Health")
 time_between_damage = 0.5
 damage_cooldown_timer = NodePath("DamageCooldown")
 
@@ -403,7 +391,7 @@ one_shot = true
 [node name="DamageShape2D" type="CollisionShape2D" parent="Hitbox"]
 position = Vector2(0, -20)
 shape = SubResource("CapsuleShape2D_q8sdh")
-debug_color = Color(0, 1, 0, 0.419608)
+debug_color = Color(0.819608, 0, 0.137255, 0.419608)
 metadata/_edit_lock_ = true
 
 [node name="Move Machine" type="Node2D" parent="." node_paths=PackedStringArray("initial_state")]
@@ -429,22 +417,17 @@ script = ExtResource("13_qvfdi")
 [node name="Punch" type="Node2D" parent="Action Machine"]
 script = ExtResource("13_glc1j")
 
-[node name="Hurtbox" type="Area2D" parent="."]
-collision_mask = 8
-monitoring = false
+[node name="Punch" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
-position = Vector2(33, -22)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Punch"]
+position = Vector2(29, -19)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_slug5")
-debug_color = Color(1, 0, 0, 0.419608)
 
 [node name="Stats" type="Node2D" parent="."]
 
-[node name="Damage" type="Node2D" parent="Stats"]
-script = ExtResource("14_b8qmh")
+[node name="Node2D" type="Node2D" parent="Stats"]
 
-[node name="Health" type="Node2D" parent="Stats"]
-script = ExtResource("15_1ncaa")
+[node name="Node2D2" type="Node2D" parent="Stats"]
 
-[connection signal="body_entered" from="Hurtbox" to="Stats/Damage" method="_on_hurtbox_body_entered"]
+[connection signal="damage_health" from="Health" to="." method="_on_health_damage_health"]

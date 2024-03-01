@@ -47,7 +47,7 @@ var invulnerable := false
 signal PlayerTakeDamage(damage_amount: float)
 signal PlayerSetMaxHealth(max_health: float)
 
-@onready var _health: Health = $Health
+@onready var _health: EnemyHealth = $Health
 
 func _ready():
 	# Set slip margin
@@ -59,8 +59,8 @@ func _ready():
 	
 	# Update HUD Health bar with max health
 	SignalMgr.register_publisher(self, "PlayerTakeDamage")
-	SignalMgr.register_publisher(self, "PlayerSetMaxHealth")
-	PlayerSetMaxHealth.emit(_health.max_health)
+	#SignalMgr.register_publisher(self, "PlayerSetMaxHealth")
+	#PlayerSetMaxHealth.emit(_health.max_health)
 
 func _physics_process(delta):
 	# Move direction

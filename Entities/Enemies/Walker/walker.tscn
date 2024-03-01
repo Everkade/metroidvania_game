@@ -1,10 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://dk3r5qb5fu0i2"]
+[gd_scene load_steps=11 format=3 uid="uid://dk3r5qb5fu0i2"]
 
-[ext_resource type="Texture2D" uid="uid://dmhc3cmlwyqj8" path="res://Entities/Enemies/Walker/spr_walker_walk_6f.png" id="1_4por6"]
+[ext_resource type="Texture2D" uid="uid://dmhc3cmlwyqj8" path="res://Art/Enemies/spr_walker_walk_6f.png" id="1_4por6"]
 [ext_resource type="Script" path="res://Entities/Enemies/Walker/walker.gd" id="1_dwcse"]
+[ext_resource type="PackedScene" uid="uid://df43yk4eaq5kl" path="res://Entities/Components/enemy_health.tscn" id="3_was6j"]
+[ext_resource type="Script" path="res://Entities/Components/hurtbox.gd" id="4_n00td"]
+[ext_resource type="Script" path="res://Entities/Components/hitbox.gd" id="5_gg0h7"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_bubh3"]
-size = Vector2(16, 18)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_agcuf"]
+size = Vector2(16, 17)
 
 [sub_resource type="Animation" id="Animation_iov2k"]
 resource_name = "walk"
@@ -27,14 +30,20 @@ _data = {
 "walk": SubResource("Animation_iov2k")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_duyh0"]
+size = Vector2(16, 11)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_enboj"]
+size = Vector2(14, 13)
+
 [node name="Walker" type="CharacterBody2D"]
 collision_layer = 8
 collision_mask = 3
 script = ExtResource("1_dwcse")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 1)
-shape = SubResource("RectangleShape2D_bubh3")
+position = Vector2(0, 1.5)
+shape = SubResource("RectangleShape2D_agcuf")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_4por6")
@@ -44,3 +53,22 @@ hframes = 6
 libraries = {
 "": SubResource("AnimationLibrary_6bklj")
 }
+
+[node name="Health" parent="." instance=ExtResource("3_was6j")]
+max_health = 9.0
+
+[node name="Hurtbox" type="Area2D" parent="."]
+script = ExtResource("4_n00td")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, -1.5)
+shape = SubResource("RectangleShape2D_duyh0")
+debug_color = Color(0.992157, 0, 0, 0.419608)
+
+[node name="Hitbox" type="Area2D" parent="."]
+script = ExtResource("5_gg0h7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(0, 1.5)
+shape = SubResource("RectangleShape2D_enboj")
+debug_color = Color(0, 1, 0, 0.419608)

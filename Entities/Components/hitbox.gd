@@ -2,7 +2,7 @@ extends Area2D
 class_name Hitbox
 
 @onready var entity : CharacterBody2D = $".."
-@export var health: Health
+@export var health: EnemyHealth
 @export var time_between_damage: float
 
 @export var alpha_flash_length := 0.125
@@ -16,7 +16,7 @@ var invulnerable := false
 
 signal TakeDamage
 
-func damage(attack: Attack):
+func damage(attack: EnemyAttack):
 	# Exit now if the hitbox is not ready to take damage
 	if damage_cooldown_timer and !damage_cooldown_timer.is_stopped(): return
 	

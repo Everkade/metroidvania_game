@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://iwo5f7g0sxh6"]
+[gd_scene load_steps=11 format=3 uid="uid://iwo5f7g0sxh6"]
 
 [ext_resource type="Script" path="res://Rooms/Navigation/room.gd" id="1_vxwjf"]
 [ext_resource type="Texture2D" uid="uid://dnswn132ulyk4" path="res://Tilesets/s_tile_indigo.png" id="2_dfhxq"]
 [ext_resource type="Script" path="res://Rooms/Navigation/room_change.gd" id="3_f678d"]
+[ext_resource type="PackedScene" uid="uid://dk3r5qb5fu0i2" path="res://Entities/Enemies/Walker/walker.tscn" id="4_n7q0r"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_svht4"]
 size = Vector2(720, 360)
@@ -544,6 +545,9 @@ metadata/_edit_lock_ = true
 position = Vector2(8, 288)
 shape = SubResource("RectangleShape2D_23ebn")
 debug_color = Color(0.992157, 0, 0.243137, 0.419608)
+
+[node name="Walker" parent="." instance=ExtResource("4_n7q0r")]
+position = Vector2(194, 300)
 
 [connection signal="body_entered" from="RC_ANC1_WALKER" to="RC_ANC1_WALKER" method="_on_body_entered"]
 [connection signal="body_entered" from="RC_WARP_ANC1" to="RC_WARP_ANC1" method="_on_body_entered"]

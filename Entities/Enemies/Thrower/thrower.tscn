@@ -3,10 +3,10 @@
 [ext_resource type="Script" path="res://Entities/Enemies/Thrower/thrower.gd" id="1_7itwx"]
 [ext_resource type="PackedScene" uid="uid://bkltr64yko5wx" path="res://Entities/Enemies/Thrower/weapons/shooter.tscn" id="2_thjdb"]
 [ext_resource type="Texture2D" uid="uid://jpjkg3xpjcu8" path="res://Art/throw5.png" id="3_vo7n8"]
-[ext_resource type="Script" path="res://Entities/Components/attack.gd" id="4_cyhq7"]
-[ext_resource type="PackedScene" uid="uid://df43yk4eaq5kl" path="res://Entities/Components/health.tscn" id="5_uyqwq"]
+[ext_resource type="Script" path="res://Entities/Components/enemy_attack.gd" id="4_cyhq7"]
+[ext_resource type="PackedScene" uid="uid://df43yk4eaq5kl" path="res://Entities/Components/enemy_health.tscn" id="5_uyqwq"]
 [ext_resource type="PackedScene" uid="uid://bqjejm0dkpqrs" path="res://Entities/Components/hitbox.tscn" id="6_tuour"]
-[ext_resource type="PackedScene" path="res://Entities/Components/hurtbox.tscn" id="7_b3mxa"]
+[ext_resource type="PackedScene" uid="uid://byrlpibrj0qj1" path="res://Entities/Components/hurtbox.tscn" id="7_b3mxa"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_siodo"]
 radius = 17.0

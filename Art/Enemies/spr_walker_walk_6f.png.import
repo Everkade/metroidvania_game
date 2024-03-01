@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dmhc3cmlwyqj8"
-path="res://.godot/imported/spr_walker_walk_6f.png-aea68e2a4f1b840f48f261e5d65af48d.ctex"
+path="res://.godot/imported/spr_walker_walk_6f.png-6fc9582f35e4a28ee4f259e06f2dd002.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Entities/Enemies/Walker/spr_walker_walk_6f.png"
-dest_files=["res://.godot/imported/spr_walker_walk_6f.png-aea68e2a4f1b840f48f261e5d65af48d.ctex"]
+source_file="res://Art/Enemies/spr_walker_walk_6f.png"
+dest_files=["res://.godot/imported/spr_walker_walk_6f.png-6fc9582f35e4a28ee4f259e06f2dd002.ctex"]
 
 [params]
 
