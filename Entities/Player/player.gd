@@ -5,6 +5,7 @@ class_name Player
 var move := 0
 # Either -1 or 1, only updated when move != 0
 var direction := 1
+var lock_direction := false
 # The collision info that happens to the player every _physics_process
 var collision : KinematicCollision2D = get_slide_collision(0)
 # The last step position of the player (used to compare with the current position)
@@ -30,8 +31,6 @@ var air_friction : float = friction * air_control_percent
 @export var jump_buffer_frames : 	int = 10
 @export var coyote_frames : 		int = 7
 
-@export var attack_frames : 	int = 20
-
 var jump_linear_time := float(jump_linear_frames) / 60
 var jump_buffer_time := float(jump_buffer_frames) / 60
 var coyote_time := float(coyote_frames) / 60
@@ -40,8 +39,7 @@ var jump_buffer_count : float = 0.0
 var jump_linear_count : float = 0.0
 var coyote_count : float = 0.0
 
-var attack_time := float(attack_frames) / 60
-var attack_count : float = 0.0
+var invulnerable := false
 
 @onready var animation_tree : AnimationTree = $Sprite2D/AnimationTree
 
@@ -69,7 +67,7 @@ func _physics_process(delta):
 	move = int(Con.player.right.hold) - int(Con.player.left.hold)
 	
 	# Shown direction
-	if move != 0:
+	if move != 0 and not lock_direction:
 		direction = move
 	
 	# Sprite flip

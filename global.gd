@@ -105,8 +105,5 @@ func _deferred_switch_scene(scene_resource):
 	current_scene = load(scene_resource).instantiate()
 	Map.add_child(current_scene)
 	get_tree().current_scene = current_scene
-	# Set current room to new scene if Room scene
-	if current_scene is Room:
-		Map.current_room = current_scene
 
 #endregion

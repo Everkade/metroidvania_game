@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bu8sqc6fjrock" path="res://Art/drone-1.png" id="2_4kiym"]
 [ext_resource type="Script" path="res://Entities/Components/attack.gd" id="3_jcu2r"]
 [ext_resource type="PackedScene" uid="uid://df43yk4eaq5kl" path="res://Entities/Components/health.tscn" id="4_ixh52"]
-[ext_resource type="PackedScene" path="res://Entities/Components/hitbox.tscn" id="4_y3els"]
+[ext_resource type="PackedScene" uid="uid://bqjejm0dkpqrs" path="res://Entities/Components/hitbox.tscn" id="4_y3els"]
 [ext_resource type="PackedScene" path="res://Entities/Components/hurtbox.tscn" id="5_t06q7"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_sta80"]

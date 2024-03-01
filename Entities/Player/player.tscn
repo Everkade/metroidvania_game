@@ -12,7 +12,7 @@
 [ext_resource type="Script" path="res://Entities/Components/state.gd" id="12_r5w8r"]
 [ext_resource type="Script" path="res://Entities/Player/Attack States/player_punch.gd" id="13_glc1j"]
 [ext_resource type="Script" path="res://Entities/Player/Attack States/player_action.gd" id="13_qvfdi"]
-[ext_resource type="PackedScene" path="res://Entities/Components/hitbox.tscn" id="17_dn1qg"]
+[ext_resource type="PackedScene" uid="uid://bqjejm0dkpqrs" path="res://Entities/Components/hitbox.tscn" id="17_dn1qg"]
 
 [sub_resource type="Animation" id="Animation_hvy37"]
 length = 0.6

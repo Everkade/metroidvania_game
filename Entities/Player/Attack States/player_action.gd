@@ -33,8 +33,6 @@ func transition_to_action(action_name: String):
 	
 	match action_name:
 		"punch":
-			# Set player combo count
-			player.attack_count = player.attack_time
 			# Transition into punch
 			Transitioned.emit(self, "punch")
 		"hold":
