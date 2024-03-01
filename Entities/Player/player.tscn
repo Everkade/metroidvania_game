@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://dfqpye3rpl5l7"]
+[gd_scene load_steps=41 format=3 uid="uid://dfqpye3rpl5l7"]
 
 [ext_resource type="Script" path="res://Entities/Player/player.gd" id="1_3ic8f"]
 [ext_resource type="Texture2D" uid="uid://dbe1nsask1fi7" path="res://Art/Player/spr_player_idle_8f.png" id="2_jmejh"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://Entities/Player/player_sprite.gd" id="3_2pwip"]
 [ext_resource type="Texture2D" uid="uid://d1kq4ubuc71ea" path="res://Art/Player/spr_player_run_6f.png" id="3_quwxk"]
 [ext_resource type="PackedScene" uid="uid://df43yk4eaq5kl" path="res://Entities/Components/health.tscn" id="3_xfb63"]
+[ext_resource type="PackedScene" uid="uid://ca0vxlsx3ou1m" path="res://Entities/Components/stats.tscn" id="6_nw1m7"]
 [ext_resource type="Script" path="res://Entities/Components/hurtbox.gd" id="7_0o3hq"]
 [ext_resource type="Script" path="res://Entities/Player/player_hitbox.gd" id="9_823rx"]
 [ext_resource type="Script" path="res://Entities/Components/state_machine.gd" id="9_quheh"]
@@ -462,22 +463,21 @@ libraries = {
 "": SubResource("AnimationLibrary_qfdia")
 }
 
-[node name="Camera" type="Camera2D" parent="."]
-offset = Vector2(0, -16)
-zoom = Vector2(3, 3)
-metadata/_edit_lock_ = true
+[node name="Stats" parent="." instance=ExtResource("6_nw1m7")]
 
 [node name="Hitbox" parent="." node_paths=PackedStringArray("health") instance=ExtResource("17_dn1qg")]
 collision_layer = 4
 collision_mask = 2
 script = ExtResource("9_823rx")
-health = NodePath("../Stats/Health")
+health = NodePath("../Health")
 
 [node name="DamageShape2D" type="CollisionShape2D" parent="Hitbox"]
 position = Vector2(0, -20)
 shape = SubResource("CapsuleShape2D_q8sdh")
 debug_color = Color(0, 1, 0, 0.419608)
 metadata/_edit_lock_ = true
+
+[node name="Health" parent="." instance=ExtResource("3_xfb63")]
 
 [node name="Move Machine" type="Node2D" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("9_quheh")
@@ -515,10 +515,11 @@ rotation = 1.5708
 shape = SubResource("CapsuleShape2D_fpvn6")
 debug_color = Color(1, 0, 0, 0.419608)
 
-[node name="Stats" type="Node2D" parent="."]
+[node name="Camera" type="Camera2D" parent="."]
+offset = Vector2(0, -16)
+zoom = Vector2(3, 3)
+metadata/_edit_lock_ = true
 
-[node name="Health" parent="Stats" instance=ExtResource("3_xfb63")]
-
+[connection signal="TakeDamage" from="Health" to="." method="_on_health_take_damage"]
 [connection signal="area_entered" from="Action Machine/Punch/Hurtbox" to="Action Machine/Punch/Hurtbox" method="_on_area_entered"]
 [connection signal="area_exited" from="Action Machine/Punch/Hurtbox" to="Action Machine/Punch/Hurtbox" method="_on_area_exited"]
-[connection signal="TakeDamage" from="Stats/Health" to="." method="_on_health_take_damage"]

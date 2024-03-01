@@ -17,10 +17,6 @@ func enter():
 	
 func physics_update(delta):
 	
-	# Count action buffer
-	if player.action_buffer_count > 0:
-		player.action_buffer_count -= delta
-	
 	# Actions are buffered from player scripta
 	if player.action_buffer_count > 0:
 		# Cancel the buffer

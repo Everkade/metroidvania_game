@@ -25,6 +25,7 @@ func enter():
 	attack_count = attack_time
 
 func physics_update(delta):
+	print(player.action_buffer_count)
 	if change_direction_count > 0:
 		change_direction_count -= delta
 	else:

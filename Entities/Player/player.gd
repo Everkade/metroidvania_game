@@ -54,9 +54,9 @@ signal PlayerSetMaxHealth(max_health: float)
 
 #region ACTIONS
 
-@export var action_buffer_frames : int = 10
+@export var action_buffer_frames : int = 15
 
-var  action_buffer_time := float(jump_buffer_frames) / 60
+var action_buffer_time := float(action_buffer_frames) / 60
 var action_buffer_count : float = 0.0
 
 #endregion
@@ -113,7 +113,10 @@ func _physics_process(delta):
 		coyote_count = coyote_time
 	elif coyote_count > 0:
 		coyote_count -= delta
-		
+	
+	# Count action buffer
+	if action_buffer_count > 0:
+		action_buffer_count -= delta
 	# Action buffer
 	if Con.player.action.press:
 		action_buffer_count = action_buffer_time
