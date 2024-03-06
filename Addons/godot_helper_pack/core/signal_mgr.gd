@@ -38,7 +38,7 @@ class Publisher:
 
 # If a subscriber callback method name is not supplied when a subscriber is registered
 # for a signal, then the callback method name will be assumed to be this string prefixed
-# to the signal name.  E.g. "_on_enemy_destroyed" for a signal with the name "enemy_destroyed".
+# to the signal name.  E.g. "_on_EnemyDestroyed" for a signal with the name "EnemyDestroyed".
 const subscriber_method_name_prefix := "_on_"
 
 # dictionary of subscribers

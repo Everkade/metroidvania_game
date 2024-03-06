@@ -16,8 +16,8 @@ func _ready():
 			states[child.name.to_lower()] = child
 			# Connect new states to the transitioned signal, calling state transition
 			child.Transitioned.connect(on_state_transition)
+	
 	# if initial state is set, enter into that state
-	print(states)
 	if initial_state:
 		initial_state.enter()
 		current_state = initial_state

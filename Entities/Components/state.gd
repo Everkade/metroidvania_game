@@ -15,3 +15,10 @@ func update(_delta: float):
 
 func physics_update(_delta: float):
 	pass
+	
+# Helper functions
+func transition_to(state_name: String):
+	Transitioned.emit(self, state_name)
+
+func transition_to_main():
+	transition_to("main")

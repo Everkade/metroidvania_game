@@ -1,15 +1,15 @@
-extends State
+extends PlayerState
 class_name PlayerMain
 
-# get player
-@onready var player: Player = $"../.."
-
 var current_move := "idle"
+
+func enter():
+	animation_tree_set_condition("is_main", true)
 
 func physics_update(delta):
 	
 	#region Animation
-	var loc = "parameters/set_move/"
+	var loc = "parameters/set_main/"
 	
 	# Get current move
 	current_move = (
@@ -21,20 +21,16 @@ func physics_update(delta):
 	
 	#endregion
 	
-	# Count Jump buffer
-	if player.jump_buffer_count > 0:
-		player.jump_buffer_count -= delta
-	# Set Jump buffer
-	if Con.player.jump.press and player.velocity.y >= 0:
-		player.jump_buffer_count = player.jump_buffer_time
-		
-	# go to jump state
-	if player.jump_buffer_count > 0 and player.coyote_count > 0:
-		Transitioned.emit(self, "jump")
+	check_transition_into("jump")
+	check_transition_into("duck")
 	
 	Global.apply_gravity(player, delta)
+
 
 # update state
 func update(_delta):
 	pass
-	
+
+
+func exit():
+	animation_tree_set_condition("is_main", false)

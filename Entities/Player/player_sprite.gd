@@ -1,4 +1,4 @@
-extends Sprite2D
+extends EntitySprite
 
 @onready var player : Player = $".."
 
@@ -11,6 +11,8 @@ var alpha_flash := alpha_flash_minimum
 var alpha_flash_follow := 1.0
 
 func _process(delta):
+	# EntitySprite _process
+	super._process(delta)
 	
 	if player.invulnerable:
 		

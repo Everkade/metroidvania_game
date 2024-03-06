@@ -31,6 +31,3 @@ func _physics_process(delta):
 	if is_on_wall():
 		move *= -1 
 
-
-func _on_health_has_died():
-	_on_enemy_death()

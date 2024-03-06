@@ -1,15 +1,13 @@
-extends State
+extends PlayerState
 class_name PlayerJump
 
-# get player
-@onready var player: Player = $"../.."
 
 func enter():
+	print("jump!")
 	player.jump_linear_count = player.jump_linear_time
 	player.velocity.y = player.jump_power
 
 func physics_update(delta):
-	
 	# Animation
 	#...
 	# Jump count
@@ -21,7 +19,7 @@ func physics_update(delta):
 			player.velocity.y = player.jump_power
 	else:
 		player.velocity.y *= player.jump_cancel_percent
-		Transitioned.emit(self, "main")
+		transition_to_main()
 	
 	Global.apply_gravity(player, delta)
 

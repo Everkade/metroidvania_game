@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://cv5ocjmvk0ijc"]
+[gd_scene load_steps=12 format=3 uid="uid://cv5ocjmvk0ijc"]
 
 [ext_resource type="Script" path="res://Entities/Enemies/Thrower/thrower.gd" id="1_7itwx"]
 [ext_resource type="PackedScene" uid="uid://bkltr64yko5wx" path="res://Entities/Enemies/Thrower/weapons/shooter.tscn" id="2_thjdb"]
 [ext_resource type="Texture2D" uid="uid://jpjkg3xpjcu8" path="res://Art/throw5.png" id="3_vo7n8"]
+[ext_resource type="Script" path="res://Entities/Components/entity_sprite.gd" id="5_2k2ud"]
 [ext_resource type="PackedScene" uid="uid://df43yk4eaq5kl" path="res://Entities/Components/health.tscn" id="5_uyqwq"]
 [ext_resource type="PackedScene" uid="uid://bqjejm0dkpqrs" path="res://Entities/Components/hitbox.tscn" id="6_tuour"]
 [ext_resource type="PackedScene" uid="uid://do18h2nlmwmq8" path="res://Entities/Components/hurtbox.tscn" id="7_b3mxa"]
@@ -34,6 +35,7 @@ script = ExtResource("1_7itwx")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(2, 2)
 texture = ExtResource("3_vo7n8")
+script = ExtResource("5_2k2ud")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 20)
@@ -64,6 +66,7 @@ position = Vector2(0, 20)
 shape = SubResource("CapsuleShape2D_brcmj")
 
 [connection signal="HasDied" from="Health" to="." method="_on_health_has_died"]
+[connection signal="TakeDamage" from="Health" to="." method="_on_entity_hit"]
 [connection signal="body_entered" from="AggroRange" to="." method="_on_aggro_range_body_entered"]
 [connection signal="body_exited" from="AggroRange" to="." method="_on_aggro_range_body_exited"]
 [connection signal="area_exited" from="Hurtbox" to="Hurtbox" method="_on_area_exited"]

@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://c3y8n7rldy8an"]
+[gd_scene load_steps=11 format=3 uid="uid://c3y8n7rldy8an"]
 
 [ext_resource type="Script" path="res://Entities/Enemies/Flyer/flyer.gd" id="1_y3q86"]
 [ext_resource type="Texture2D" uid="uid://bu8sqc6fjrock" path="res://Art/drone-1.png" id="2_4kiym"]
 [ext_resource type="PackedScene" uid="uid://df43yk4eaq5kl" path="res://Entities/Components/health.tscn" id="4_ixh52"]
+[ext_resource type="Script" path="res://Entities/Components/entity_sprite.gd" id="4_r0n53"]
 [ext_resource type="PackedScene" uid="uid://bqjejm0dkpqrs" path="res://Entities/Components/hitbox.tscn" id="4_y3els"]
 [ext_resource type="PackedScene" uid="uid://do18h2nlmwmq8" path="res://Entities/Components/hurtbox.tscn" id="5_t06q7"]
 
@@ -41,6 +42,7 @@ debug_color = Color(0.666667, 0.509804, 0, 0.419608)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_4kiym")
+script = ExtResource("4_r0n53")
 
 [node name="Hitbox" parent="." node_paths=PackedStringArray("health") instance=ExtResource("4_y3els")]
 collision_layer = 2
@@ -61,5 +63,6 @@ position = Vector2(1, 7)
 shape = SubResource("CircleShape2D_b2sro")
 
 [connection signal="HasDied" from="Health" to="." method="_on_health_has_died"]
+[connection signal="TakeDamage" from="Health" to="." method="_on_entity_hit"]
 [connection signal="body_entered" from="AggroRange" to="." method="_on_aggro_range_body_entered"]
 [connection signal="area_exited" from="Hurtbox" to="Hurtbox" method="_on_area_exited"]

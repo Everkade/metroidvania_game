@@ -1,7 +1,6 @@
 extends Entity
 class_name Player
 
-
 # The collision info that happens to the player every _physics_process
 @onready var collision : KinematicCollision2D = null
 # The last step position of the player (used to properly set real velocity)
@@ -41,7 +40,9 @@ var jump_linear_count : float = 0.0
 var coyote_count : float = 0.0
 #endregion
 
-#region DAMAGE and HEALTH
+#region STATS: HEALTH, DAMAGE, INVULN...
+@onready var stats : Stats = $Stats
+
 @export var damage_invulnerable_time := 0.5
 var damage_invulnerable_count := 0.0
 
@@ -67,6 +68,8 @@ var action_buffer_count : float = 0.0
 func _ready():
 	# Set slip margin
 	Global.set_slip_margin(self, $CollisionShape2D)
+	Global.set_slip_margin(self, $DuckShape2D)
+	
 	animation_tree.active = true
 	
 	# Sprite flip
@@ -74,8 +77,9 @@ func _ready():
 	
 	# Update HUD Health bar with max health
 	SignalMgr.register_publisher(self, "PlayerTakeDamage")
-	#SignalMgr.register_publisher(self, "PlayerSetMaxHealth")
-	#PlayerSetMaxHealth.emit(_health.max_health)
+	SignalMgr.register_publisher(self, "PlayerSetMaxHealth")
+	PlayerSetMaxHealth.emit(stats.max_health)
+
 
 func _physics_process(delta):
 	# Move direction
@@ -120,6 +124,13 @@ func _physics_process(delta):
 	# Action buffer
 	if Con.player.action.press:
 		action_buffer_count = action_buffer_time
+	
+	# Count Jump buffer
+	if jump_buffer_count > 0:
+		jump_buffer_count -= delta
+	# Set Jump buffer
+	if Con.player.jump.press and velocity.y >= 0:
+		jump_buffer_count = jump_buffer_time
 	
 	# Invulnerable time
 	if damage_invulnerable_count > 0:

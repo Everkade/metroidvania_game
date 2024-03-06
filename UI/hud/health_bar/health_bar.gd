@@ -3,9 +3,12 @@ extends HBoxContainer
 const HEART = preload("res://UI/hud/health_bar/heart.tscn")
 var _current_health : float
 var _max_health: float
+
+
 func _ready() -> void:
 	SignalMgr.register_subscriber(self, "PlayerTakeDamage")
 	SignalMgr.register_subscriber(self, "PlayerSetMaxHealth")
+
 
 func _on_PlayerTakeDamage(damage_amount: float):
 	for i in damage_amount:
@@ -16,6 +19,7 @@ func _on_PlayerTakeDamage(damage_amount: float):
 		
 		heart.empty_heart()
 		_current_health -= 1
+
 
 func _on_PlayerSetMaxHealth(max_health: float):
 	# TODO We can only set the max health once for now. Maybe revisit if we want health upgrades
