@@ -1,4 +1,4 @@
-[gd_scene load_steps=66 format=3 uid="uid://dfqpye3rpl5l7"]
+[gd_scene load_steps=68 format=3 uid="uid://dfqpye3rpl5l7"]
 
 [ext_resource type="Script" path="res://Entities/Player/player.gd" id="1_3ic8f"]
 [ext_resource type="Texture2D" uid="uid://dbe1nsask1fi7" path="res://Art/Player/spr_player_idle_8f.png" id="2_jmejh"]
@@ -16,7 +16,6 @@
 [ext_resource type="Script" path="res://Entities/Components/state_machine.gd" id="9_quheh"]
 [ext_resource type="Script" path="res://Entities/Player/Move States/player_main.gd" id="10_jw60k"]
 [ext_resource type="Script" path="res://Entities/Player/Move States/player_jump.gd" id="10_r8lnk"]
-[ext_resource type="AnimationNodeStateMachineTransition" path="is_action" id="10_tsusu"]
 [ext_resource type="Script" path="res://Entities/Player/Attack States/player_punch.gd" id="13_glc1j"]
 [ext_resource type="Script" path="res://Entities/Player/Attack States/player_action.gd" id="13_qvfdi"]
 [ext_resource type="Script" path="res://Entities/Player/Move States/player_duck.gd" id="14_uwpsy"]
@@ -406,6 +405,18 @@ tracks/9/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("../../Action Machine/Punch/DuckHurtbox/CollisionShape2D:visible")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_tdcjp"]
@@ -900,9 +911,6 @@ animation = &"into_duck"
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_48v25"]
 animation = &"out_of_duck"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_8fofq"]
-animation = &"punch_duck"
-
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_oiv58"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_pwovy"]
@@ -952,6 +960,20 @@ nodes/punch_type/position = Vector2(60, 320)
 nodes/punch_up/node = SubResource("AnimationNodeAnimation_iiupo")
 nodes/punch_up/position = Vector2(-120, 300)
 node_connections = [&"action", 0, &"TBD 0", &"action", 1, &"TBD 1", &"action", 2, &"punch_scale", &"output", 0, &"action", &"punch_scale", 0, &"punch_type", &"punch_type", 0, &"punch", &"punch_type", 1, &"punch_up"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_v3a1d"]
+animation = &"punch_duck"
+
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_kxjtt"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_72j38"]
+graph_offset = Vector2(-577.686, 112.664)
+nodes/output/position = Vector2(160, 220)
+nodes/punch_duck/node = SubResource("AnimationNodeAnimation_v3a1d")
+nodes/punch_duck/position = Vector2(-180, 240)
+nodes/punch_duck_scale/node = SubResource("AnimationNodeTimeScale_kxjtt")
+nodes/punch_duck_scale/position = Vector2(-20, 220)
+node_connections = [&"output", 0, &"punch_duck_scale", &"punch_duck_scale", 0, &"punch_duck"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_fjilp"]
 animation = &"idle"
@@ -1013,32 +1035,36 @@ advance_condition = &"is_main"
 switch_mode = 2
 advance_mode = 2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_i71ma"]
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_145yt"]
+switch_mode = 2
+advance_mode = 2
+advance_condition = &"is_main"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_dlnl0"]
 switch_mode = 2
 advance_mode = 2
 advance_condition = &"is_duck"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_y8xh5"]
-switch_mode = 2
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_bgds8"]
 advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_xc3gw"]
 states/End/position = Vector2(908, 94)
 states/Start/position = Vector2(208, 100)
 states/duck/node = SubResource("AnimationNodeAnimation_56xvr")
-states/duck/position = Vector2(747, -25)
+states/duck/position = Vector2(726, -92)
 states/into_duck/node = SubResource("AnimationNodeAnimation_d6xw2")
-states/into_duck/position = Vector2(590, 144)
+states/into_duck/position = Vector2(726, 100)
 states/out_of_duck/node = SubResource("AnimationNodeAnimation_48v25")
-states/out_of_duck/position = Vector2(747, 100)
-states/punch_duck/node = SubResource("AnimationNodeAnimation_8fofq")
-states/punch_duck/position = Vector2(510, -25)
+states/out_of_duck/position = Vector2(546, -25)
 states/set_action/node = SubResource("AnimationNodeBlendTree_r8iug")
 states/set_action/position = Vector2(287, -25)
+states/set_duck_action/node = SubResource("AnimationNodeBlendTree_72j38")
+states/set_duck_action/position = Vector2(287, -92)
 states/set_main/node = SubResource("AnimationNodeBlendTree_hrj26")
 states/set_main/position = Vector2(407, 100)
-transitions = ["Start", "set_main", SubResource("AnimationNodeStateMachineTransition_sfcrk"), "set_main", "set_action", SubResource("AnimationNodeStateMachineTransition_1k5ii"), "set_action", "set_main", SubResource("AnimationNodeStateMachineTransition_7vn3x"), "out_of_duck", "set_main", SubResource("AnimationNodeStateMachineTransition_wwgrh"), "set_main", "into_duck", SubResource("AnimationNodeStateMachineTransition_r3nvb"), "duck", "out_of_duck", SubResource("AnimationNodeStateMachineTransition_es4av"), "into_duck", "duck", SubResource("AnimationNodeStateMachineTransition_1inyu"), "punch_duck", "duck", SubResource("AnimationNodeStateMachineTransition_i71ma"), "duck", "punch_duck", ExtResource("10_tsusu"), "punch_duck", "out_of_duck", SubResource("AnimationNodeStateMachineTransition_y8xh5")]
-graph_offset = Vector2(-46, -75)
+transitions = ["Start", "set_main", SubResource("AnimationNodeStateMachineTransition_sfcrk"), "set_main", "set_action", SubResource("AnimationNodeStateMachineTransition_1k5ii"), "set_action", "set_main", SubResource("AnimationNodeStateMachineTransition_7vn3x"), "out_of_duck", "set_main", SubResource("AnimationNodeStateMachineTransition_wwgrh"), "set_main", "into_duck", SubResource("AnimationNodeStateMachineTransition_r3nvb"), "duck", "out_of_duck", SubResource("AnimationNodeStateMachineTransition_es4av"), "into_duck", "duck", SubResource("AnimationNodeStateMachineTransition_1inyu"), "set_duck_action", "out_of_duck", SubResource("AnimationNodeStateMachineTransition_145yt"), "set_duck_action", "duck", SubResource("AnimationNodeStateMachineTransition_dlnl0"), "duck", "set_duck_action", SubResource("AnimationNodeStateMachineTransition_bgds8")]
+graph_offset = Vector2(-63, -161)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_c2gso"]
 radius = 8.0
@@ -1095,6 +1121,7 @@ parameters/set_action/punch_scale/scale = 1.65
 parameters/set_action/punch_type/current_state = "side"
 parameters/set_action/punch_type/transition_request = ""
 parameters/set_action/punch_type/current_index = 0
+parameters/set_duck_action/punch_duck_scale/scale = 1.65
 parameters/set_main/idle_scale/scale = 0.9
 parameters/set_main/move/current_state = "idle"
 parameters/set_main/move/transition_request = ""

@@ -11,9 +11,9 @@ var current_action := "punch"
 func enter():
 	animation_tree_set_condition("is_action", false)
 	
-func physics_update(delta):
+func physics_update(_delta):
 	
-	# Actions are buffered from player scripta
+	# Actions are buffered from player script
 	if player.action_buffer_count > 0:
 		# Cancel the buffer
 		player.action_buffer_count = 0.0
