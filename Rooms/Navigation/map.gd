@@ -5,6 +5,7 @@ extends Node2D
 
 # Player node that exists in Map tree
 var player : Player
+var simulate_duck := false
 
 # Set from room_change.gd opun room change
 var room_exit_direction : RoomChange.DIR = RoomChange.DIR.LEFT
@@ -33,6 +34,8 @@ func load_map():
 	
 # Switch scene for room
 func switch_room(room_resource: String, room_change_name = ""):
+	simulate_duck = player and player.move_machine.current_state is PlayerDuck
+	
 	Con.reset_inputs()
 	Con.similate_mode = true
 	# Start simulating run
@@ -46,6 +49,9 @@ func switch_room(room_resource: String, room_change_name = ""):
 	else:
 		# vertical transitions
 		pass
+		
+	if simulate_duck:
+		Con.player.down.hold = true
 	
 	var fade = load("res://FX/transition_fade.tscn").instantiate()
 	get_tree().root.add_child(fade)

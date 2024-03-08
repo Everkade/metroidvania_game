@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://do18h2nlmwmq8" path="res://Entities/Components/hurtbox.tscn" id="5_ulwnk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_agcuf"]
-size = Vector2(16, 17)
+size = Vector2(16, 15)
 
 [sub_resource type="Animation" id="Animation_iov2k"]
 resource_name = "walk"
@@ -48,7 +48,7 @@ base_speed = 200.0
 [node name="Health" parent="." instance=ExtResource("3_was6j")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 1.5)
+position = Vector2(0, 2.5)
 shape = SubResource("RectangleShape2D_agcuf")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

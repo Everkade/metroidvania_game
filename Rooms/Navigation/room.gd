@@ -6,9 +6,13 @@ var spawn_pos := Vector2(0, 0)
 # On new room:
 func _ready():
 	
+	print(Map.old_room_name)
+	print(get_name())
+	print(Map.room_change_node_name)
+	
 	# Set current Map room
 	Map.current_room = self
-	if Map.old_room_name == Map.current_room.get_name():
+	if Map.old_room_name == get_name():
 		# Self warp! therefore set wrong warp spawn
 		Map.room_change_node_name = ""
 	
