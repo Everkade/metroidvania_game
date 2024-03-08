@@ -8,6 +8,8 @@ var last_position := Vector2(0.0, 0.0)
 
 #region MOVEMENT
 
+@onready var move_machine : StateMachine = $MoveMachine
+
 @onready var direction : int = 1 if facing == DIR.RIGHT else -1
 # The direction the player is trying to move in (with left right controls)
 var move := 0
@@ -16,6 +18,24 @@ var lock_direction := false
 
 # max speed player accelerates to while running
 @export var run_speed: 		float = 200
+
+#region DUCKING
+
+@export var duck_speed_factor := 0.75
+var duck_speed_factor_active := 1.0
+
+# In some cases, we cannot cancel duck state
+var can_leave_duck := true
+@onready var leave_duck_area : Area2D = get_node("MoveMachine/Duck/LeaveCheck")
+
+func set_can_leave_duck_animation():
+	if leave_duck_area:
+		can_leave_duck = not leave_duck_area.has_overlapping_bodies()
+	
+func cancel_duck_state():
+	duck_speed_factor_active = 1.0
+
+#endregion
 
 @export var acceleration: 	float = 3000
 @export var traction : 		float = 2000
@@ -92,7 +112,7 @@ func _physics_process(delta):
 	# Sprite flip
 	$Sprite2D.flip_h = true if direction == -1 else false
 	
-	Global.physics_move(self, move, run_speed, delta)
+	Global.player_move_x(self, move, run_speed, duck_speed_factor_active, delta)
 	
 	# Get last position to compare after we move
 	last_position = position
@@ -123,6 +143,7 @@ func _physics_process(delta):
 		action_buffer_count -= delta
 	# Action buffer
 	if Con.player.action.press:
+		print("action")
 		action_buffer_count = action_buffer_time
 	
 	# Count Jump buffer
@@ -139,9 +160,11 @@ func _physics_process(delta):
 		invulnerable = false
 		$Sprite2D.modulate.a = 1.0
 
-func _on_health_take_damage(damage: float):
-	if damage: 
-		PlayerTakeDamage.emit(damage)
+func _on_health_take_damage(hurtbox: Hurtbox):
+	velocity = hurtbox.knockback_velocity
+	
+	if hurtbox: 
+		PlayerTakeDamage.emit(hurtbox.damage)
 		# Set invulnerable time
 		invulnerable = true
 		damage_invulnerable_count = damage_invulnerable_time

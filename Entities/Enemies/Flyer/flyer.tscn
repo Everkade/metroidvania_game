@@ -19,19 +19,24 @@ radius = 11.0
 radius = 11.0
 
 [node name="Flyer" type="CharacterBody2D"]
+visibility_layer = 2
+position = Vector2(-1, -7)
 collision_layer = 2
-collision_mask = 8
+collision_mask = 16
 script = ExtResource("1_y3q86")
-base_max_speed = 100
+base_speed = 100.0
+acceleration = 400.0
+friction = 250.0
+facing = 0
 
 [node name="Health" parent="." instance=ExtResource("4_ixh52")]
+max_health = 100.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1, 7)
 shape = SubResource("CircleShape2D_sta80")
 
 [node name="AggroRange" type="Area2D" parent="."]
-visible = false
 position = Vector2(1, 7)
 collision_layer = 0
 collision_mask = 4
@@ -45,6 +50,7 @@ texture = ExtResource("2_4kiym")
 script = ExtResource("4_r0n53")
 
 [node name="Hitbox" parent="." node_paths=PackedStringArray("health") instance=ExtResource("4_y3els")]
+visibility_layer = 2
 collision_layer = 2
 collision_mask = 4
 health = NodePath("../Health")
@@ -52,17 +58,20 @@ health = NodePath("../Health")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 position = Vector2(1, 7)
 shape = SubResource("CircleShape2D_gi6bq")
-debug_color = Color(0.976471, 0, 0.415686, 0.419608)
+debug_color = Color(0, 1, 0, 0.419608)
 
 [node name="Hurtbox" parent="." instance=ExtResource("5_t06q7")]
+visibility_layer = 2
 collision_layer = 2
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
 position = Vector2(1, 7)
 shape = SubResource("CircleShape2D_b2sro")
+debug_color = Color(0.976471, 0, 0.415686, 0.419608)
 
 [connection signal="HasDied" from="Health" to="." method="_on_health_has_died"]
 [connection signal="TakeDamage" from="Health" to="." method="_on_entity_hit"]
+[connection signal="TakeDamage" from="Health" to="." method="_on_health_take_damage"]
 [connection signal="body_entered" from="AggroRange" to="." method="_on_aggro_range_body_entered"]
 [connection signal="area_exited" from="Hurtbox" to="Hurtbox" method="_on_area_exited"]

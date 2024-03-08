@@ -50,7 +50,7 @@ func apply_gravity(player: Entity, delta):
 		player.velocity.y += Global.gravity * delta
 		
 """ ENTITY RUN """
-func apply_acceleration(
+func apply_acceleration_x(
 	entity: Entity, acceleration: float, 
 	end_speed = sign(acceleration) * 9999, air_control_percent: float = 1, delta = 1
 ):
@@ -61,49 +61,122 @@ func apply_acceleration(
 		entity.velocity.x = approach(
 			entity.velocity.x, end_speed, current_acceleration, 
 			delta)
+
+func apply_acceleration_y(
+	entity: Entity, acceleration: float, 
+	end_speed = sign(acceleration) * 9999, air_control_percent: float = 1, delta = 1
+):
+	if entity:
+		var current_acceleration = acceleration
+		if !entity.is_on_floor():
+			current_acceleration = acceleration * air_control_percent
+		entity.velocity.y = approach(
+			entity.velocity.y, end_speed, current_acceleration, 
+			delta)
+
+func apply_acceleration_xy(
+	entity: Entity, acceleration: Vector2, 
+	end_velocity: Vector2, air_control_percent: float = 1, delta = 1
+):
+	if entity:
+		var current_acceleration = acceleration
+		if !entity.is_on_floor():
+			current_acceleration = acceleration * air_control_percent
 		
-func apply_friction(entity: Entity, friction: float, air_control_percent: float = 1, delta = 1):
+		entity.velocity += current_acceleration * delta
+
+		if entity.velocity.length() > end_velocity.length():
+			entity.velocity = end_velocity.length() * entity.velocity.normalized()
+
+func apply_traction_x(entity: Entity, traction: float, air_control_percent: float = 1, delta = 1):
+	if entity:
+		var current_traction = traction
+		if !entity.is_on_floor():
+			current_traction = traction * air_control_percent
+		entity.velocity.x = approach(entity.velocity.x, 0, current_traction * delta)
+
+func apply_friction_x(entity: Entity, friction: float, air_control_percent: float = 1, delta = 1):
 	if entity:
 		var current_friction = friction
 		if !entity.is_on_floor():
 			current_friction = friction * air_control_percent
 		entity.velocity.x = approach(entity.velocity.x, 0, current_friction * delta)
 		
-func apply_traction(entity: Entity, traction: float, air_control_percent: float = 1, delta = 1):
+func apply_friction_y(entity: Entity, friction: float, delta = 1):
 	if entity:
-		var current_traction = traction
-		if !entity.is_on_floor():
-			current_traction = traction * air_control_percent
-		entity.velocity.x = approach(entity.velocity.x, 0, current_traction * delta)	
+		var current_friction = friction
+		entity.velocity.y = approach(entity.velocity.y, 0, current_friction * delta)
 
-func physics_move(entity: Entity, direction, move_speed, delta):
-	if entity is Player:
-		# PLAYER MOVE CODE
-		var move_velocity = direction * move_speed
-		if abs(entity.velocity.x) <= abs(move_velocity):
-			apply_acceleration(
-				entity, entity.acceleration, move_velocity, entity.air_control_percent,
-				delta)
-		else:
-			if abs(entity.velocity.x) < move_speed:
-				apply_traction(
-					entity, entity.traction, entity.air_control_percent,
-					delta)
-			else:
-				apply_friction(
-					entity, entity.friction, entity.air_control_percent,
-					delta)
+func player_move_x(player: Player, direction: int, move_speed: float, mod_factor: float, delta):
+	# PLAYER MOVE CODE
+	var move_velocity = direction * float(move_speed)
+	if abs(player.velocity.x) <= abs(move_velocity):
+		apply_acceleration_x(
+			player, player.acceleration, move_velocity * mod_factor, 
+			player.air_control_percent,
+			delta)
 	else:
-		# ENTITY MOVE CODE
-		var move_velocity = direction * move_speed
-		if abs(entity.velocity.x) <= abs(move_velocity):
-			apply_acceleration(
-				entity, entity.acceleration, move_velocity, entity.air_control_percent,
+		if abs(player.velocity.x) < move_speed:
+			apply_traction_x(
+				player, player.traction, player.air_control_percent,
 				delta)
 		else:
-			apply_friction(
-				entity, entity.friction, entity.air_control_percent,
+			apply_friction_x(
+				player, player.friction, player.air_control_percent,
 				delta)
+
+func physics_move_x(entity: Entity, move_velocity: float, mod_factor: float, delta):
+	var is_accelerating = ( round(entity.velocity.x) == 0
+		or sign(move_velocity) == sign(entity.velocity.x)
+	)
+	
+	# ENTITY MOVE CODE
+	if abs(entity.velocity.x) <= abs(move_velocity) and is_accelerating:
+		apply_acceleration_x(
+			entity, entity.acceleration, move_velocity * mod_factor, 
+			entity.air_control_percent, 
+			delta)
+	else:
+		apply_friction_x(
+			entity, entity.friction, entity.air_control_percent,
+			delta)
+
+func physics_move_y(entity: Entity, move_velocity: float, mod_factor: float, delta):
+	var is_accelerating = ( round(entity.velocity.y) == 0
+		or sign(move_velocity) == sign(entity.velocity.y)
+	)
+	
+	# ENTITY MOVE CODE
+	if abs(entity.velocity.y) <= abs(move_velocity) and is_accelerating:
+		apply_acceleration_y(
+			entity, entity.acceleration, move_velocity * mod_factor, 
+			entity.air_control_percent, 
+			delta)
+	else:
+		apply_friction_y(
+			entity, entity.friction,
+			delta)
+
+func physics_move_xy(entity: Entity, move_velocity: Vector2, mod_factor: float, delta):
+	var is_accelerating = ( round(entity.velocity.length()) == 0
+		or entity.velocity.dot(move_velocity) > 0
+	)
+	
+	# ENTITY MOVE CODE
+	if entity.velocity.length() <= move_velocity.length() and is_accelerating:
+		apply_acceleration_xy(
+			entity, 
+			move_velocity.normalized() * entity.acceleration, 
+			move_velocity * mod_factor, 
+			entity.air_control_percent,
+			delta)
+	else:
+		apply_acceleration_xy(
+			entity, 
+			move_velocity.normalized() * entity.friction, 
+			move_velocity * mod_factor, 
+			entity.air_control_percent,
+			delta)
 #endregion
 
 #region SCENE SWITCH

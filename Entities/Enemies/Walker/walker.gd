@@ -1,13 +1,6 @@
 extends Enemy
 
-@export var walk_speed = 40.0
-
-@onready var direction : int = 1 if facing == DIR.RIGHT else -1
-@onready var move := direction
-
-@export var acceleration: 	float = 3000
-@export var friction : 		float = 200
-@export var air_control_percent : float = 0.75
+var walk_speed := base_speed
 
 func _ready():
 	$AnimationPlayer.play("walk", -1, 1.75)
@@ -24,7 +17,8 @@ func _physics_process(delta):
 	# Sprite flip
 	$Sprite2D.flip_h = true if direction == -1 else false
 	
-	Global.physics_move(self, move, walk_speed, delta)
+	var _move_direction = move * walk_speed
+	Global.physics_move_x(self, _move_direction, 1.0, delta)
 
 	move_and_slide()
 	

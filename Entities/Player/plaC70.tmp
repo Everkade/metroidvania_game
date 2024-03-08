@@ -1,4 +1,4 @@
-[gd_scene load_steps=70 format=3 uid="uid://dfqpye3rpl5l7"]
+[gd_scene load_steps=68 format=3 uid="uid://dfqpye3rpl5l7"]
 
 [ext_resource type="Script" path="res://Entities/Player/player.gd" id="1_3ic8f"]
 [ext_resource type="Texture2D" uid="uid://dbe1nsask1fi7" path="res://Art/Player/spr_player_idle_8f.png" id="2_jmejh"]
@@ -1070,14 +1070,6 @@ advance_condition = &"is_action"
 advance_mode = 2
 advance_condition = &"is_action"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_6hpwt"]
-advance_mode = 2
-advance_condition = &"is_duck"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_as4o4"]
-advance_mode = 2
-advance_condition = &"is_main"
-
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_xc3gw"]
 states/End/position = Vector2(784, 100)
 states/Start/position = Vector2(67, 100)
@@ -1086,13 +1078,13 @@ states/duck/position = Vector2(580, -173)
 states/duck_in/node = SubResource("AnimationNodeAnimation_7pnb1")
 states/duck_in/position = Vector2(580, 100)
 states/duck_out/node = SubResource("AnimationNodeAnimation_kvnfn")
-states/duck_out/position = Vector2(450, -81)
+states/duck_out/position = Vector2(426, -105)
 states/set_action/node = SubResource("AnimationNodeBlendTree_r8iug")
 states/set_action/position = Vector2(238, -173)
 states/set_main/node = SubResource("AnimationNodeBlendTree_hrj26")
 states/set_main/position = Vector2(238, 100)
-transitions = ["Start", "set_main", SubResource("AnimationNodeStateMachineTransition_sfcrk"), "set_main", "set_action", SubResource("AnimationNodeStateMachineTransition_1k5ii"), "set_action", "set_main", SubResource("AnimationNodeStateMachineTransition_7vn3x"), "duck_out", "set_action", SubResource("AnimationNodeStateMachineTransition_42ksy"), "duck_out", "set_main", SubResource("AnimationNodeStateMachineTransition_xhkkp"), "duck", "duck_out", SubResource("AnimationNodeStateMachineTransition_dl48c"), "duck_in", "duck", SubResource("AnimationNodeStateMachineTransition_0g12i"), "set_main", "duck_in", SubResource("AnimationNodeStateMachineTransition_ym0dn"), "set_action", "duck", SubResource("AnimationNodeStateMachineTransition_uuyxw"), "duck", "set_action", SubResource("AnimationNodeStateMachineTransition_4arlx"), "duck_in", "set_action", SubResource("AnimationNodeStateMachineTransition_hanh7"), "duck_out", "duck", SubResource("AnimationNodeStateMachineTransition_6hpwt"), "duck_in", "set_main", SubResource("AnimationNodeStateMachineTransition_as4o4")]
-graph_offset = Vector2(-114, -254)
+transitions = ["Start", "set_main", SubResource("AnimationNodeStateMachineTransition_sfcrk"), "set_main", "set_action", SubResource("AnimationNodeStateMachineTransition_1k5ii"), "set_action", "set_main", SubResource("AnimationNodeStateMachineTransition_7vn3x"), "duck_out", "set_action", SubResource("AnimationNodeStateMachineTransition_42ksy"), "duck_out", "set_main", SubResource("AnimationNodeStateMachineTransition_xhkkp"), "duck", "duck_out", SubResource("AnimationNodeStateMachineTransition_dl48c"), "duck_in", "duck", SubResource("AnimationNodeStateMachineTransition_0g12i"), "set_main", "duck_in", SubResource("AnimationNodeStateMachineTransition_ym0dn"), "set_action", "duck", SubResource("AnimationNodeStateMachineTransition_uuyxw"), "duck", "set_action", SubResource("AnimationNodeStateMachineTransition_4arlx"), "duck_in", "set_action", SubResource("AnimationNodeStateMachineTransition_hanh7")]
+graph_offset = Vector2(-27, -324)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_c2gso"]
 radius = 8.0
@@ -1111,7 +1103,7 @@ radius = 7.0
 height = 24.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1ixpo"]
-radius = 6.5
+radius = 7.0
 height = 28.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fpvn6"]
@@ -1122,7 +1114,6 @@ height = 56.0
 
 [node name="Player" type="CharacterBody2D"]
 visibility_layer = 16
-position = Vector2(0, 15)
 collision_layer = 4
 collision_mask = 24
 floor_block_on_wall = false
@@ -1221,6 +1212,7 @@ collision_layer = 4
 collision_mask = 24
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MoveMachine/Duck/LeaveCheck"]
+visible = false
 visibility_layer = 4
 position = Vector2(0, -18)
 shape = SubResource("CapsuleShape2D_1ixpo")
@@ -1236,6 +1228,22 @@ script = ExtResource("13_qvfdi")
 [node name="Punch" type="Node2D" parent="ActionMachine"]
 script = ExtResource("13_glc1j")
 
+[node name="SideHurtbox" type="Area2D" parent="ActionMachine/Punch"]
+collision_layer = 4
+collision_mask = 2
+monitoring = false
+monitorable = false
+script = ExtResource("7_0o3hq")
+damage = 3.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActionMachine/Punch/SideHurtbox"]
+visible = false
+position = Vector2(35, -24)
+rotation = 1.5708
+scale = Vector2(-1, -1)
+shape = SubResource("CapsuleShape2D_fpvn6")
+debug_color = Color(1, 0, 0, 0.419608)
+
 [node name="UpHurtbox" type="Area2D" parent="ActionMachine/Punch"]
 visibility_layer = 4
 collision_layer = 4
@@ -1244,28 +1252,10 @@ monitoring = false
 monitorable = false
 script = ExtResource("7_0o3hq")
 damage = 3.0
-default_knockback_direction = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ActionMachine/Punch/UpHurtbox"]
 visible = false
 position = Vector2(0, -55)
-scale = Vector2(-1, -1)
-shape = SubResource("CapsuleShape2D_fpvn6")
-debug_color = Color(1, 0, 0, 0.419608)
-
-[node name="SideHurtbox" type="Area2D" parent="ActionMachine/Punch"]
-collision_layer = 4
-collision_mask = 2
-monitoring = false
-monitorable = false
-script = ExtResource("7_0o3hq")
-damage = 3.0
-default_knockback_direction = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActionMachine/Punch/SideHurtbox"]
-visible = false
-position = Vector2(35, -24)
-rotation = 1.5708
 scale = Vector2(-1, -1)
 shape = SubResource("CapsuleShape2D_fpvn6")
 debug_color = Color(1, 0, 0, 0.419608)
@@ -1277,7 +1267,6 @@ monitoring = false
 monitorable = false
 script = ExtResource("7_0o3hq")
 damage = 3.0
-default_knockback_direction = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ActionMachine/Punch/DuckHurtbox"]
 position = Vector2(35, -10)
@@ -1294,9 +1283,9 @@ metadata/_edit_lock_ = true
 [connection signal="HasDied" from="Health" to="." method="_on_health_has_died"]
 [connection signal="TakeDamage" from="Health" to="." method="_on_entity_hit"]
 [connection signal="TakeDamage" from="Health" to="." method="_on_health_take_damage"]
-[connection signal="area_entered" from="ActionMachine/Punch/UpHurtbox" to="ActionMachine/Punch/UpHurtbox" method="_on_area_entered"]
-[connection signal="area_exited" from="ActionMachine/Punch/UpHurtbox" to="ActionMachine/Punch/UpHurtbox" method="_on_area_exited"]
 [connection signal="area_entered" from="ActionMachine/Punch/SideHurtbox" to="ActionMachine/Punch/SideHurtbox" method="_on_area_entered"]
 [connection signal="area_exited" from="ActionMachine/Punch/SideHurtbox" to="ActionMachine/Punch/SideHurtbox" method="_on_area_exited"]
+[connection signal="area_entered" from="ActionMachine/Punch/UpHurtbox" to="ActionMachine/Punch/UpHurtbox" method="_on_area_entered"]
+[connection signal="area_exited" from="ActionMachine/Punch/UpHurtbox" to="ActionMachine/Punch/UpHurtbox" method="_on_area_exited"]
 [connection signal="area_entered" from="ActionMachine/Punch/DuckHurtbox" to="ActionMachine/Punch/DuckHurtbox" method="_on_area_entered"]
 [connection signal="area_exited" from="ActionMachine/Punch/DuckHurtbox" to="ActionMachine/Punch/DuckHurtbox" method="_on_area_exited"]

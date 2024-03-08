@@ -39,9 +39,11 @@ size = Vector2(14, 13)
 size = Vector2(16, 11)
 
 [node name="Walker" type="CharacterBody2D"]
+visibility_layer = 2
 collision_layer = 2
-collision_mask = 8
+collision_mask = 16
 script = ExtResource("1_dwcse")
+base_speed = 200.0
 
 [node name="Health" parent="." instance=ExtResource("3_was6j")]
 
@@ -60,6 +62,7 @@ libraries = {
 }
 
 [node name="Hitbox" type="Area2D" parent="." node_paths=PackedStringArray("health")]
+visibility_layer = 2
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("5_gg0h7")
@@ -71,6 +74,7 @@ shape = SubResource("RectangleShape2D_enboj")
 debug_color = Color(0, 1, 0, 0.419608)
 
 [node name="Hurtbox" parent="." instance=ExtResource("5_ulwnk")]
+visibility_layer = 2
 collision_layer = 2
 collision_mask = 4
 
@@ -81,4 +85,5 @@ debug_color = Color(0.992157, 0, 0, 0.419608)
 
 [connection signal="HasDied" from="Health" to="." method="_on_health_has_died"]
 [connection signal="TakeDamage" from="Health" to="." method="_on_entity_hit"]
+[connection signal="TakeDamage" from="Health" to="." method="_on_health_take_damage"]
 [connection signal="area_exited" from="Hurtbox" to="Hurtbox" method="_on_area_exited"]

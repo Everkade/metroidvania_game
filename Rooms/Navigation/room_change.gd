@@ -2,6 +2,7 @@ extends Area2D
 class_name RoomChange
 
 enum DIR {
+	NONE,
 	LEFT,
 	RIGHT,
 	UP,
@@ -54,7 +55,7 @@ func is_room_exit_direction(velocity: Vector2) -> bool:
 	)
 	
 	Map.room_exit_direction = (
-		-1 if not will_exit_room 
+		DIR.NONE if not will_exit_room 
 		else room_exit_direction
 	)
 	

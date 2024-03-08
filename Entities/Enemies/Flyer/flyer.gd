@@ -1,19 +1,29 @@
 extends Enemy
 
-@export var base_max_speed := 200
 @onready var aggro_range: Area2D = $AggroRange
 
-var player_body: Node2D
-var _speed
+var player_body: Player
+var target_offset := {
+	"main": 44,
+	"duck": 20
+}
 
-func _ready() -> void:
-	_speed = base_max_speed
-
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	# Move toward player, vertical and horizontal
 	if player_body:
-		var direction := global_position.direction_to(player_body.global_position)
-		velocity = direction * _speed
+		var _offset = (target_offset["main"]
+			if not player_body.move_machine.current_state is PlayerDuck
+			else target_offset["duck"]
+		)
+		var target = Vector2(
+			player_body.global_position.x, 
+			player_body.global_position.y - _offset
+		)
+		var move_direction := global_position.direction_to(target)
+		move_direction *= base_speed
+		
+		Global.physics_move_xy(self, move_direction, 1.0, delta)
+		
 		move_and_slide()
 
 func _on_aggro_range_body_entered(body: Node2D) -> void:

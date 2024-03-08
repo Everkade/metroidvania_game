@@ -1,5 +1,31 @@
 extends Entity
 class_name Enemy
 
+@export var base_speed := 40.0
+@export var acceleration: 	float = 3000
+@export var friction : 		float = 1000
+@export var air_control_percent : float = 1.0
+
+@export var delay_destroy_count : float = 0.2
+var start_destroy := false
+
+@onready var hurtbox : Hurtbox = $Hurtbox
+@onready var direction : int = 1 if facing == DIR.RIGHT else -1
+@onready var move := direction
+
 func _on_health_has_died():
-	queue_free()
+	start_destroy = true
+
+
+func _on_health_take_damage(_hurtbox: Hurtbox):
+	velocity = _hurtbox.knockback_velocity
+
+
+func _process(delta):
+	if delay_destroy_count <= 0:
+		queue_free()
+	
+	if start_destroy:
+		if hurtbox:
+			hurtbox.monitoring = false
+		delay_destroy_count -= delta

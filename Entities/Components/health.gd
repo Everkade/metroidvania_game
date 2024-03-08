@@ -20,13 +20,9 @@ func _ready():
 	health = max_health
 
 func damage(hurtbox: Hurtbox):
-	
-	var _hp_before = health
-	
 	health -= hurtbox.damage
-	print("%s HP %s -> %s" % [get_parent().get_name(), _hp_before, health])
 	
-	TakeDamage.emit(hurtbox.damage)
+	TakeDamage.emit(hurtbox)
 	
 	if health <= 0:
 		HasDied.emit()
