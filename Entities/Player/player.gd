@@ -44,6 +44,7 @@ func cancel_duck_state():
 #endregion
 
 #region JUMPING
+
 @export var jump_power := -250.0
 @export var jump_cancel_percent := 0.5
 
@@ -60,8 +61,9 @@ var jump_linear_count : float = 0.0
 var coyote_count : float = 0.0
 #endregion
 
+#endregion
+
 #region STATS: HEALTH, DAMAGE, INVULN...
-@onready var stats : Stats = $Stats
 
 @export var damage_invulnerable_time := 0.5
 var damage_invulnerable_count := 0.0
@@ -69,7 +71,7 @@ var damage_invulnerable_count := 0.0
 # Global signals, used by health_bar
 signal PlayerTakeDamage(damage_amount: float)
 
-#@onready var _health : = $Stats/Health
+@onready var health : Health = $Health
 signal PlayerSetMaxHealth(max_health: float)
 #endregion
 
@@ -81,6 +83,10 @@ var action_buffer_time := float(action_buffer_frames) / 60
 var action_buffer_count : float = 0.0
 
 #endregion
+
+#region UPGRADES
+@onready var upgrade : Upgrade = $Upgrade
+@export var twister : AbilityTwister
 
 # Animation
 @onready var animation_tree : AnimationTree = $Sprite2D/AnimationTree
@@ -98,7 +104,7 @@ func _ready():
 	# Update HUD Health bar with max health
 	SignalMgr.register_publisher(self, "PlayerTakeDamage")
 	SignalMgr.register_publisher(self, "PlayerSetMaxHealth")
-	PlayerSetMaxHealth.emit(stats.max_health)
+	PlayerSetMaxHealth.emit(health.max_health)
 
 
 func _physics_process(delta):
@@ -132,25 +138,25 @@ func _physics_process(delta):
 	if position.y == last_position.y:
 		velocity.y = 0 
 	
-	# Coyote time
-	if(is_on_floor()):
-		coyote_count = coyote_time
-	elif coyote_count > 0:
-		coyote_count -= delta
-	
 	# Count action buffer
 	if action_buffer_count > 0:
 		action_buffer_count -= delta
 	# Action buffer
 	if Con.player.action.press:
-		print("action")
 		action_buffer_count = action_buffer_time
+	
+	# Coyote time
+	if(is_on_floor()):
+		twister.can_use = true
+		coyote_count = coyote_time
+	elif coyote_count > 0:
+		coyote_count -= delta
 	
 	# Count Jump buffer
 	if jump_buffer_count > 0:
 		jump_buffer_count -= delta
 	# Set Jump buffer
-	if Con.player.jump.press and velocity.y >= 0:
+	if Con.player.jump.press:
 		jump_buffer_count = jump_buffer_time
 	
 	# Invulnerable time

@@ -4,7 +4,7 @@ class_name Hurtbox
 # Set on hit (passes to character body to move them)
 var knockback_velocity := Vector2(0, 0)
 
-@export var damage : float = 1.0
+@export var damage := 1.0
 
 enum DIR {
 	NONE,

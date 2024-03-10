@@ -23,6 +23,7 @@ func physics_update(delta):
 	#endregion
 	
 	check_transition_into("jump")
+	check_transition_into("twister")
 	check_transition_into("duck")
 	
 	Global.apply_gravity(player, delta)

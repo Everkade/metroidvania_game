@@ -3,13 +3,8 @@ class_name Health
 
 var health := 0.0
 
-@export var max_health : float = 6
-@export var use_stats : bool = false
-
-@onready var _stats : Stats = (
-	null if not use_stats else
-	get_node("../Stats")
-)
+@export var max_health : float = 3.0
+@export var use_upgrade : bool = false
 
 # Health signals
 signal TakeDamage
@@ -34,10 +29,16 @@ func heal(amount: float):
 		if health > max_health:
 			health = max_health
 
+#region PLAYER SPECIFIC
+
+@onready var _upgrade : Upgrade = get_node("../Upgrade")
+
 func update_max_health(change = null):
-	if _stats:
+	if _upgrade:
 		if typeof(change) == TYPE_INT:
-			_stats.max_health_add += change
-		max_health = _stats.max_health + _stats.max_health_add
+			_upgrade.base_health_add += change
+		max_health = _upgrade.base_health + _upgrade.base_health_add
 	elif typeof(change) == TYPE_INT:
 		max_health += change
+
+#endregion

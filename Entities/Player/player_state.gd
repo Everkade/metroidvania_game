@@ -10,6 +10,11 @@ var will_transition_into := {
 		(Con.player.down.hold and player.is_on_floor())
 		or not player.can_leave_duck
 	),
+	"twister": func(): return (
+		player.twister.unlocked and player.twister.can_use and
+		not player.is_on_floor() and
+		player.jump_buffer_count > 0
+	)
 	#"": func(): return 
 }
 
