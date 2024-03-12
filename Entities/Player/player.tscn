@@ -1,4 +1,4 @@
-[gd_scene load_steps=76 format=3 uid="uid://dfqpye3rpl5l7"]
+[gd_scene load_steps=89 format=3 uid="uid://dfqpye3rpl5l7"]
 
 [ext_resource type="Script" path="res://Entities/Player/player.gd" id="1_3ic8f"]
 [ext_resource type="Texture2D" uid="uid://dbe1nsask1fi7" path="res://Art/Player/spr_player_idle_8f.png" id="2_jmejh"]
@@ -18,6 +18,7 @@
 [ext_resource type="Script" path="res://Entities/Player/Move States/player_jump.gd" id="10_r8lnk"]
 [ext_resource type="Texture2D" uid="uid://bqcebq5ueoaru" path="res://Art/Player/Moves/spr_player_twister_start_7f.png" id="10_vrv52"]
 [ext_resource type="Texture2D" uid="uid://b6qymr8ko2gs8" path="res://Art/Player/Moves/spr_player_twister_float_8f.png" id="11_c4hm4"]
+[ext_resource type="Texture2D" uid="uid://xuetht3q0c0v" path="res://Art/Player/Moves/spr_player_twister_effect_7f.png" id="12_gstlx"]
 [ext_resource type="Script" path="res://Entities/Player/Upgrade/ability_twister.gd" id="12_kx7vq"]
 [ext_resource type="Script" path="res://Entities/Player/Attack States/player_punch.gd" id="13_glc1j"]
 [ext_resource type="Script" path="res://Entities/Player/Attack States/player_action.gd" id="13_qvfdi"]
@@ -72,7 +73,7 @@ tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
+"update": 1,
 "values": [Vector2(0, -20)]
 }
 tracks/4/type = "value"
@@ -194,6 +195,70 @@ tracks/13/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
+}
+tracks/14/type = "value"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath("../../EffectSprite:texture")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("12_gstlx")]
+}
+tracks/15/type = "value"
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/path = NodePath("../../EffectSprite:hframes")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [7]
+}
+tracks/16/type = "value"
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/path = NodePath("../../EffectSprite:frame")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/17/type = "value"
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/path = NodePath("../../EffectSprite:position")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -14)]
+}
+
+[sub_resource type="Animation" id="Animation_0vf6t"]
+resource_name = "blank"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [null]
 }
 
 [sub_resource type="Animation" id="Animation_n8wnj"]
@@ -917,145 +982,10 @@ tracks/3/keys = {
 "values": [Vector2(0, -20)]
 }
 
-[sub_resource type="Animation" id="Animation_hbggh"]
-resource_name = "twister_start"
-length = 0.7
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("..:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [0, 1, 2, 3, 4, 5, 6]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("..:texture")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [ExtResource("10_vrv52")]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("..:hframes")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [7]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("..:position")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [Vector2(0, -17)]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("../../ActionMachine/Punch/SideHurtbox/CollisionShape2D:visible")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("../../ActionMachine/Punch/UpHurtbox/CollisionShape2D:visible")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("../../Hitbox/DmgShape2D:disabled")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("../../Hitbox/DuckDmgShape2D:disabled")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/8/type = "value"
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/path = NodePath("../../CollisionShape2D:disabled")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/9/type = "value"
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/path = NodePath("../../DuckShape2D:disabled")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/10/type = "value"
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/path = NodePath("../../ActionMachine/Punch/DuckHurtbox/CollisionShape2D:visible")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-
 [sub_resource type="Animation" id="Animation_somgn"]
 resource_name = "twister_float"
-length = 0.7
+length = 0.8
+loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -1063,10 +993,10 @@ tracks/0/path = NodePath("..:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(),
-"transitions": PackedFloat32Array(),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": []
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -1189,9 +1119,198 @@ tracks/10/keys = {
 "values": [false]
 }
 
+[sub_resource type="Animation" id="Animation_hbggh"]
+resource_name = "twister_start"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..:texture")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("10_vrv52")]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("..:hframes")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [7]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("..:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(0, -16)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../../ActionMachine/Punch/SideHurtbox/CollisionShape2D:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../../ActionMachine/Punch/UpHurtbox/CollisionShape2D:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("../../Hitbox/DmgShape2D:disabled")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("../../Hitbox/DuckDmgShape2D:disabled")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("../../CollisionShape2D:disabled")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("../../DuckShape2D:disabled")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("../../ActionMachine/Punch/DuckHurtbox/CollisionShape2D:visible")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_po1fq"]
+resource_name = "twister_start_effect"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../../EffectSprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("12_gstlx")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../../EffectSprite:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [7]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../../EffectSprite:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../../EffectSprite:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(0, -14)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qfdia"]
 _data = {
 "RESET": SubResource("Animation_hvy37"),
+"blank": SubResource("Animation_0vf6t"),
 "duck": SubResource("Animation_n8wnj"),
 "duck_in": SubResource("Animation_tdcjp"),
 "duck_out": SubResource("Animation_0qxj6"),
@@ -1201,7 +1320,8 @@ _data = {
 "punch_up": SubResource("Animation_3hv2x"),
 "run": SubResource("Animation_cru0w"),
 "twister_float": SubResource("Animation_somgn"),
-"twister_start": SubResource("Animation_hbggh")
+"twister_start": SubResource("Animation_hbggh"),
+"twister_start_effect": SubResource("Animation_po1fq")
 }
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_56xvr"]
@@ -1283,26 +1403,41 @@ input_0/reset = true
 input_1/name = "run"
 input_1/auto_advance = false
 input_1/reset = true
+input_2/name = "twister"
+input_2/auto_advance = false
+input_2/reset = true
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_cdqwe"]
 animation = &"run"
 
 [sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_fdg7n"]
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_o5857"]
+animation = &"twister_float"
+
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_ckay8"]
+
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_hrj26"]
-graph_offset = Vector2(-351.71, 73.62)
+graph_offset = Vector2(-138.901, 4.96841)
 nodes/idle/node = SubResource("AnimationNodeAnimation_fjilp")
-nodes/idle/position = Vector2(40, 140)
+nodes/idle/position = Vector2(40, 60)
 nodes/idle_scale/node = SubResource("AnimationNodeTimeScale_v1ueo")
-nodes/idle_scale/position = Vector2(180, 140)
+nodes/idle_scale/position = Vector2(180, 60)
 nodes/move/node = SubResource("AnimationNodeTransition_7olbf")
 nodes/move/position = Vector2(340, 160)
 nodes/output/position = Vector2(520, 180)
 nodes/run/node = SubResource("AnimationNodeAnimation_cdqwe")
-nodes/run/position = Vector2(40, 280)
+nodes/run/position = Vector2(40, 180)
 nodes/run_scale/node = SubResource("AnimationNodeTimeScale_fdg7n")
-nodes/run_scale/position = Vector2(180, 280)
-node_connections = [&"idle_scale", 0, &"idle", &"move", 0, &"idle_scale", &"move", 1, &"run_scale", &"output", 0, &"move", &"run_scale", 0, &"run"]
+nodes/run_scale/position = Vector2(180, 180)
+nodes/twister_float/node = SubResource("AnimationNodeAnimation_o5857")
+nodes/twister_float/position = Vector2(20, 340)
+nodes/twister_scale/node = SubResource("AnimationNodeTimeScale_ckay8")
+nodes/twister_scale/position = Vector2(180, 320)
+node_connections = [&"idle_scale", 0, &"idle", &"move", 0, &"idle_scale", &"move", 1, &"run_scale", &"move", 2, &"twister_scale", &"output", 0, &"move", &"run_scale", 0, &"run", &"twister_scale", 0, &"twister_float"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_bv52h"]
+animation = &"twister_start"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_sfcrk"]
 advance_mode = 2
@@ -1356,21 +1491,53 @@ advance_condition = &"is_duck"
 advance_mode = 2
 advance_condition = &"is_main"
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_pb2y8"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_7verl"]
+advance_mode = 2
+advance_condition = &"is_action"
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_xc3gw"]
-states/End/position = Vector2(782, 100)
-states/Start/position = Vector2(67, 100)
+states/End/position = Vector2(-15, 73)
+states/Start/position = Vector2(-15, -1)
 states/duck/node = SubResource("AnimationNodeAnimation_56xvr")
 states/duck/position = Vector2(580, -173)
 states/duck_in/node = SubResource("AnimationNodeAnimation_7pnb1")
-states/duck_in/position = Vector2(580, 100)
+states/duck_in/position = Vector2(580, -1)
 states/duck_out/node = SubResource("AnimationNodeAnimation_kvnfn")
-states/duck_out/position = Vector2(450, -81)
+states/duck_out/position = Vector2(489, -109)
 states/set_action/node = SubResource("AnimationNodeBlendTree_r8iug")
 states/set_action/position = Vector2(238, -173)
 states/set_main/node = SubResource("AnimationNodeBlendTree_hrj26")
-states/set_main/position = Vector2(238, 100)
-transitions = ["Start", "set_main", SubResource("AnimationNodeStateMachineTransition_sfcrk"), "set_main", "set_action", SubResource("AnimationNodeStateMachineTransition_1k5ii"), "set_action", "set_main", SubResource("AnimationNodeStateMachineTransition_7vn3x"), "duck_out", "set_action", SubResource("AnimationNodeStateMachineTransition_42ksy"), "duck_out", "set_main", SubResource("AnimationNodeStateMachineTransition_xhkkp"), "duck", "duck_out", SubResource("AnimationNodeStateMachineTransition_dl48c"), "duck_in", "duck", SubResource("AnimationNodeStateMachineTransition_0g12i"), "set_main", "duck_in", SubResource("AnimationNodeStateMachineTransition_ym0dn"), "set_action", "duck", SubResource("AnimationNodeStateMachineTransition_uuyxw"), "duck", "set_action", SubResource("AnimationNodeStateMachineTransition_4arlx"), "duck_in", "set_action", SubResource("AnimationNodeStateMachineTransition_hanh7"), "duck_out", "duck", SubResource("AnimationNodeStateMachineTransition_6hpwt"), "duck_in", "set_main", SubResource("AnimationNodeStateMachineTransition_as4o4")]
-graph_offset = Vector2(33, -62)
+states/set_main/position = Vector2(238, -1)
+states/twister_start/node = SubResource("AnimationNodeAnimation_bv52h")
+states/twister_start/position = Vector2(-15, -173)
+transitions = ["Start", "set_main", SubResource("AnimationNodeStateMachineTransition_sfcrk"), "set_main", "set_action", SubResource("AnimationNodeStateMachineTransition_1k5ii"), "set_action", "set_main", SubResource("AnimationNodeStateMachineTransition_7vn3x"), "duck_out", "set_action", SubResource("AnimationNodeStateMachineTransition_42ksy"), "duck_out", "set_main", SubResource("AnimationNodeStateMachineTransition_xhkkp"), "duck", "duck_out", SubResource("AnimationNodeStateMachineTransition_dl48c"), "duck_in", "duck", SubResource("AnimationNodeStateMachineTransition_0g12i"), "set_main", "duck_in", SubResource("AnimationNodeStateMachineTransition_ym0dn"), "set_action", "duck", SubResource("AnimationNodeStateMachineTransition_uuyxw"), "duck", "set_action", SubResource("AnimationNodeStateMachineTransition_4arlx"), "duck_in", "set_action", SubResource("AnimationNodeStateMachineTransition_hanh7"), "duck_out", "duck", SubResource("AnimationNodeStateMachineTransition_6hpwt"), "duck_in", "set_main", SubResource("AnimationNodeStateMachineTransition_as4o4"), "twister_start", "set_main", SubResource("AnimationNodeStateMachineTransition_pb2y8"), "twister_start", "set_action", SubResource("AnimationNodeStateMachineTransition_7verl")]
+graph_offset = Vector2(-232, -283)
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3oxgo"]
+animation = &"blank"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_5yw7r"]
+animation = &"twister_start_effect"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_pclqx"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_qlgxp"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_fraww"]
+states/End/position = Vector2(729, 100)
+states/Start/position = Vector2(210, 100)
+states/blank/node = SubResource("AnimationNodeAnimation_3oxgo")
+states/blank/position = Vector2(347, 100)
+states/twister_start_effect/node = SubResource("AnimationNodeAnimation_5yw7r")
+states/twister_start_effect/position = Vector2(542, 100)
+transitions = ["Start", "blank", SubResource("AnimationNodeStateMachineTransition_pclqx"), "twister_start_effect", "blank", SubResource("AnimationNodeStateMachineTransition_qlgxp")]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_c2gso"]
 radius = 8.0
@@ -1441,8 +1608,28 @@ parameters/set_main/move/current_state = "idle"
 parameters/set_main/move/transition_request = ""
 parameters/set_main/move/current_index = 0
 parameters/set_main/run_scale/scale = 1.0
+parameters/set_main/twister_scale/scale = 1.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D"]
+root_node = NodePath("../AnimationTree")
+libraries = {
+"": SubResource("AnimationLibrary_qfdia")
+}
+
+[node name="EffectSprite" type="Sprite2D" parent="."]
+position = Vector2(0, -14)
+texture = ExtResource("12_gstlx")
+hframes = 7
+
+[node name="AnimationTree" type="AnimationTree" parent="EffectSprite"]
+root_node = NodePath(".")
+libraries = {
+"": SubResource("AnimationLibrary_qfdia")
+}
+tree_root = SubResource("AnimationNodeStateMachine_fraww")
+anim_player = NodePath("../AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="EffectSprite"]
 root_node = NodePath("../AnimationTree")
 libraries = {
 "": SubResource("AnimationLibrary_qfdia")
@@ -1464,6 +1651,8 @@ disabled = true
 
 [node name="Twister" type="Node2D" parent="Upgrade"]
 script = ExtResource("12_kx7vq")
+power = -300.0
+linear_frames = 6
 unlocked = true
 
 [node name="Health" parent="." instance=ExtResource("3_xfb63")]

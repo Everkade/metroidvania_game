@@ -15,7 +15,7 @@ func _physics_process(delta):
 		direction = move
 	
 	# Sprite flip
-	$Sprite2D.flip_h = true if direction == -1 else false
+	sprite.flip_h = true if direction == -1 else false
 	
 	var _move_direction = move * walk_speed
 	Global.physics_move_x(self, _move_direction, 1.0, delta)

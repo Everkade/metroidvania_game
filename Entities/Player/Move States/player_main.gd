@@ -10,15 +10,11 @@ func physics_update(delta):
 
 	#region Animation
 	if animation_tree_get_condition("is_main"):
-		var loc = "parameters/set_main/"
-	
 		# Get current move
 		current_move = (
 			"idle" if player.move == 0 else "run"
 		)
-		
-		# Set current move type
-		player.animation_tree[loc + "move/transition_request"] = current_move
+		animation_tree_main_transition(current_move)
 
 	#endregion
 	

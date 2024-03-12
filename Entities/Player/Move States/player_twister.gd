@@ -4,6 +4,11 @@ class_name PlayerTwister
 var phase := "start"
 
 func enter():
+	if not player.action_machine.current_state is PlayerPunch:
+		animation_tree_play_state("twister_start")
+	effect_tree_play_state("twister_start_effect")
+	animation_tree_main_transition("twister")
+	
 	player.twister.can_use = false
 	phase = "start"
 	player.twister.linear_count = player.twister.linear_time

@@ -61,6 +61,19 @@ func animation_tree_get_condition(condition_name: String):
 	if player.animation_tree:
 		return player.animation_tree["parameters/conditions/" + condition_name]
 	return false
+	
+func animation_tree_main_transition(animation_name: String):
+	var loc = "parameters/set_main/"
+	# Set current move type
+	player.animation_tree[loc + "move/transition_request"] = animation_name
+
+func animation_tree_play_state(animation_state: String):
+	var state_machine = player.animation_tree.get("parameters/playback")
+	state_machine.travel(animation_state)
+	
+func effect_tree_play_state(animation_state: String):
+	var state_machine = player.effect_tree.get("parameters/playback")
+	state_machine.travel(animation_state)
 
 func is_duck_locked() -> bool:
 	player.set_can_leave_duck_animation()

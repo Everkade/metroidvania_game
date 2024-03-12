@@ -77,6 +77,8 @@ signal PlayerSetMaxHealth(max_health: float)
 
 #region ACTIONS
 
+@onready var action_machine : StateMachine = $ActionMachine
+
 @export var action_buffer_frames : int = 15
 
 var action_buffer_time := float(action_buffer_frames) / 60
@@ -89,7 +91,10 @@ var action_buffer_count : float = 0.0
 @export var twister : AbilityTwister
 
 # Animation
-@onready var animation_tree : AnimationTree = $Sprite2D/AnimationTree
+@onready var sprite : Sprite2D = $Sprite2D
+@onready var animation_tree : AnimationTree = sprite.get_node("AnimationTree")
+@onready var effect_sprite : Sprite2D = $EffectSprite
+@onready var effect_tree : AnimationTree = effect_sprite.get_node("AnimationTree")
 
 func _ready():
 	# Set slip margin
@@ -99,7 +104,7 @@ func _ready():
 	animation_tree.active = true
 	
 	# Sprite flip
-	$Sprite2D.flip_h = true if direction == -1 else false
+	sprite.flip_h = true if direction == -1 else false
 	
 	# Update HUD Health bar with max health
 	SignalMgr.register_publisher(self, "PlayerTakeDamage")
@@ -116,7 +121,7 @@ func _physics_process(delta):
 		direction = move
 	
 	# Sprite flip
-	$Sprite2D.flip_h = true if direction == -1 else false
+	sprite.flip_h = true if direction == -1 else false
 	
 	Global.player_move_x(self, move, run_speed, duck_speed_factor_active, delta)
 	
@@ -164,7 +169,7 @@ func _physics_process(delta):
 		damage_invulnerable_count -= delta
 	elif invulnerable:
 		invulnerable = false
-		$Sprite2D.modulate.a = 1.0
+		sprite.modulate.a = 1.0
 
 func _on_health_take_damage(hurtbox: Hurtbox):
 	velocity = hurtbox.knockback_velocity
@@ -174,7 +179,7 @@ func _on_health_take_damage(hurtbox: Hurtbox):
 		# Set invulnerable time
 		invulnerable = true
 		damage_invulnerable_count = damage_invulnerable_time
-		$Sprite2D.reset_invulnerable_visual()
+		sprite.reset_invulnerable_visual()
 
 # Death sequence
 func _on_health_has_died():
