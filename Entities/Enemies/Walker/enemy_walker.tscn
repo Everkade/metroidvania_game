@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://dk3r5qb5fu0i2"]
 
 [ext_resource type="Texture2D" uid="uid://dmhc3cmlwyqj8" path="res://Art/Enemies/spr_walker_walk_6f.png" id="1_4por6"]
-[ext_resource type="Script" path="res://Entities/Enemies/Walker/walker.gd" id="1_dwcse"]
+[ext_resource type="Script" path="res://Entities/Enemies/Walker/enemy_walker.gd" id="1_dwcse"]
 [ext_resource type="PackedScene" uid="uid://df43yk4eaq5kl" path="res://Entities/Components/health.tscn" id="3_was6j"]
 [ext_resource type="Script" path="res://Entities/Components/entity_sprite.gd" id="4_q46m0"]
 [ext_resource type="Script" path="res://Entities/Components/hitbox.gd" id="5_gg0h7"]

@@ -29,3 +29,9 @@ func _process(delta):
 		if hurtbox:
 			hurtbox.monitoring = false
 		delay_destroy_count -= delta
+
+
+func play_animation(animation_name: String, animation_scale := 1.0):
+	var _animation_player = $AnimationPlayer
+	if _animation_player:
+		_animation_player.play(animation_name, -1, animation_scale)

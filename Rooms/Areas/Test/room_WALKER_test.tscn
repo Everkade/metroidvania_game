@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Rooms/Navigation/room.gd" id="1_vxwjf"]
 [ext_resource type="TileSet" uid="uid://dnpvdr5sv3jgy" path="res://Tilesets/tile_anc.tres" id="2_6pydk"]
 [ext_resource type="Script" path="res://Rooms/Navigation/room_change.gd" id="3_f678d"]
-[ext_resource type="PackedScene" uid="uid://dk3r5qb5fu0i2" path="res://Entities/Enemies/Walker/walker.tscn" id="4_n7q0r"]
+[ext_resource type="PackedScene" uid="uid://dk3r5qb5fu0i2" path="res://Entities/Enemies/Walker/enemy_walker.tscn" id="4_n7q0r"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_svht4"]
 size = Vector2(720, 360)

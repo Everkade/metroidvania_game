@@ -1,9 +1,10 @@
 extends Enemy
 
+@onready var sprite := $Sprite2D
 var walk_speed := base_speed
 
 func _ready():
-	$AnimationPlayer.play("walk", -1, 1.75)
+	play_animation("walk", 1.75)
 
 func _physics_process(delta):
 	# Add the gravity.

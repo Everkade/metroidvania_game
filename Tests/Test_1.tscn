@@ -2,9 +2,9 @@
 
 [ext_resource type="PackedScene" uid="uid://bbum6nedt3wb3" path="res://UI/hud/hud.tscn" id="1_j7l5p"]
 [ext_resource type="PackedScene" uid="uid://cj71jjtadjv61" path="res://Rooms/Areas/Ancient/room_ANC1_awake.tscn" id="1_lj21a"]
-[ext_resource type="PackedScene" uid="uid://c3y8n7rldy8an" path="res://Entities/Enemies/Flyer/flyer.tscn" id="2_ct1mh"]
+[ext_resource type="PackedScene" uid="uid://c3y8n7rldy8an" path="res://Entities/Enemies/Flyer/enemy_flyer.tscn" id="2_ct1mh"]
 [ext_resource type="PackedScene" uid="uid://dfqpye3rpl5l7" path="res://Entities/Player/player.tscn" id="3_mwmsy"]
-[ext_resource type="PackedScene" uid="uid://cv5ocjmvk0ijc" path="res://Entities/Enemies/Thrower/thrower.tscn" id="5_pavvl"]
+[ext_resource type="PackedScene" uid="uid://cv5ocjmvk0ijc" path="res://Entities/Enemies/Thrower/enemy_thrower.tscn" id="5_pavvl"]
 
 [node name="Test1" type="Node2D"]
 

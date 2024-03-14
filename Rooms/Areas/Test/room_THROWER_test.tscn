@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Rooms/Navigation/room.gd" id="1_77775"]
 [ext_resource type="TileSet" uid="uid://dnpvdr5sv3jgy" path="res://Tilesets/tile_anc.tres" id="2_kyqob"]
 [ext_resource type="Script" path="res://Rooms/Navigation/room_change.gd" id="3_0jktv"]
-[ext_resource type="PackedScene" uid="uid://cv5ocjmvk0ijc" path="res://Entities/Enemies/Thrower/thrower.tscn" id="4_cn2xy"]
+[ext_resource type="PackedScene" uid="uid://cv5ocjmvk0ijc" path="res://Entities/Enemies/Thrower/enemy_thrower.tscn" id="4_cn2xy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_svht4"]
 size = Vector2(720, 360)

@@ -177,6 +177,25 @@ func physics_move_xy(entity: Entity, move_velocity: Vector2, mod_factor: float, 
 			move_velocity * mod_factor, 
 			entity.air_control_percent,
 			delta)
+
+func avoid_bodies_in_area(entity: Entity, body_class, area: Area2D, magnitude: float, delta) -> Vector2:
+	var vector_total = Vector2(0, 0)
+	for body in area.get_overlapping_bodies():
+		if is_instance_of(body, body_class):
+			var dir_away = -1 * entity.global_position.direction_to(body.global_position)
+			vector_total += dir_away * magnitude * delta
+	entity.velocity += vector_total
+	return vector_total
+	
+func avoid_tiles_in_area(entity: Entity, area: Area2D, magnitude: float, delta) -> Vector2:
+	var vector_total = Vector2(0, 0)
+	for body in area.get_overlapping_bodies():
+		if body is TileMap:
+			var dir_away = -1 * entity.global_position.direction_to(body.global_position)
+			vector_total += dir_away * magnitude * delta
+	entity.velocity += vector_total
+	return vector_total
+
 #endregion
 
 #region SCENE SWITCH
