@@ -4,7 +4,6 @@ class_name Health
 var health := 0.0
 
 @export var max_health : float = 3.0
-@export var use_upgrade : bool = false
 
 # Health signals
 signal TakeDamage
@@ -14,13 +13,15 @@ func _ready():
 	update_max_health()
 	health = max_health
 
-func damage(hurtbox: Hurtbox):
-	health -= hurtbox.damage
-	
-	TakeDamage.emit(hurtbox)
+func hurtbox_damage(hurtbox: Hurtbox):
+	damage(hurtbox.damage, hurtbox)
 	
 	if health <= 0:
 		HasDied.emit()
+
+func damage(damage_number : float, hurtbox = null):
+	health -= damage_number
+	TakeDamage.emit(damage_number, hurtbox)
 
 func heal(amount: float):
 	if health < max_health:
@@ -31,7 +32,7 @@ func heal(amount: float):
 
 #region PLAYER SPECIFIC
 
-@onready var _upgrade : Upgrade = get_node("../Upgrade")
+@export var _upgrade : Upgrade
 
 func update_max_health(change = null):
 	if _upgrade:

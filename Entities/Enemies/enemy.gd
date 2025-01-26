@@ -17,8 +17,9 @@ func _on_health_has_died():
 	start_destroy = true
 
 
-func _on_health_take_damage(_hurtbox: Hurtbox):
-	velocity = _hurtbox.knockback_velocity
+func _on_health_take_damage(_damage_number, _hurtbox: Hurtbox):
+	if _hurtbox:
+		velocity = _hurtbox.knockback_velocity
 
 
 func _process(delta):

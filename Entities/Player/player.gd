@@ -171,11 +171,15 @@ func _physics_process(delta):
 		invulnerable = false
 		sprite.modulate.a = 1.0
 
-func _on_health_take_damage(hurtbox: Hurtbox):
-	velocity = hurtbox.knockback_velocity
+func _on_health_take_damage(damage_number, hurtbox: Hurtbox):
 	
+	if damage_number > 0:
+		PlayerTakeDamage.emit(damage_number)
+		
 	if hurtbox: 
-		PlayerTakeDamage.emit(hurtbox.damage)
+		velocity = hurtbox.knockback_velocity
+	
+	if hurtbox or damage_number > 0: 
 		# Set invulnerable time
 		invulnerable = true
 		damage_invulnerable_count = damage_invulnerable_time

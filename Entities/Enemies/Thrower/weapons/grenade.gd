@@ -1,15 +1,14 @@
 extends Entity
 
-var dir := Vector2.ZERO
+var dir := 1
+var angle = null
 var speed: float
 var gravity: float
 var can_damage := true
 
 @onready var grenade_duration: Timer = $GrenadeDuration
 
-func _ready() -> void:
-	velocity = dir * speed
-	
+
 func _physics_process(delta: float) -> void:
 	var rotation_speed = 8 * delta
 	
@@ -24,6 +23,10 @@ func _physics_process(delta: float) -> void:
 	# Remove this if the grenade shouldn't bounce
 	#velocity = velocity.bounce(collision.get_normal()) * 0.6
 
+func set_projectile_velocity():
+	if angle:
+		velocity = Vector2(dir*cos(angle) * speed, -sin(angle) * speed)
+
 func _on_grenade_duration_timeout() -> void:
 	queue_free()
 
@@ -32,8 +35,8 @@ func _handle_collision(collision: KinematicCollision2D) -> void:
 	
 	if collider is Player:
 		for child in collider.get_children():
-			if child is Hitbox:
-				child.damage(self)
+			if child is Health:
+				child.damage(1)
 				can_damage = false
 				break
 	

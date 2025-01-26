@@ -1655,9 +1655,9 @@ power = -300.0
 linear_frames = 6
 unlocked = true
 
-[node name="Health" parent="." instance=ExtResource("3_xfb63")]
+[node name="Health" parent="." node_paths=PackedStringArray("_upgrade") instance=ExtResource("3_xfb63")]
 max_health = 6.0
-use_upgrade = true
+_upgrade = NodePath("../Upgrade")
 
 [node name="Hitbox" parent="." node_paths=PackedStringArray("health") instance=ExtResource("17_dn1qg")]
 collision_layer = 4

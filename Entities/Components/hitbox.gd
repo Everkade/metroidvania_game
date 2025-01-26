@@ -13,4 +13,4 @@ func damage(hurtbox: Hurtbox):
 		# pass the attack into the damage func of health
 		# TODO could probably make the signal take attack param, and trigger health damage by signal
 		# TODO this would mean that health is not passed to hitbox, but hitbox is passed to health instead
-		health.damage(hurtbox)
+		health.hurtbox_damage(hurtbox)

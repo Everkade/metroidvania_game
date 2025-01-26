@@ -14,5 +14,5 @@ var invulnerable := false
 
 @onready var _sprite : Sprite2D = $Sprite2D
 
-func _on_entity_hit(_hurtbox):
+func _on_entity_hit(_damage_number, _hurtbox: Hurtbox):
 	_sprite.follow_blend_factor = _sprite.hit_blend_factor

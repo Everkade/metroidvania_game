@@ -44,7 +44,7 @@ func set_slip_margin(entity: Entity, hitbox: CollisionShape2D):
 
 #region PLATFORMING PHYSICS
 """ GRAVITY """
-var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+var gravity : float = ProjectSettings.get_setting("physics/2d/default_gravity")
 func apply_gravity(player: Entity, delta):
 	if player is CharacterBody2D:
 		player.velocity.y += Global.gravity * delta
@@ -195,6 +195,26 @@ func avoid_tiles_in_area(entity: Entity, area: Area2D, magnitude: float, delta) 
 			vector_total += dir_away * magnitude * delta
 	entity.velocity += vector_total
 	return vector_total
+
+func get_throw_angle(start_pos: Vector2, end_pos: Vector2, initial_speed: float, _g := gravity):
+	# if no angle is possible a null is given and the throw is impossible
+	var angle = null
+	
+	# absolute distance from start to end (the angle does not depend on sign)
+	var x_distance = abs(start_pos.x - end_pos.x)
+	
+	# offset from start to end position (if end is above, this value is negative)
+	var y_offset = end_pos.y - start_pos.y
+	
+	# arccos term is used to find a valid angle to calculate
+	var _arccos_term = (_g * x_distance**2 / initial_speed**2 - y_offset) \
+		/ sqrt(x_distance**2 + y_offset**2)
+	
+	# check if angle is in acos function range
+	if _arccos_term >= -1 and _arccos_term <= 1:
+		angle = (acos(_arccos_term) + atan2(x_distance, y_offset)) / 2
+	
+	return angle
 
 #endregion
 

@@ -1,13 +1,50 @@
-[gd_scene load_steps=4 format=3 uid="uid://c7f3sgbphcb6s"]
+[gd_scene load_steps=4 format=3 uid="uid://e2m45jy12to1"]
 
-[ext_resource type="Script" path="res://Entities/Enemies/Thrower/weapons/trajectory_line.gd" id="1_ahj5x"]
 [ext_resource type="Script" path="res://Entities/Components/hurtbox.gd" id="2_y45lv"]
+
+[sub_resource type="GDScript" id="GDScript_8c4f8"]
+script/source = "extends Line2D
+
+@onready var collision_test: CharacterBody2D = $CollisionTest
+@export var shooter: Node2D
+
+func update_trajectory(dir: Vector2, speed: float, gravity: float, delta: float):
+	var max_points = 300
+	clear_points()
+	var pos: Vector2 = Vector2.ZERO
+	var vel = dir * speed
+	for i in max_points:
+		add_point(pos)
+		vel.y += gravity * delta
+		
+		var collision: KinematicCollision2D = collision_test.move_and_collide(vel * delta, false, true, true)
+		#if collision: vel = vel.bounce(collision.get_normal()) * 0.6
+		
+		# TODO since ground is on layer 1, ground is currently triggering collisions
+		if collision: 
+			handle_collision(collision)
+			
+		pos += vel * delta
+		collision_test.position = pos
+
+func handle_collision(collision: KinematicCollision2D):
+	if !collision.get_collider(): return
+	
+	var collider = collision.get_collider()
+	
+	if collider is Player:
+		var recursive = true
+		for child in collider.get_children():
+			if child is Hitbox:
+				shooter.shoot()
+				break
+"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fdywa"]
 radius = 19.0
 
 [node name="TrajectoryLine" type="Line2D"]
-script = ExtResource("1_ahj5x")
+script = SubResource("GDScript_8c4f8")
 
 [node name="CollisionTest" type="CharacterBody2D" parent="."]
 collision_layer = 0

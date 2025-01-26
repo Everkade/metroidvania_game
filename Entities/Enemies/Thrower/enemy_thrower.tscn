@@ -1,9 +1,9 @@
 [gd_scene load_steps=12 format=3 uid="uid://cv5ocjmvk0ijc"]
 
 [ext_resource type="Script" path="res://Entities/Enemies/Thrower/enemy_thrower.gd" id="1_7itwx"]
-[ext_resource type="PackedScene" uid="uid://bkltr64yko5wx" path="res://Entities/Enemies/Thrower/weapons/shooter.tscn" id="2_thjdb"]
 [ext_resource type="Texture2D" uid="uid://jpjkg3xpjcu8" path="res://Art/throw5.png" id="3_vo7n8"]
 [ext_resource type="Script" path="res://Entities/Components/entity_sprite.gd" id="5_2k2ud"]
+[ext_resource type="Script" path="res://Entities/Enemies/Thrower/weapons/shooter.gd" id="5_71bv8"]
 [ext_resource type="PackedScene" uid="uid://df43yk4eaq5kl" path="res://Entities/Components/health.tscn" id="5_uyqwq"]
 [ext_resource type="PackedScene" uid="uid://bqjejm0dkpqrs" path="res://Entities/Components/hitbox.tscn" id="6_tuour"]
 [ext_resource type="PackedScene" uid="uid://do18h2nlmwmq8" path="res://Entities/Components/hurtbox.tscn" id="7_b3mxa"]
@@ -28,10 +28,9 @@ visibility_layer = 2
 collision_layer = 2
 collision_mask = 16
 script = ExtResource("1_7itwx")
+facing = 0
 
 [node name="Health" parent="." instance=ExtResource("5_uyqwq")]
-
-[node name="Shooter" parent="." instance=ExtResource("2_thjdb")]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(2, 2)
@@ -42,11 +41,14 @@ script = ExtResource("5_2k2ud")
 position = Vector2(0, 20)
 shape = SubResource("CapsuleShape2D_siodo")
 
+[node name="Shooter" type="Node2D" parent="."]
+script = ExtResource("5_71bv8")
+
 [node name="AggroRange" type="Area2D" parent="."]
-collision_layer = 0
+collision_layer = 2
+collision_mask = 15
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AggroRange"]
-visible = false
 shape = SubResource("CircleShape2D_mptky")
 debug_color = Color(0.54902, 0.564706, 0, 0.419608)
 
